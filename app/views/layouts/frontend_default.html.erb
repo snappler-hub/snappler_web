@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snappler</title>
+  <%= stylesheet_link_tag    'static_pages', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'static_pages', 'data-turbolinks-track' => true %>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+	<%= render 'menu' %>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<%= yield %>
+			</div>
+
+			<div class="col-md-3 with-background margin margin-top20 ">
+				<%= yield :sidebar %>
+			</div>			
+		</div>
+	</div>
+
+	<%= render 'footer' %>
+</body>
+</html>

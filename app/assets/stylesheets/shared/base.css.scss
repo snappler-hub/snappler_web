@@ -1,0 +1,31 @@
+/* Base styles and helper classes */
+
+body { padding-top: 80px; font-family: 'Open Sans', sans-serif; }
+
+p  { font-size: 16px; color: #6E6E6E;  }
+
+h1 {
+	font-weight: bold;
+}
+h3 {
+	border-bottom: 5px solid #e7e7e7; padding-bottom: 0.2em;
+	font-weight: bold; 
+}
+
+blockquote { border:0; color: #43508E; font-size: 1.2em; }
+
+.with-background {
+	background: url('/assets/background-pattern.svg') repeat-x left -20px ;
+}
+
+.margin {
+	display: block;
+	&.margin-bottom20 { margin-bottom: 20px; }
+	&.margin-top10 { margin-top: 10px; }
+	&.margin-top20 { margin-top: 20px; }
+	&.margin-top30 { margin-top: 30px; }
+}
+
+.text-align-left { text-align:left!important; }
+
+.list-style-type-none { list-style-type: none; padding:0; }
