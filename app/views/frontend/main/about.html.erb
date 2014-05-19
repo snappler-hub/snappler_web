@@ -61,20 +61,20 @@ Porque nos importa aprender y emprender seguimos innovando.</p>
 
     <div class="row sec" id="sec1">
         <div class="col-md-12">
-            <h3 class="custom-header-1">Clientes Actuales</h3>
+            <h3 class="custom-header-1">Clientes Destacados</h3>
             <ul class="media-list">
-                <%= render 'customer' %>
-                <%= render 'customer' %>
+                <%= render 'customer', :customer => {:name => 'Infoauto', :image => 'infoauto.png', :desctiption => '<p>La página de consulta de usados más visitada del país.</p>'} %>
+                <%= render 'customer', :customer => {:name => 'Panadería La Piedad', :image => 'lapiedad.jpg', :desctiption => '<p>Una de las panaderías con mayor prestigio y tradición de la ciudad de La Plata.</p>'}  %>
             </ul>
         </div>
     </div>
 
     <div class="row sec" id="sec2" style="display:none;">
         <div class="col-md-12">
-            <h3 class="custom-header-1">Partners Actuales</h3>
+            <h3 class="custom-header-1">Partners Destacados</h3>
             <ul class="media-list">
-                <%= render 'customer' %>
-                <%= render 'customer' %>
+                <%= render 'customer', :customer => {:name => 'Teytu', :image => 'teytu.jpg', :desctiption => '<p>Tecnología y Turismo<p><p>Teytu es un sistema de herramientas desarrolladas para facilitar el trabajo y maximizar el beneficio de las agencias de viajes. Está basado en tres módulos:<p><ul><li>Página web y panel de control para la autoadministración de la misma.</li><li>Sistema de gestión comercial interno.</li><li>Sistema de gestión financiero interno.</li></ul>'}  %>
+                <%= render 'customer', :customer => {:name => 'Easy Sign', :image => 'easysign.png', :desctiption => '<p>Easy Sign es un revolucionario sistema de cartelería.</p><p>Desde un sitio web, los usuarios de Easy Sign pueden cargar el contenido y las campañas de publicidad a los carteles y definir mediante ciertos parámetros (días, horarios, clima, etc.) cuando se muestre cada campaña. A su vez el sistema brinda la posibilidad de conocer la cantidad de personas que han visualizado la publicidad</p>'}  %>
             </ul>
         </div>
     </div>
@@ -83,10 +83,12 @@ Porque nos importa aprender y emprender seguimos innovando.</p>
         <div class="col-md-12">
             <h3 class="custom-header-1">Proyectos Propios</h3>
             <ul class="media-list">
-                <%= render 'customer' %>
-                <%= render 'customer' %>
+                <%= render 'customer', :customer => {:name => 'Snapplerlive', :image => 'snapplerlive.png', :desctiption => '<p>Chatea, debatí, opina y participa de juegos y encuestas a través de tu celular.</p><p>Snapplerlive es una plataforma virtual la cual permite la interacción del público con pantallas gigantes a través de celulares o dispositivos móviles.  El sistema permite construir programas que intercalan actividades, con placas informativas y animaciones que atraen la atención y explican cómo participar.</p>'}  %>
+                <%= render 'customer', :customer => {:name => 'Cuanto Tengo', :image => nil, :desctiption => '<p>La forma más rápida y completa de seguir tu economía personal.</p><p>Cuanto Tengo es una aplicación web que permite a cada usuario al registrarse administrar su dinero de manera fácil y rápida, brindando información estadística de sus ingresos y egresos.</p>'}  %>
             </ul>
         </div>
     </div>
     
+
+
 

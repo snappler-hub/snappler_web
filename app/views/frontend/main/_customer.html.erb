@@ -1,14 +1,18 @@
     <li class="media">
         <a class="pull-left" href="#">
             <span class="media-object">
-                <svg width="96" height="110">
-                  <rect width="96" height="110" style="fill:#CDDAE3; " class="media-object" />
-                </svg> 
+                <% if(customer[:image].nil?) %>
+                    <svg width="130" height="130">
+                      <rect width="130" height="130" style="fill:#CDDAE3; " class="media-object" />
+                    </svg> 
+                <% else %>
+                    <img style="width: 130px;" class="thumbnail" src="/assets/<%= customer[:image] %>">
+                <% end %>
             </span>
 
         </a>
         <div class="media-body">
-            <h4 class="media-heading">Media heading</h4>
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+            <h4 class="media-heading"><%= customer[:name] %></h4>
+            <%= customer[:desctiption].html_safe %>
         </div>
     </li>
