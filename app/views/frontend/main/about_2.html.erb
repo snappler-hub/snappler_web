@@ -1,0 +1,87 @@
+<%- content_for :js do %>
+  <%= javascript_include_tag "view_js/frontend/main/about.js" %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+    <h2 class="custom-header-1">¿Podemos ayudarte?</h2>
+    <%= render 'accordion' %>
+<% end %>
+
+
+
+
+    <h1 >Soluciones tecnológicas a medida</h1>
+    <blockquote class="">Con una fuerte vocacion de servicio estamos dispuestos a adaptarnos a las caracteristicas y necesidades de cada proyecto </blockquote>
+
+
+
+    <div class="row">
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button active" onclick="show_sec(this, 1)">
+                <span>Clientes Actuales</span>
+            </button>
+        </div>
+
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button" onclick="show_sec(this, 2)">
+                <span>Partners Actuales</span>
+            </button>
+        </div>
+
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button" onclick="show_sec(this, 3)">
+                <span>Proyectos de Snappler</span>
+            </button>
+        </div>
+    </div>  
+
+    <div class="row sec" id="sec1">
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Soluciones a medida</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+        </div>
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Clientes Actuales</h3>
+            <ul class="media-list">
+                <%= render 'customer' %>
+                <%= render 'customer' %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row sec" id="sec2" style="display:none;">
+              <div class="col-md-12">
+            <h3 class="custom-header-1">Partner Tecnológicos</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+        </div>
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Partner Tecnológicos</h3>
+            <ul class="media-list">
+                <%= render 'customer' %>
+                <%= render 'customer' %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row sec" id="sec3" style="display:none;">
+                <div class="col-md-12">
+            <h3 class="custom-header-1">Proyectos propios</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+        </div>
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Proyectos propios</h3>
+            <ul class="media-list">
+                <%= render 'customer' %>
+                <%= render 'customer' %>
+            </ul>
+        </div>
+    </div>
+    
+

@@ -1,15 +1,28 @@
 Rails.application.routes.draw do
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
-  scope :module => 'public' do
-    root 'static_pages#index'
-    get "/about", to: "static_pages#about" , as: :about
-    get "/contact", to: "static_pages#contact" , as: :contact
-    get "/how", to: "static_pages#how" , as: :how
-    get "/who", to: "static_pages#who" , as: :who
+
+  devise_for :users, controllers: { sessions: "sessions", registrations: "registrations" }
+  
+  scope :module => 'frontend' do
+    root 'main#index'
+    get "about", to: "main#about" , as: :about
+    get "about_2", to: "main#about_2" , as: :about_2
+    get "contact", to: "main#contact" , as: :contact
+    get "how", to: "main#how" , as: :how
+    get "who", to: "main#who" , as: :who
+
+    post "send_consult", to: "main#send_consult" , as: :send_consult
+
+  end
+
+
+  scope :module => 'backend' do
+    get "backend", to: "main#index" , as: :backend
   end
 
   # Example of regular route:
