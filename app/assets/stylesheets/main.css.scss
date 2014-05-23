@@ -15,7 +15,7 @@ h3 {
 blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 
 .with-background {
-	background: url('/assets/background-pattern.svg') repeat-x left -20px ;
+//	background: url('/assets/background-pattern.svg') repeat-x left -20px ;
 }
 
 .margin {
@@ -89,10 +89,10 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 	
 	ul { border-top: 1px #dcdcdc solid; border-left: 1px #dcdcdc solid; border-right: 1px #dcdcdc solid; }
 
-	li {    
-	    
+	li {
+        background: #fff;
 	    border: 0px;
-	    border-bottom:1px solid #e1e1e1; 
+	    border-bottom:0px solid #e1e1e1;
 	    border-radius: 0px;
 	    cursor: pointer;
 	    display: block; 
@@ -104,7 +104,12 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 
 	}
 	li.active {    
-		background:url(asset-path('slider-btn-background.svg')) no-repeat right top;
+//		background:url(asset-path('slider-btn-background.svg')) no-repeat right top;
+//		background:url(asset-path('fondo.png')) no-repeat center center;
+        background: -webkit-linear-gradient(left, #e1e9ec , white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(right, #e1e9ec , white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(right, #e1e9ec , white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(to right, #e1e9ec , white); /* Standard syntax (must be last) */
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -160,7 +165,8 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 }
 
 
-.custom-header-1 { font-size: 1.6em; color: #43508E; font-weight: bold; }
+//.custom-header-1 { font-size: 1.6em; color: #43508E; font-weight: bold; }
+.custom-header-1 { font-size: 1.6em; color: #555555; font-weight: bold; }
 .custom-header-2 { font-size: 1.6em; color: #43508E; font-weight: bold; border-bottom: 5px solid #43508E; padding-bottom: 0.2em;
  }
 
@@ -172,8 +178,13 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
     opacity: 0.25;
 }
 
-
-
+.nav-tabs > li.active > a{
+  margin-right: 0px;
+  border-bottom: 0px solid transparent;
+}
+.nav-tabs > li > a{
+  border-bottom: 5px solid #dddddd;
+}
 .custom-form {
 	input[type="text"], textarea, input[type="password"], input[type="email"] { 
 		background: none repeat scroll 0 0 #CDDAE3;
@@ -198,8 +209,8 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 
 
 .panel-default > .panel-heading {
-    background-color: #CDDAE3;
-    border-color: #DDDDDD;
+    background-color: #ddd;
+    border-color: #ccc;
     color: #262D34; 
 }
 
@@ -210,3 +221,7 @@ blockquote { border:0; color: #43508E; font-size: 1.2em; padding: 0; }
 }
 
 li.media { border-bottom: 1px solid #c8c8c8; }
+
+.sec{
+  margin-top:15px;
+}
