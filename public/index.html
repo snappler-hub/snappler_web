@@ -265,29 +265,29 @@
             </div>
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <form role="form">
+                    <form role="form" class="send_form">
                         <div class="row">
                             <div class="form-group col-xs-12 floating-label-form-group">
                                 <label for="name">Nombre</label>
-                                <input class="form-control" type="text" name="name" placeholder="Nombre">
+                                <input class="form-control" type="text" name="name" id="name" placeholder="Nombre">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-xs-12 floating-label-form-group">
                                 <label for="email">Email</label>
-                                <input class="form-control" type="email" name="email" placeholder="Email">
+                                <input class="form-control" type="email" name="email" id="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-xs-12 floating-label-form-group">
                                 <label for="message">Mensaje</label>
-                                <textarea placeholder="Mensaje" class="form-control" rows="5"></textarea>
+                                <textarea placeholder="Mensaje" class="form-control" name="message" id="message" rows="5"></textarea>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                <button type="submit" class="btn btn-lg btn-success">Enviar</button>
+                                <button type="button" onclick="send_to()" class="btn btn-lg btn-success">Enviar</button>
                             </div>
                         </div>
                     </form>
@@ -502,6 +502,20 @@
     <script src="js/classie.js"></script>
     <script src="js/cbpAnimatedHeader.js"></script>
     <script src="js/freelancer.js"></script>
+
+    <script>
+        function send_to(){
+            var email_to = 'XXXXX@XXXXXX.com'
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var message = $("#message").val();
+            var msg = 'Nombre: ' +name  + '%0D%0AEmail: ' + email + '%0D%0AConsulta: ' + message;
+            
+            window.location.href = 'mailto:'+email_to+'?&subject=Consulta Snappler&body='+msg;
+
+
+        }
+    </script>
 
 </body>
 
