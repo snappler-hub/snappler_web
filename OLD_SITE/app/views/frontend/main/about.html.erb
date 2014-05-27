@@ -1,0 +1,94 @@
+
+
+<%- content_for :js do %>
+  <%= javascript_include_tag "view_js/frontend/main/about.js" %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+    <h2 class="custom-header-1">Nos especializamos en</h2>
+    <%= render 'accordion' %>
+<% end %>
+
+
+
+
+    <h1 >¿Qué Hacemos?</h1>
+    <blockquote class="">Somos una empresa de desarrollo de software con una fuerte vocación de servicio, especializada en el desarrollo de aplicaciones Web y Movile.
+Buscamos comprender y adaptarnos a las características de cada proyecto para brindar soluciones tecnológicas  de alta calidad. </blockquote>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="custom-header-1">Soluciones a medida</h3>
+            <p>Estamos capacitados para interpretar cada proyecto y generar soluciones informáticas integrales para optimizar su funcionamiento.
+Tenemos Experiencia brindando asesoramiento y desarrollando sistemas para todo tipo de negocios y organizaciones.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="custom-header-1">Partner Tecnológicos</h3>
+            <p>Su idea de negocio nos interesa y podemos desarrollar la parte tecnológica que se necesita. Nacimos como start-up en la ciudad de La Plata y sabemos que empezar a veces es difícil.
+Si tiene un proyecto que necesita soporte tecnológico (web, mobile) comuníquese con nosotros, siempre tenemos una solución a su alcance.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="custom-header-1">Seguir Emprendiendo</h3>
+            <p>Dentro de Snappler las buenas ideas nunca se dejan de lado.
+Desarrollamos sitios propios para ofrecer servicios gratuitos y experimentar con nuevas tecnologías.
+Porque nos importa aprender y emprender seguimos innovando.</p>
+        </div>
+    </div>  
+
+
+    <div class="row">
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button active" onclick="show_sec(this, 1)">
+                <span>Clientes Actuales</span>
+            </button>
+        </div>
+
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button" onclick="show_sec(this, 2)">
+                <span>Partners Actuales</span>
+            </button>
+        </div>
+
+        <div style="width: 33%; float: left;">
+            <button class="button custom-btn sec-button" onclick="show_sec(this, 3)">
+                <span>Proyectos Propios</span>
+            </button>
+        </div>
+    </div>  
+
+    <div class="row sec" id="sec1">
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Clientes Destacados</h3>
+            <ul class="media-list">
+                <%= render 'customer', :customer => {:name => 'Infoauto', :image => 'infoauto.png', :desctiption => '<p>La página de consulta de usados más visitada del país.</p>'} %>
+                <%= render 'customer', :customer => {:name => 'Panadería La Piedad', :image => 'lapiedad.jpg', :desctiption => '<p>Una de las panaderías con mayor prestigio y tradición de la ciudad de La Plata.</p>'}  %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row sec" id="sec2" style="display:none;">
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Partners Destacados</h3>
+            <ul class="media-list">
+                <%= render 'customer', :customer => {:name => 'Teytu', :image => 'teytu.jpg', :desctiption => '<p>Tecnología y Turismo<p><p>Teytu es un sistema de herramientas desarrolladas para facilitar el trabajo y maximizar el beneficio de las agencias de viajes. Está basado en tres módulos:<p><ul><li>Página web y panel de control para la autoadministración de la misma.</li><li>Sistema de gestión comercial interno.</li><li>Sistema de gestión financiero interno.</li></ul>'}  %>
+                <%= render 'customer', :customer => {:name => 'Easy Sign', :image => 'easysign.png', :desctiption => '<p>Easy Sign es un revolucionario sistema de cartelería.</p><p>Desde un sitio web, los usuarios de Easy Sign pueden cargar el contenido y las campañas de publicidad a los carteles y definir mediante ciertos parámetros (días, horarios, clima, etc.) cuando se muestre cada campaña. A su vez el sistema brinda la posibilidad de conocer la cantidad de personas que han visualizado la publicidad</p>'}  %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row sec" id="sec3" style="display:none;">
+        <div class="col-md-12">
+            <h3 class="custom-header-1">Proyectos Propios</h3>
+            <ul class="media-list">
+                <%= render 'customer', :customer => {:name => 'Snapplerlive', :image => 'snapplerlive.png', :desctiption => '<p>Chatea, debatí, opina y participa de juegos y encuestas a través de tu celular.</p><p>Snapplerlive es una plataforma virtual la cual permite la interacción del público con pantallas gigantes a través de celulares o dispositivos móviles.  El sistema permite construir programas que intercalan actividades, con placas informativas y animaciones que atraen la atención y explican cómo participar.</p>'}  %>
+                <%= render 'customer', :customer => {:name => 'Cuanto Tengo', :image => nil, :desctiption => '<p>La forma más rápida y completa de seguir tu economía personal.</p><p>Cuanto Tengo es una aplicación web que permite a cada usuario al registrarse administrar su dinero de manera fácil y rápida, brindando información estadística de sus ingresos y egresos.</p>'}  %>
+            </ul>
+        </div>
+    </div>
+    
+
+
+

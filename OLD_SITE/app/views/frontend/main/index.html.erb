@@ -1,0 +1,60 @@
+<%= render 'slider' %>
+
+<div class="row margin-top-15">
+
+    <div class="col-md-9">
+        <div class="row">
+
+            <div class="col-md-7">
+                <h3 class="custom-header-1">Soluciones Tecnológicas a Medida </h3>
+                <p>Somos una empresa de desarrollo de software con una fuerte vocación de servicio, especializada en el desarrollo de aplicaciones Web y Movile a medida.</p>
+                <p>Buscamos que la tecnología llegue a de todo tipo de organizaciones de una manera simple y amigable para colaborar con su desarrollo y crecimiento.</p>
+            </div>
+
+            <div class="col-md-5">
+                <h3 class="custom-header-1">Es un Buen Momento</h3>
+                <p>La diversidad de Subsidios para el crecimiento y optimización de las empresas e industrias de la región hacen de este un buen momento para Incorporar Tecnología al negocio.</p>
+                <p>Podemos asesorarlo sobre diferentes alternativas para llevar adelante su proyecto.</p>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <h3 class="custom-header-1">Estamos trabajando en:</h3>
+                <ul class="media-list">
+
+
+
+                <%= render 'customer', :customer => {:name => 'La Vajilla', :image => 'lavajilla.jpg', :desctiption => '<p>Actualmente nos encontramos en el proceso de implementación del sistema de gestión interna de La Vajilla, empresa líder en alquiler de vajilla y soluciones para eventos de la ciudad de La Plata.</p>'} %>
+                <%= render 'customer', :customer => {:name => 'Proyecciones Digitales', :image => nil, :desctiption => '<p>En el mes de Mayo comenzamos el desarrollo de la nueva web institucional de Proyecciones Digitales, empresa especializada en la provisión de proyectores multimedia y soluciones audiovisuales con más de 11 años de trayectoria en el país.</p>'}  %>
+                <%= render 'customer', :customer => {:name => 'Gym ION', :image => 'gimion.jpg', :desctiption => '<p>Durante el mes de Abril lanzamos la nueva web institucional del Gimnasio ION,  junto con la web se implementó un sistema de gestión de alumnos para el seguimiento de sus rutinas y actividades.</p>'}  %>
+
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+        <div class="row">
+
+            <div class="col-md-12 with-background">
+                <h3 class="custom-header-1 margin-top-0 padding-top-20">Contáctenos</h3>
+                <p>Siempre tenemos una solución a su medida.</p>
+                <%= render 'express_contact' %>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+

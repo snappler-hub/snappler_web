@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snappler</title>
+  <%= stylesheet_link_tag    'frontend', media: 'all' %>
+  <%= javascript_include_tag 'frontend' %>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <%= yield :js %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+	<%= render 'layouts/menu' %>
+	<div class="background-color-white">
+		<div class="container padding-bottom-15">
+			<div class="row" id="flash_msg_container">
+					<%= render 'layouts/messages' %>
+			</div>
+
+
+			<% if content_for?(:sidebar) %>
+				<div class="row">
+					<div class="col-md-9">
+						<%= yield %>
+					</div>
+
+					<div class="col-md-3 with-background margin margin-top20 ">
+						<%= yield :sidebar %>
+					</div>			
+				</div>
+			<% else %>
+				<%= yield %>
+			<% end %>
+			
+
+		</div>
+	</div>
+	<%= render 'layouts/footer' %>
+</body>
+</html>
+
+
