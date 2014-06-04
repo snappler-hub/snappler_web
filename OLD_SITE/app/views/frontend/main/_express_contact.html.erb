@@ -1,9 +1,0 @@
-
-<%= simple_form_for(:express_contact, url: send_consult_path, :remote => true,  html: { class: "custom-form", id: 'express_contact' } ) do |f| %>
-  <%= f.input :name_surname, :placeholder => 'Nombre y Apellido', label: false %>
-  <%= f.input :email, :as => :string, :placeholder => 'Tu Email', label: false %>
-  <%= f.input :telephone, :as => :string, :placeholder => 'Teléfono de contacto', label: false %>
-  <%= f.input :comments, :as => :text, :placeholder => 'Comentarios', label: false %>
-
-  <input type="submit" value="ENVIAR" name="commit" class="btn btn-primary" data-disable-with="Enviando...">
-<% end %>
