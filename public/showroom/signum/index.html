@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Signum">
+  <meta name="author" content="Gaston.A">
+
+  <title>Signum</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>-->
+
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet'/>
+  <link href="vendor/Leaflet.contextmenu/dist/leaflet.contextmenu.css" rel='stylesheet'/>
+
+  <link rel="stylesheet" href="vendor/Leaflet.sidebar/src/L.Control.Sidebar.css"/>
+  <link rel="stylesheet" href="app/assets/signum-main.css"/>
+</head>
+
+<body oncontextmenu="return false;">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <table id="ver-minimalist">
+      <thead>
+      <tr>
+        <th scope="col">Buzones</th>
+        <th scope="col">Transformadores</th>
+        <!--<th scope="col" colspan="2">Cables y Lineas</th>-->
+        <th scope="col">Postes</th>
+        <th scope="col">Seccionadores</th>
+        <th scope="col">Celdas</th>
+        <th scope="col">PAT y Desc.</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td>
+          <img class="marker" data-class="buzon" src="app/assets/images/iconos_signum/nuevos/buzones_caja/buzon_6campos.svg"/>
+          <img class="marker" data-class="caja" src="app/assets/images/iconos_signum/nuevos/buzones_caja/caja_country.svg"/>
+          <img class="marker" data-class="caja" src="app/assets/images/iconos_signum/nuevos/buzones_caja/caja_monoblock.svg"/>
+        </td>
+        <td>
+          <img class="marker" data-class="transformador" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico.svg"/>
+          <img class="marker" data-class="transformador" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico_rural_menu.svg"/>
+          <img class="marker" data-class="transformador" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_trifasico_menu.svg"/>
+        </td>
+
+        <!--<td>
+          <span>MT</span>
+          <img class="line mt" data-class="linea mt" src="app/assets/images/iconos_signum/lineas/linea_mt.svg"/>
+          <img class="line mt dashed" data-class="linea mt punteada"
+               src="app/assets/images/iconos_signum/lineas/linea_mt_punteada.svg"/>
+        </td>
+        <td>
+          <span>BT</span>
+          <img class="line bt" data-class="linea bt" src="app/assets/images/iconos_signum/lineas/linea_bt.svg"/>
+          <img class="line bt dashed" data-class="linea bt punteada"
+               src="app/assets/images/iconos_signum/lineas/linea_bt_punteada.svg"/>
+        </td>-->
+
+        <td class="small">
+          <img class="marker" data-class="retencion" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/retencion_bitubular_menu.svg"/>
+          <img class="marker" data-class="retencion" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/retencion_doble_hormigon_menu.svg"/>
+          <img class="marker" data-class="retencion" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/retencion_madera_menu.svg"/>
+          <img class="marker" data-class="retencion" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/retencion_madera_tratado_menu.svg"/>
+          <img class="marker" data-class="retencion" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/retencion_monoposte_hormigon_menu.svg"/>
+          <img class="marker" data-class="suspension" src="app/assets/images/iconos_signum/nuevos/suspension_retencion/suspension_menu.svg"/>
+        </td>
+        <td>
+          <img class="marker" data-class="reconectador" src="app/assets/images/iconos_signum/nuevos/seccionador/reconectador.svg"/>
+          <img class="marker" data-class="seccionador" src="app/assets/images/iconos_signum/nuevos/seccionador/seccionador.svg"/>
+          <img class="marker" data-class="seccionador" src="app/assets/images/iconos_signum/nuevos/seccionador/seccionador_autodesconectador.svg"/>
+          <img class="marker" data-class="seccionador" src="app/assets/images/iconos_signum/nuevos/seccionador/seccionador_bajo_carga.svg"/>
+          <img class="marker" data-class="seccionalizador" src="app/assets/images/iconos_signum/nuevos/seccionador/seccionalizador.svg"/>
+        </td>
+        <td>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_interruptor_menu.svg"/>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_medicion_menu.svg"/>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_remonte_menu.svg"/>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_rotadora_menu.svg"/>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_ruptofusible_menu.svg"/>
+          <img class="marker" data-class="celda" src="app/assets/images/iconos_signum/nuevos/celdas/celda_seccionadora_menu.svg"/>
+        </td>
+        <td>
+          <img class="marker" data-class="des"
+               src="app/assets/images/iconos_signum/nuevos/descargadores/descargadores_sobretension.svg"/>
+          <img class="marker" data-class="pat" src="app/assets/images/iconos_signum/nuevos/puesto_tierra/puesta_a_tierra_menu.svg"/>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="sidebar">
+  <h1>Transformadores</h1>
+
+  <ol>
+    <li><label for="select1">Tensión de Conexión superior (kV)</label>
+      <select id="select1">
+        <option>13,2</option>
+        <option>33</option>
+      </select>
+    </li>
+
+    <li><label for="select2">Tensión de Conexión inferior (kV)</label>
+      <select id="select2">
+        <option>0,231</option>
+        <option>0,4</option>
+        <option>13,2</option>
+      </select>
+    </li>
+
+    <li><label for="select3">Potencia (kVA)</label>
+      <select id="select3">
+        <option>5</option>
+        <option>10</option>
+        <option>16</option>
+        <option>...</option>
+      </select>
+    </li>
+
+    <li><label for="select4">Montaje</label>
+      <select id="select4">
+        <option>Monoposte</option>
+        <option>Banco transformadores bifásicos</option>
+        <option>Plataforma standard</option>
+      </select>
+    </li>
+
+
+    <li><label for="select5">LAMT</label>
+      <select id="select5">
+        <option>Horizontal</option>
+        <option>Vertical</option>
+        <option>Rural</option>
+      </select>
+    </li>
+  </ol>
+
+  <button onclick="Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();"> Aceptar </button>
+
+  <br/><br/><hr/>
+
+  <div class="result">
+    <img src="app/assets/images/iconos_signum/buzones_caja/buzon_6campos.svg"/>
+
+    <div class="textMarker">
+      <div>
+        <span style="font-weight: bold;">300kVA</span> <br/>
+        <span style="font-size:0.9em;">TRF-12JPV</span>
+      </div>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+</div>
+<div id="map" data-role="main"></div>
+<!-- ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script src="vendor/jQuery-Knob/js/jquery.knob.js"></script>
+<!--<script src="vendor/trigger-tracker.js"></script>-->
+
+<!-- Leaflet/Mapbox -->
+<!--<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>-->
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
+
+<!-- Leaflet.GeometryUtil -->
+<script src="vendor/Leaflet.GeometryUtil/dist/leaflet.geometryutil.js"></script>
+
+<!-- Leaflet.ContextMenu -->
+<script src="vendor/Leaflet.contextmenu/dist/leaflet.contextmenu-src.js"></script>
+
+<!-- Leaflet.Plugins -->
+<script src="vendor/Leaflet.plugins/layer/Marker.Rotate.js"></script>
+
+<!-- Leaflet.Sidebar -->
+<script src="vendor/Leaflet.sidebar/src/L.Control.Sidebar.js"></script>
+
+<!-- Leaflet Hash-->
+<script src="vendor/leaflet-hash/leaflet-hash.js"></script>
+
+<!-- Snap.svg -->
+<script src="vendor/Snap.svg/dist/snap.svg.js"></script>
+
+<script src="app/src/Util.js" type="text/javascript"></script>
+
+<script src="app/src/Tooltip.js" type="text/javascript"></script>
+
+<script src="app/src/Border.js" type="text/javascript"></script>
+
+<script src="app/src/VertexIndicator.js" type="text/javascript"></script>
+<script src="app/src/Marker.js" type="text/javascript"></script>
+<script src="app/src/TextMarker.js" type="text/javascript"></script>
+<script src="app/src/GuideMarker.js" type="text/javascript"></script>
+
+<script src="app/src/CircleMarker.js" type="text/javascript"></script>
+<script src="app/src/PinkCircleMarker.js" type="text/javascript"></script>
+<script src="app/src/TransparentCircleMarker.js" type="text/javascript"></script>
+
+<script src="app/src/Polygon.js" type="text/javascript"></script>
+
+<script src="app/src/Line.js" type="text/javascript"></script>
+<script src="app/src/EditableLine.js" type="text/javascript"></script>
+<script src="app/src/DashedLine.js" type="text/javascript"></script>
+
+<script src="app/src/Rectangle.js" type="text/javascript"></script>
+<script src="app/src/DashedRectangle.js" type="text/javascript"></script>
+
+<script src="app/src/Circle.js" type="text/javascript"></script>
+<script src="app/src/DashedCircle.js" type="text/javascript"></script>
+
+<script src="app/src/control/CursorControl.js" type="text/javascript"></script>
+<script src="app/src/control/MarkerControl.js" type="text/javascript"></script>
+<script src="app/src/control/LineControl.js" type="text/javascript"></script>
+<script src="app/src/control/PolygonControl.js" type="text/javascript"></script>
+<script src="app/src/control/TopbarControl.js" type="text/javascript"></script>
+<script src="app/src/control/SidebarControl.js" type="text/javascript"></script>
+
+<script src="app/src/handler/KeyboardHandler.js" type="text/javascript"></script>
+
+<!--<script src="app/src/MapLeaflet.js" type="text/javascript"></script>-->
+<script src="app/src/map/MapMapbox.js" type="text/javascript"></script>
+<script src="app/src/Application.js" type="text/javascript"></script>
+
+<script src="app/data/data_signum.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  $( document ).ready( function () {
+    /*    var map = new MapLeaflet();
+     Application.setup();*/
+
+    var map = new MapMapbox( 'map' );
+    Application.setup();
+  } );
+  //L.Util.falseFn
+</script>
+</body>
+</html>
