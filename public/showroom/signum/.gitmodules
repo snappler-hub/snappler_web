@@ -1,0 +1,54 @@
+[submodule "vendor/Leaflet"]
+	path = vendor/Leaflet
+	url = https://github.com/Leaflet/Leaflet.git
+[submodule "vendor/Leaflet.AnimatedMarker"]
+	path = vendor/Leaflet.AnimatedMarker
+	url = https://github.com/openplans/Leaflet.AnimatedMarker.git
+[submodule "vendor/Leaflet.contextmenu"]
+	path = vendor/Leaflet.contextmenu
+	url = https://github.com/aratcliffe/Leaflet.contextmenu.git
+[submodule "vendor/Leaflet.draw"]
+	path = vendor/Leaflet.draw
+	url = https://github.com/Leaflet/Leaflet.draw.git
+[submodule "vendor/Leaflet.GeometryUtil"]
+	path = vendor/Leaflet.GeometryUtil
+	url = https://github.com/makinacorpus/Leaflet.GeometryUtil.git
+[submodule "vendor/Leaflet.pip"]
+	path = vendor/Leaflet.pip
+	url = https://github.com/mapbox/leaflet-pip.git
+[submodule "vendor/Leaflet.plugins"]
+	path = vendor/Leaflet.plugins
+	url = https://github.com/shramov/leaflet-plugins.git
+[submodule "vendor/Leaflet.PolylineDecorator"]
+	path = vendor/Leaflet.PolylineDecorator
+	url = https://github.com/bbecquet/Leaflet.PolylineDecorator.git
+[submodule "vendor/Leaflet.print"]
+	path = vendor/Leaflet.print
+	url = https://github.com/aratcliffe/Leaflet.print.git
+[submodule "vendor/Snap.svg"]
+	path = vendor/Snap.svg
+	url = https://github.com/adobe-webplatform/Snap.svg.git
+[submodule "vendor/Leaflet.sidebar"]
+	path = vendor/Leaflet.sidebar
+	url = https://github.com/Turbo87/leaflet-sidebar.git
+[submodule "vendor/mapbox"]
+	path = vendor/mapbox
+	url = https://github.com/mapbox/mapbox.js.git
+[submodule "vendor/triggerTracker"]
+	path = vendor/triggerTracker
+	url = https://github.com/intervalia/triggerTracker.git
+[submodule "vendor/leaflet-hash"]
+	path = vendor/leaflet-hash
+	url = https://github.com/mlevans/leaflet-hash.git
+[submodule "vendor/jQuery-Knob"]
+	path = vendor/jQuery-Knob
+	url = https://github.com/aterrien/jQuery-Knob.git
+[submodule "vendor/keymaster"]
+	path = vendor/keymaster
+	url = https://github.com/madrobby/keymaster.git
+[submodule "vendor/Leaflet.awesome-markers"]
+	path = vendor/Leaflet.awesome-markers
+	url = https://github.com/lvoogdt/Leaflet.awesome-markers.git
+[submodule "vendor/fancyBox"]
+	path = vendor/fancyBox
+	url = https://github.com/fancyapps/fancyBox.git
