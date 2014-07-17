@@ -1,7 +1,7 @@
 Map={};
 MapMapbox=L.mapbox.Map.extend({
   initialize: function(element, _) {
-    Map.DEFAULT_ZOOM = 18;
+    Map.DEFAULT_ZOOM = 19;
     Map.DEFAULT_CENTER = [-34.92137, -57.9545];
     Map.TILE_LAYER_OPACITY =1;
 
@@ -22,7 +22,7 @@ MapMapbox=L.mapbox.Map.extend({
       'Marcadores': layer2_icons,
       'Lineas': layer1_lines,
       'Lotes': layer3_polygons,
-      'Descripcion': layer5_text
+      'Etiquetas': layer5_text
     };
 
     var options= {
@@ -30,11 +30,11 @@ MapMapbox=L.mapbox.Map.extend({
       infoControl: false,
       attributionControl: false,
       contextmenu: true,
-      contextmenuWidth: 200,
+      contextmenuWidth: 220,
       contextmenuItems:[{ text: '<b>Mapa</b>',
         icon:'app/assets/images/map.svg'},
 
-        { text: 'Editar lineas',
+        { text: 'Editar todas las lineas',
           callback:this.editAllLines,
           icon:'app/assets/images/edit-lines.svg'}]
     };
@@ -62,10 +62,10 @@ MapMapbox=L.mapbox.Map.extend({
     this.addControl( this.controls[Map.CTRL_SIDEBAR] );
 
 
-    this._currentBaseLayer=L.tileLayer( 'http://c.tiles.mapbox.com/v3/gastonambrogi.i1m3c21e/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } );
+    this._currentBaseLayer=L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } );
     L.control.layers({
-      'Base Map': this._currentBaseLayer.addTo(this),
-      'Grey Map': L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } )
+      'Grey Map': this._currentBaseLayer.addTo(this),
+      'Base Map': L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-zr0njcqy/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } )
     }, overlays).addTo(this);
     /*
      this._currentBaseLayer=L.mapbox.tileLayer('gastonambrogi.i1m3c21e').setFormat('jpg70');
@@ -247,13 +247,10 @@ MapMapbox=L.mapbox.Map.extend({
 
     if ( e.target._currentTool ){
       e.target._currentTool.onMapClick( e );
+    }else{
+      this.controls[Map.CTRL_SIDEBAR].hide();
     }
-    this.controls[Map.CTRL_SIDEBAR].hide();
-  },
-  _onKeyDown:function(e){
-    var dinamicClass = ( e.ctrlKey )? 'handleCtrl'+e.key:( e.altKey )? 'handleAlt'+e.key:( e.shiftKey )? 'handleShift'+e.key:'handle'+e.key;
-    console.log(dinamicClass);
-    if(Map.keyboardHandler[dinamicClass]) Map.keyboardHandler[dinamicClass](Map.getInstance()._selected);
+
   },
   _onContextMenuShow:function(e){
     if(e.relatedTarget!==undefined) Map.getInstance().setSelected(e.relatedTarget);
@@ -351,7 +348,10 @@ MapMapbox=L.mapbox.Map.extend({
   },
   cancelCurrentTool: function () {
     this.unsetSelected();
-//    if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();
+    if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();
+    if(Application.workingTarget!== undefined) Application.finishWork();
+
+    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();
 
     if ( this._currentTool ) {
       this._currentTool.close(false);

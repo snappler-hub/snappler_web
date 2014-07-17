@@ -79,7 +79,6 @@ Rectangle = L.Rectangle.extend( {
   onRectangleClick: function(e){
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
-    Map.getInstance().fitBounds(this.getBounds());
   },
   removePolygon: function ( e ) {
     this.getBelongingLayer().removeLayer( this );

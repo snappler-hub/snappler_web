@@ -3,7 +3,6 @@ Application.setup = function ( ) {
   $( '.leaflet-control-layers-selector[type=checkbox]' ).trigger( "click" );
 
   $( '#map' ).focus();
-  $( 'html' ).on( 'keydown', Map.getInstance()._onKeyDown );
 
   $( 'tbody td' ).each( function ( i, td ) {
     $( $( 'thead th' )[i] ).css( 'width', $( td ).css( 'width' ) );
@@ -64,8 +63,6 @@ Application.showResizeControl = function () {
 
       minHeight: Marker.MIN_SIZE,
       minWidth: Marker.MIN_SIZE,
-      maxHeight: Marker.MAX_SIZE,
-      maxWidth: Marker.MAX_SIZE,
       grid: 6,
       helper: "ui-resizable-helper",
 
@@ -98,8 +95,9 @@ Application.hideResizeControl = function () {
 Application.startWork = function ( work, target ) {
   Application.workingOn = work;
   Application.workingTarget = target;
+  Application.workingTarget.hideLabels();
 
-  Map.getInstance().getTextLayer().removeLayer( Application.workingTarget.property._labelMarker );
+//  Map.getInstance().getTextLayer().removeLayer( Application.workingTarget.property._labelMarker );
   Map.getInstance().controls[Map.CTRL_CURSOR].showEndRotation();
   Map.getInstance().disableContextMenu();
 
@@ -139,12 +137,15 @@ Application.finishWork = function () {
   $( ".leaflet-control-topbar" ).css( "display", "block" );
   $( ".leaflet-control-sidebar" ).css( "display", "block" );
 
+  Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
+
   Map.getInstance().enableContextMenu();
 
   Application.workingTarget.dragging.enable();
 
   Application.workingOn = undefined;
   Application.workingTarget = undefined;
+
 };
 
 Application.relocateSvg = function ( s, marker ) {
@@ -156,4 +157,8 @@ Application.relocateSvg = function ( s, marker ) {
   $( "." + marker.property.id ).find( 'svg' ).css( "left", '0px' );
   $( "." + marker.property.id ).find( 'svg' ).css( "width", "200" );
   $( "." + marker.property.id ).find( 'svg' ).css( "height", "150" );
+};
+
+Application.showFancyBox=function (image){
+  $('.fancybox' ).attr("href", image ).click();
 };

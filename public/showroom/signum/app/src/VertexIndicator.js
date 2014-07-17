@@ -3,6 +3,7 @@
  */
 VertexIndicator=L.Marker.extend({
   initialize:function(lineOwner, latlng, i, markerBinded, isLimit ){
+    var self =this;
     L.Marker.prototype.initialize.call( this, latlng, {
       icon:new L.DivIcon( {
         className: 'marker',
@@ -18,7 +19,14 @@ VertexIndicator=L.Marker.extend({
       draggable: true,
       clickable: true,
       contextmenu: true,
-      contextmenuItems: [{separator: true}]
+      contextmenuItems: [{separator: true},
+        {
+          text: 'Eliminar vértice',
+          icon:'app/assets/images/remove.svg',
+          callback: function(){
+            self.remove();
+          }
+        }]
     } );
 
     this._index=i;
@@ -28,7 +36,6 @@ VertexIndicator=L.Marker.extend({
     if(isLimit){
       this.on('click', function( e){
         Map.getInstance().unsetSelected();
-        Map.getInstance().setView( e.target.getLatLng());
         this.lineOwner._keyBoardTarget = e.target;
         Map.getInstance().setSelected(this.lineOwner);
         this.markSelected();
@@ -69,5 +76,13 @@ VertexIndicator=L.Marker.extend({
     } ));
   },
 
-  setBorder:function(){}
+  setBorder:function(){},
+
+  remove:function(){
+    this.lineOwner.getLatLngs().splice( this._index, 1);
+    this.lineOwner.redraw();
+
+    this.getBelongingLayer().removeLayer( this );
+    this.fire("removed", {vertex: this});
+  }
 });

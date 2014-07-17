@@ -3,7 +3,7 @@ Line = L.Polyline.extend( {
     var polylineOptions = {
       stroke: true,
       color: lineOptions.color,
-      weight: 4,
+      weight: 2,
       opacity: 0.8,
       fill: false,
       clickable: true,
@@ -48,8 +48,44 @@ Line = L.Polyline.extend( {
     options.contextmenuItems = [
       {
         separator: true
+      },
+      {
+        text: 'Editar linea',
+        icon:'app/assets/images/edit-lines.svg',
+        callback: function(){
+          self.edit();
+        }
       }
     ];
+  },
+
+  _continueLineFrom: function(from){
+    Map.getInstance()._currentTool = this;
+    this.property.insertMethod = from.insertMethod;
+
+    Map.getInstance().removeClosingVertex();
+    Map.getInstance().addClosingVertex();
+    Map.getInstance().updateClosingVertex( from.continueFrom );
+
+    Map.getInstance()._closingVertexMarker.off( 'click' );
+
+    var self = this;
+    Map.getInstance()._closingVertexMarker.on( 'click', function () {
+      self.calculateDistance();
+      Map.getInstance().cancelCurrentTool();
+    } );
+
+    Map.getInstance().showVertexesOfSameType();
+
+    Application.setCrosshairCursor();
+  },
+
+  continueLineFromStart: function () {
+    this._continueLineFrom({continueFrom: this.getFirstVertex(), insertMethod: "unshift" });
+  },
+
+  continueLineFromEnd: function () {
+    this._continueLineFrom({continueFrom: this.getLastVertex(), insertMethod: "push" });
   },
 
   removeLine: function ( deleteLine ) {
@@ -132,7 +168,6 @@ Line = L.Polyline.extend( {
   onLineClick: function ( e ) {
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
-    Map.getInstance().fitBounds(this.getBounds());
   },
 
   onMouseMove: function ( e ) {
@@ -145,8 +180,8 @@ Line = L.Polyline.extend( {
     }
   },
   updateWeigth: function ( z ) {
-    this.property.options.weight = Math.pow( 2, Math.floor( (z / 2) ) - 7 );
-    this.setStyle( this.property.options );
+    /*this.property.options.weight = Math.pow( 2, Math.floor( (z / 2) ) - 7 );
+    this.setStyle( this.property.options );*/
   },
 
   updateStartVertex: function () {
@@ -180,14 +215,19 @@ Line = L.Polyline.extend( {
   },
 
   edit: function () {
-    this.hideMarkersConnected();
+//    this.hideMarkersConnected();
 
-    Map.getInstance()._editableLines = [new EditableLine( this )];
-    Map.getInstance().getAuxLayer().addLayer( Map.getInstance()._editableLines[0] );
+//    Map.getInstance()._editableLines = [new EditableLine( this )];
+//    Map.getInstance().getAuxLayer().addLayer( Map.getInstance()._editableLines[0] );
+    Map.getInstance().cancelCurrentTool();
 
-    Map.getInstance().fitBounds( Map.getInstance()._editableLines[0].getBounds() );
+    var el = new EditableLine( this );
+    Map.getInstance()._editableLines = [el];
+    Map.getInstance().getAuxLayer().addLayer( el );
+    this.removeLine( true );
 
-    this.removeLine( false );
+    Map.getInstance().contextmenu.setDisabled(1, true);
+    Map.getInstance().controls[Map.CTRL_CURSOR].showEndEdit();
   },
   hideMarkersConnected:function(){
     this.markersConnecteds.forEach( function ( m ) {

@@ -3,17 +3,19 @@
  */
 
 Marker = L.Marker.extend( {
-  initialize: function ( source, zoom ) {
+  initialize: function ( source, zoom, icon) {
     Marker.CANT_CREATED++;
+
+    icon = icon || new L.DivIcon( {
+      className: Marker.CANT_CREATED,
+      iconSize: Marker.BASE_SIZE,
+      iconAnchor: Marker.BASE_ANCHOR,
+      html: '<img src="' + source + '"/>'
+    } );
 
     var options = {
       id : Marker.CANT_CREATED,
-      icon: new L.DivIcon( {
-        className: Marker.CANT_CREATED,
-        iconSize: Marker.BASE_SIZE,
-        iconAnchor: Marker.BASE_ANCHOR,
-        html: '<img src="' + source + '"/>'
-      } ),
+      icon: icon,
       draggable: true,
       contextmenu: true,
       contextmenuItems: [ ]
@@ -33,10 +35,10 @@ Marker = L.Marker.extend( {
       iconSize : Marker.BASE_SIZE.clone(),
       currentSize: new L.Point( Marker.BASE_SIZE[0], Marker.BASE_SIZE[0] ) ,
 
-      _labelMarker : new TextMarker( this, {text: 'TRF-12JPV', title: '300kVA'}, Map.getInstance().getZoom() ),
-      _iconAt128 : L.icon( {iconUrl: source,
+      _labelMarkers : [],
+/*      _iconAt128 : L.icon( {iconUrl: source,
         iconSize: [128, 128],
-        iconAnchor: [64, 64]} ),
+        iconAnchor: [64, 64]} ),*/
 
       connect : Util.clone( signum.data.connect ),
 
@@ -54,21 +56,19 @@ Marker = L.Marker.extend( {
   getBelongingLayer:function(){
     return Map.getInstance().getMarkerLayer();
   },
-   defineContextMenuItems:function(options){
+  defineContextMenuItems:function(options){
     var self = this;
     options.contextmenuItems = [
-      {
-        separator: true
-      },
+      {separator: true},
       {
         text: '<b>Tipico '+ options.id +'</b>'
       },
       /*{
-        text: 'Agrandar icono',
-        callback: function ( ) {
-          self.enlargeMarker( );
-        }
-      },{
+       text: 'Agrandar icono',
+       callback: function ( ) {
+       self.enlargeMarker( );
+       }
+       },{
        text: 'Achicar icono',
        callback: function ( ) {
        self.reduceMarker( );
@@ -76,22 +76,63 @@ Marker = L.Marker.extend( {
        },*/
       {
         text: 'Ajustar tamaño',
+        icon:'app/assets/images/expand.svg',
         callback: function ( ) {
           Application.startWork('resize', self);
 //          Application.showResizeControl( self );
         }
       },{
-       text: 'Rotar icono',
-       callback: function ( ) {
-         Application.startWork('rotation', self);
+        text: 'Rotar icono',
+        icon:'app/assets/images/rotate.svg',
+        callback: function ( ) {
+          Application.startWork('rotation', self);
 //         Application.showKnobRotator( self );
-       }
-       },
+        }
+      },
       {
         text: 'Eliminar icono',
+        icon:'app/assets/images/remove.svg',
         callback: function ( ) {
           self.removeMarker( );
         }
+      },
+      { separator: true },
+      {
+        text: "Mostrar Descripcion",
+        icon:'app/assets/images/bars.svg',
+        callback: function(){
+          Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+        }
+      },
+      { separator: true },
+      {
+        text: 'Agregar etiqueta',
+        icon:'app/assets/images/plus.svg',
+        callback: function(){
+          self.addLabel();
+        }
+      },
+      {
+        text: 'Eliminar etiquetas',
+        icon:'app/assets/images/minus.svg',
+        callback: function(){
+          self.removeLabels();
+        }
+      },
+      {
+        text: 'Mostrar etiquetas asociadas',
+        icon:'app/assets/images/eye.svg',
+        callback: function(){
+          self.showLabels();
+        }
+      },
+      {
+        text: 'Ocultar etiquetas asociadas',
+        icon:'app/assets/images/eye-blocked.svg',
+        callback: function(){
+          self.hideLabels();
+        }
+
       }
     ];
   },
@@ -102,10 +143,11 @@ Marker = L.Marker.extend( {
     this.on( 'click', this.onMarkerClick );
 
     this.on( 'dragstart', function ( e ) {
-      this.property._labelMarker._distanceToOwner = { lat: this.getLatLng().lat - this.property._labelMarker.getLatLng().lat,
-                                                      lng: this.getLatLng().lng - this.property._labelMarker.getLatLng().lng};
+      this.property._labelMarkers.forEach(function(lm){
+        lm.calculateDistanceToOwner();
+      });
 
-      this.property._labelMarker.getBelongingLayer().removeLayer( this.property._labelMarker );
+      this.hideLabels();
     });
 
     this.on( 'drag', function ( e ) {
@@ -132,12 +174,10 @@ Marker = L.Marker.extend( {
 
     this.on( 'dragend', function ( e ) {
       this._calculateRotation();
+      this.property._labelMarkers.forEach(function(lm){
+        lm.relocateToOwner();
+      });
 
-      var ll = L.latLng(this.getLatLng().lat - this.property._labelMarker._distanceToOwner.lat,
-                        this.getLatLng().lng - this.property._labelMarker._distanceToOwner.lng);
-
-      this.property._labelMarker.setLatLng( ll );
-      this.property._labelMarker._distanceToOwner= {lat: 0, lng: 0};
       /*if ( this.property.linesConnecteds.length == 0 ) {
        this.bindToBelowLines( this.getLatLng() );
        }*/
@@ -188,8 +228,9 @@ Marker = L.Marker.extend( {
 
   removeMarker: function ( e ) {
     this.removeBorder();
-    Map.getInstance().getMarkerLayer().removeLayer( this );
-    Map.getInstance().getTextLayer().removeLayer( this.property._labelMarker );
+    this.getBelongingLayer().removeLayer( this );
+    this.removeLabels();
+//    Map.getInstance().getTextLayer().removeLayer( this.property._labelMarker );
 
     this.property.linesConnecteds.forEach( function ( l ) {
       l.markersConnecteds.splice( l.markersConnecteds.indexOf( this ), 1 );
@@ -199,23 +240,33 @@ Marker = L.Marker.extend( {
   },
 
   onMarkerClick: function ( e ) {
-    Map.getInstance().setSelected(this);
-//    this.setBorder();
-
-    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
-    Map.getInstance().setView(this.getLatLng());
-
     if ( !Map.getInstance()._currentTool ) {
-      if ( this.property._labelMarker.getLatLng().equals( L.latLng( 0, 0 ) ) )
-        this.property._labelMarker.setLatLng( this.getLatLng() );
+      Map.getInstance().setSelected(this);
+//    this.setBorder();
+      /*      if ( this.property._labelMarker.getLatLng().equals( L.latLng( 0, 0 ) ) )
+       this.property._labelMarker.setLatLng( this.getLatLng() );
 
-      this.property._labelMarker.toggle();
+       this.property._labelMarker.toggle();*/
+    }else{
+      var navHeight=$('.navbar' ).css('height').replace('px','');
+      e.latlng=Map.getInstance().containerPointToLatLng( L.point(e.originalEvent.clientX, e.originalEvent.clientY-navHeight) );
+
+      Map.getInstance().fire('click', e);
     }
   },
   onMouseMove: function ( e ) {
     Map.getInstance()._currentTool.setLatLng( e.latlng );
   },
+  updateBorder:function(){
+    if ( this.property.border !== undefined ) {
+      var delta = Map.getInstance().latLngToLayerPoint( this.getLatLng() );
 
+      var p1 = Map.getInstance().layerPointToLatLng( [delta.x - (this.property.currentSize.x / 2), delta.y - (this.property.currentSize.y / 2)] );
+      var p2 = Map.getInstance().layerPointToLatLng( [delta.x + (this.property.currentSize.x / 2), delta.y + (this.property.currentSize.y / 2)] );
+
+      this.property.border.setBounds([p1, p2]);
+    }
+  },
   setBorder: function () {
     this.removeBorder();
     var delta = Map.getInstance().latLngToLayerPoint( this.getLatLng() );
@@ -225,11 +276,15 @@ Marker = L.Marker.extend( {
 
     this.property.border = new Border( [p1, p2] );
     this.property.border.getBelongingLayer().addLayer( this.property.border );
-/*
-    var self = this;
-    setTimeout( function () {
-      self.removeBorder()
-    }, 1000 );*/
+
+    this.on('move', this.updateBorder);
+    this.on('resize', this.updateBorder);
+
+    /*
+     var self = this;
+     setTimeout( function () {
+     self.removeBorder()
+     }, 1000 );*/
   },
   removeBorder: function () {
     if ( this.property.border !== undefined ) {
@@ -308,6 +363,7 @@ Marker = L.Marker.extend( {
   close:function(){
     Map.getInstance().getMarkerLayer().removeLayer( this );
   },
+
   handleDel:function(){
     this.removeMarker();
   },
@@ -326,9 +382,11 @@ Marker = L.Marker.extend( {
 
   handleCtrlUp:function(){
     this._doResize( L.point( this.property.currentSize.x-1, this.property.currentSize.y-1 ) );
+    this.fire('resize');
   },
   handleCtrlDown:function(){
     this._doResize( L.point( this.property.currentSize.x+1, this.property.currentSize.y+1 ) );
+    this.fire('resize');
   },
   handleCtrlLeft:function(){
     this.rotate(this.property.angleRotated-1);
@@ -342,6 +400,30 @@ Marker = L.Marker.extend( {
   },
   unmarkSelected:function(){
     this.removeBorder();
+  },
+
+  addLabel:function(){
+    var lm = new TextMarker( this, {text: 'TRF-12JPV', title: '300kVA'}, Map.getInstance().getZoom() );
+    console.log(lm);
+    this.property._labelMarkers.push(lm);
+    lm.toggle();
+  },
+
+  removeLabels:function(){
+    this.hideLabels();
+    this.property._labelMarkers=[];
+  },
+
+  showLabels:function(){
+    this.property._labelMarkers.forEach(function(lm){
+      lm.getBelongingLayer().addLayer( lm );
+    });
+  },
+
+  hideLabels:function(){
+    this.property._labelMarkers.forEach(function(lm){
+      lm.getBelongingLayer().removeLayer( lm );
+    });
   }
 
 } );

@@ -19,7 +19,7 @@ CursorControl = L.Control.extend( {
       container: li,
       options: { },
       actions: this.actions[0],
-      callback: this.updateEdit
+      callback: L.Util.falseFn
     } );
 
     li = L.DomUtil.create( 'li', 'rotation-edit', this.actions[1] );
@@ -30,9 +30,6 @@ CursorControl = L.Control.extend( {
       options: { },
       actions: this.actions[1],
       callback: function(){
-        Map.getInstance().enableZoom();
-        Map.getInstance().enableDragging();
-        Map.getInstance()._currentBaseLayer.setOpacity( 1 );
         Application.finishWork();
       }
     } );
@@ -49,7 +46,7 @@ CursorControl = L.Control.extend( {
     return this.controlDiv;
   },
   showEndEdit: function () {
-    Map.getInstance().disableZoom();
+//    Map.getInstance().disableZoom();
     Map.getInstance()._currentBaseLayer.setOpacity( 0.5 );
     $( this.actions[0] ).fadeToggle( 'fast' );
 
@@ -66,10 +63,17 @@ CursorControl = L.Control.extend( {
     Map.getInstance()._currentBaseLayer.setOpacity( 0.5 );
     $( this.actions[1] ).fadeToggle( 'fast' );
   },
+  endMarkerAction:function() {
+    Map.getInstance().enableZoom();
+    Map.getInstance().enableDragging();
+    Map.getInstance()._currentBaseLayer.setOpacity( 1 );
+    $( this.actions[1] ).fadeToggle( 'fast' );
+  },
   updateEdit: function () {
     Map.getInstance()._currentBaseLayer.setOpacity( 1 );
-    Map.getInstance().enableZoom();
+//    Map.getInstance().enableZoom();
     Map.getInstance().contextmenu.setDisabled(1, false);
+    $( this.actions[0] ).hide();
 
     Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
     $( ".leaflet-control-topbar" ).css( "display", "block" );

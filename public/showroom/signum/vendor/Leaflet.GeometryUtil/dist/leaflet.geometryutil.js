@@ -1,6 +1,20 @@
-var L = L || exports;
-
-(function () {
+// Packaging/modules magic dance.
+(function (factory) {
+    var L;
+    if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['leaflet'], factory);
+    } else if (typeof module !== 'undefined') {
+        // Node/CommonJS
+        L = require('leaflet');
+        module.exports = factory(L);
+    } else {
+        // Browser globals
+        if (typeof window.L === 'undefined')
+            throw 'Leaflet must be loaded first';
+        factory(window.L);
+    }
+}(function (L) {
 "use strict";
 
 /**
@@ -270,12 +284,16 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
         }
 
         if (ratio === 0) {
-            return {latLng: latLngs[0],
-                    predecessor: -1};
+            return {
+                latLng: latLngs[0] instanceof L.LatLng ? latLngs[0] : L.latLng(latLngs[0]),
+                predecessor: -1
+            };
         }
         if (ratio == 1) {
-            return {latLng: latLngs[latLngs.length -1],
-                    predecessor: latLngs.length-2};
+            return {
+                latLng: latLngs[latLngs.length -1] instanceof L.LatLng ? latLngs[latLngs.length -1] : L.latLng(latLngs[latLngs.length -1]),
+                predecessor: latLngs.length - 2
+            };
         }
 
         // ensure the ratio is between 0 and 1;
@@ -482,4 +500,6 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
     }
 });
 
-}());
+return L.GeometryUtil;
+
+}));

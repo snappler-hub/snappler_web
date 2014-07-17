@@ -9,7 +9,7 @@ GuideMarker = L.Marker.extend( {
       className: 'guide-marker',
       iconSize: Marker.BASE_SIZE,
       iconAnchor: Marker.BASE_ANCHOR,
-      html: '<img src="' + source + '" style="width:48x; height:48px; margin: 2.35em 0 0 2em"/>'
+      html: '<img src="' + source + '" style="width:48px; height:48px; margin: 2.35em 0 0 2em"/>'
     } )} );
 
     // REMEMBER:: DONT ADD POPUP TO A MARKER BEFORE CLICK (no add marker because popup is over)
@@ -28,6 +28,8 @@ GuideMarker = L.Marker.extend( {
     var newMarker = new Marker( this.property.source, Map.getInstance().getZoom() );
     newMarker.setLatLng( e.latlng );
     newMarker.getBelongingLayer().addLayer( newMarker );
+    
+    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },
   onMouseMove: function ( e ) {
     Map.getInstance()._currentTool.setLatLng( e.latlng );

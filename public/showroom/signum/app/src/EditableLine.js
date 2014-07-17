@@ -10,9 +10,12 @@ EditableLine = L.Polyline.extend( {
     var latlngs = lls || line.getLatLngs();
     var self = this;
 
+    var dashArray = ( this._editingLineDescription.dashed ) ? [5, 10]: null;
+
     L.Polyline.prototype.initialize.call( this, latlngs, {
       stroke: true,
-      color: '#077',
+      color: this._editingLineDescription.color,
+      dashArray: dashArray,
       weight: 4,
       opacity: 1,
       fill: false,
@@ -26,18 +29,34 @@ EditableLine = L.Polyline.extend( {
           text: '<b> Linea editable </b>'
         },
         {
-        text: 'Eliminar segmento',
-        callback:
-          function(e) {
-            self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
+          text: 'Agregar vértice',
+          icon:'app/assets/images/plus.svg',
+          callback: function(e) {
+            self.fire('dblclick',e);
           }
-      } ]
+        },
+        {
+          text: 'Eliminar segmento',
+          icon:'app/assets/images/remove.svg',
+          callback: function(e) {
+              self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
+            }
+        }
+      ]
     } );
 
     for ( var i = 0; i < latlngs.length; i++ ) {
       var m = this.createCustomMarker( line, i, latlngs[i], (i==0)||(i==latlngs.length-1));
       m.getBelongingLayer().addLayer(m);
       this.vertexes.push( m );
+
+      m.on('removed', function(e){
+        self.vertexes.splice( e.vertex._index, 1);
+
+        self.vertexes.forEach(function(v, i){
+          v._index=i;
+        });
+      })
     }
     this.attachEvent(line, latlngs);
   },

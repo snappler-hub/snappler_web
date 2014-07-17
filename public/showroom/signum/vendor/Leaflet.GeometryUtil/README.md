@@ -32,6 +32,16 @@ Changelog
 ---------
 ### master ###
 
+* Nothing changed yet.
+
+### 0.3.1 ###
+
+* Make sure interpolateOnLine() always returns a L.LatLng object (thanks Justin Manley)
+
+### 0.3.0 ###
+
+* Added UMD style initialization (thanks @PerLiedman)
+* Added readable distance (thanks @Mylen)
 * Fix side effects on latlngs with `closest()` (thanks @AndrewIngram)
 
 ### 0.2.0 ###

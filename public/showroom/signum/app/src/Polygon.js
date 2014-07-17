@@ -94,7 +94,6 @@ Polygon = L.Polygon.extend( {
   onPolygonClick: function(e){
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
-    Map.getInstance().fitBounds(this.getBounds());
   },
 
   removeBorder: function () {

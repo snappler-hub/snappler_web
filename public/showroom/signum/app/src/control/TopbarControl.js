@@ -25,7 +25,7 @@ TopbarControl = L.Control.extend( {
       } );
 
     var controlUI = L.DomUtil.create( 'div', 'leaflet-control-custom leaflet-control-topbar-hide-interior', this.controlDiv );
-    controlUI.title = 'Lineas';
+    controlUI.title = 'Topbar';
     return this.controlDiv;
   },
   show:function(){

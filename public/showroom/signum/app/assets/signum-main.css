@@ -71,8 +71,8 @@ body {
 }
 
 #ver-minimalist td .marker {
-  width: 53px;
-  height: 53px;
+  width: 47px;
+  height: 47px;
 }
 
 #ver-minimalist td .line {
@@ -92,6 +92,11 @@ body {
   background: lightgrey;
 }
 
+.selected{
+  border-style: dashed;
+  border-color: #0000cc;
+  border-width: 1px;
+}
 /*--------------------------------------------------------------
     SVG Styles
 --------------------------------------------------------------*/
@@ -280,13 +285,13 @@ body {
 .tooltip-subtext {
   color: #f8d5e4;
 }
-.textMarker {
-  width:auto;
-}
-
 /* ================================================================== */
 /* Text Marker
 /* ================================================================== */
+
+.textMarker {
+  width:auto;
+}
 
 .textMarker div{
   background: transparent;

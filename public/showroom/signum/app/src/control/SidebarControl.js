@@ -14,7 +14,7 @@ SidebarControl = L.Control.extend( {
     var nextStatus='hide',
         currentStatus='show',
         self=this;
-
+    this.sidebarSelector="";
     this.isDisplayable=true;
 
     L.DomEvent
@@ -43,10 +43,12 @@ SidebarControl = L.Control.extend( {
   },
   show:function(){
     if(this.isDisplayable){
+      $(this.sidebarSelector ).show(0);
       Map.getInstance().controls[Map.CTRL_SIDEBAR].show();
     }
   },
   hide:function(){
     Map.getInstance().controls[Map.CTRL_SIDEBAR].hide();
+    $(this.sidebarSelector ).hide(0);
   }
 } );

@@ -2,6 +2,7 @@ TextMarker = L.Marker.extend( {
   options: { },
 
   initialize: function ( owner, textObject, zoom ) {
+    console.log(owner);
     icon = new L.DivIcon( {
       className: 'textMarker',
       iconSize: [],
@@ -10,8 +11,22 @@ TextMarker = L.Marker.extend( {
     } );
 
     this.property = {};
-
-    L.Marker.prototype.initialize.call( this, owner.getLatLng(), {icon: icon, draggable: true} );
+    var self=this;
+    L.Marker.prototype.initialize.call( this, owner.getLatLng(), {
+      icon: icon,
+      draggable: true,
+      contextmenu: true,
+      contextmenuItems: [
+        { separator: true },
+        {
+          text: 'Eliminar etiqueta',
+          icon:'app/assets/images/minus.svg',
+          callback: function(){
+            self.remove();
+          }
+        }
+      ]
+    } );
 
     this.property._owner = owner;
     this.property.angleRotated = 0;
@@ -88,6 +103,23 @@ TextMarker = L.Marker.extend( {
   },
   updateIconSize: function ( ) { },
 
+  relocateToOwner:function(){
+    var ll = L.latLng(this.property._owner.getLatLng().lat - this._distanceToOwner.lat, this.property._owner.getLatLng().lng - this._distanceToOwner.lng);
+
+    this.setLatLng( ll );
+    this._distanceToOwner= {lat: 0, lng: 0};
+
+  },
+  calculateDistanceToOwner:function(){
+    this._distanceToOwner = { lat: this.property._owner.getLatLng().lat - this.getLatLng().lat, lng: this.property._owner.getLatLng().lng - this.getLatLng().lng};
+  },
+
+  remove:function(){
+    var i= this.property._owner.property._labelMarkers.indexOf(this);
+    this.property._owner.property._labelMarkers.splice(i,1);
+
+    this.getBelongingLayer().removeLayer( this );
+  },
   toggle: function(){
     if ( this.getBelongingLayer().hasLayer( this ) ) this.getBelongingLayer().removeLayer( this );
     else this.getBelongingLayer().addLayer( this );
