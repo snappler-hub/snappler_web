@@ -16,7 +16,7 @@ Marker = L.Marker.extend( {
     var options = {
       id : Marker.CANT_CREATED,
       icon: icon,
-      draggable: true,
+      draggable: false,
       contextmenu: true,
       contextmenuItems: [ ]
     };
@@ -28,17 +28,17 @@ Marker = L.Marker.extend( {
     // REMEMBER:: DONT ADD POPUP TO A MARKER BEFORE CLICK (no add marker because popup is over)
     this.property={
       id : Marker.CANT_CREATED,
-      name : 'Tipico',
       source: source,
       angleRotated : 0,
 
+      size_table: Util.clone(Marker.SIZE_TABLE),
       iconSize : Marker.BASE_SIZE.clone(),
       currentSize: new L.Point( Marker.BASE_SIZE[0], Marker.BASE_SIZE[0] ) ,
 
       _labelMarkers : [],
-/*      _iconAt128 : L.icon( {iconUrl: source,
-        iconSize: [128, 128],
-        iconAnchor: [64, 64]} ),*/
+      /*      _iconAt128 : L.icon( {iconUrl: source,
+       iconSize: [128, 128],
+       iconAnchor: [64, 64]} ),*/
 
       connect : Util.clone( signum.data.connect ),
 
@@ -61,7 +61,7 @@ Marker = L.Marker.extend( {
     options.contextmenuItems = [
       {separator: true},
       {
-        text: '<b>Tipico '+ options.id +'</b>'
+        text: '<b>'+this.property.name+' '+ options.id +'</b>'
       },
       /*{
        text: 'Agrandar icono',
@@ -82,6 +82,15 @@ Marker = L.Marker.extend( {
 //          Application.showResizeControl( self );
         }
       },{
+        text: 'Restaurar tamaños',
+        icon:'app/assets/images/reset_size.svg',
+        callback: function ( ) {
+          self.property.size_table=Util.clone(Marker.SIZE_TABLE);
+          self.updateIconSize(Map.getInstance().getZoom());
+        }
+      },
+      {separator: true},
+      {
         text: 'Rotar icono',
         icon:'app/assets/images/rotate.svg',
         callback: function ( ) {
@@ -90,10 +99,11 @@ Marker = L.Marker.extend( {
         }
       },
       {
-        text: 'Eliminar icono',
-        icon:'app/assets/images/remove.svg',
+        text: 'Restaurar rotacion',
+        icon:'app/assets/images/reset_rotation.svg',
         callback: function ( ) {
-          self.removeMarker( );
+          self.property.angleRotated=0;
+          self.rotate(self.property.angleRotated);
         }
       },
       { separator: true },
@@ -104,12 +114,23 @@ Marker = L.Marker.extend( {
           Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
         }
       },
+      {
+        text: "Descargar Catálogo",
+        icon:'app/assets/images/download.svg',
+        callback: function(){
+          Application.downloadPDF("app/data/sample.pdf");
+        }
+      },
       { separator: true },
       {
         text: 'Agregar etiqueta',
         icon:'app/assets/images/plus.svg',
         callback: function(){
-          self.addLabel();
+          if(self.property._labelMarkers.length===0){
+            self.addLabel();
+          }else{
+            alert("Éste marcador ya tiene etiquetas asociadas.");
+          }
         }
       },
       {
@@ -133,6 +154,19 @@ Marker = L.Marker.extend( {
           self.hideLabels();
         }
 
+      },
+      {separator: true},
+      {
+        text: 'Eliminar icono',
+        icon:'app/assets/images/remove.svg',
+        callback: function ( ) {
+          vex.dialog.confirm({
+            message: "Esta seguro de eliminar este marcador",
+            callback: function() {
+              self.removeMarker( );
+            }
+          });
+        }
       }
     ];
   },
@@ -141,13 +175,18 @@ Marker = L.Marker.extend( {
     this.on('unselected',this.unmarkSelected);
 
     this.on( 'click', this.onMarkerClick );
+    this.on( 'dblclick', this.onMarkerDblClick );
 
     this.on( 'dragstart', function ( e ) {
-      this.property._labelMarkers.forEach(function(lm){
-        lm.calculateDistanceToOwner();
-      });
+      if(this===Map.getInstance()._selected){
+        this.property._labelMarkers.forEach(function(lm){
+          lm.calculateDistanceToOwner();
+        });
 
-      this.hideLabels();
+        this.hideLabels();
+      }else{
+        return false;
+      }
     });
 
     this.on( 'drag', function ( e ) {
@@ -190,6 +229,7 @@ Marker = L.Marker.extend( {
   },
 
   _doResize: function ( newIconSize ) {
+    this.property.size_table[Map.getInstance().getZoom()]=newIconSize.x;
     this.property.currentSize = newIconSize;
 
     // adjust the icon anchor to the new size
@@ -209,12 +249,20 @@ Marker = L.Marker.extend( {
     this.setIcon( newIcon );
   },
   updateIconSize: function ( currentZoom ) {
-    var scaleFactor=this.scaleFactor( currentZoom );
-    this._doResize( new L.Point( this.property.currentSize.x * scaleFactor, this.property.currentSize.x * scaleFactor )  );
+    var newSize=this.scaleSize(currentZoom);
+    this._doResize( new L.Point( newSize, newSize )  );
+
+/*    var scaleFactor=this.scaleFactor( currentZoom );
+    this._doResize( new L.Point( this.property.currentSize.x * scaleFactor, this.property.currentSize.x * scaleFactor )  );*/
   },
+  scaleSize:function(currentZoom){
+    return this.property.size_table[currentZoom];
+  },
+
   scaleFactor: function ( zoom ) {
 //    if ( zoom > 14 ) return Math.pow( 2, zoom - Map.DEFAULT_ZOOM );
 //    else return Math.pow( 2, -4 );
+
     return Math.pow( 2, Map.getInstance().getZoom()-Map.getInstance()._lastZoom );
   },
 
@@ -241,7 +289,6 @@ Marker = L.Marker.extend( {
 
   onMarkerClick: function ( e ) {
     if ( !Map.getInstance()._currentTool ) {
-      Map.getInstance().setSelected(this);
 //    this.setBorder();
       /*      if ( this.property._labelMarker.getLatLng().equals( L.latLng( 0, 0 ) ) )
        this.property._labelMarker.setLatLng( this.getLatLng() );
@@ -253,6 +300,10 @@ Marker = L.Marker.extend( {
 
       Map.getInstance().fire('click', e);
     }
+  },
+  onMarkerDblClick:function(){
+    this.dragging.enable();
+    Map.getInstance().setSelected(this);
   },
   onMouseMove: function ( e ) {
     Map.getInstance()._currentTool.setLatLng( e.latlng );
@@ -399,12 +450,12 @@ Marker = L.Marker.extend( {
     this.setBorder();
   },
   unmarkSelected:function(){
+    this.dragging.disable();
     this.removeBorder();
   },
 
   addLabel:function(){
     var lm = new TextMarker( this, {text: 'TRF-12JPV', title: '300kVA'}, Map.getInstance().getZoom() );
-    console.log(lm);
     this.property._labelMarkers.push(lm);
     lm.toggle();
   },
@@ -425,13 +476,26 @@ Marker = L.Marker.extend( {
       lm.getBelongingLayer().removeLayer( lm );
     });
   }
-
 } );
 
-Marker.BASE_SIZE = [24, 24];
+Marker.BASE_SIZE = [48, 48];
 Marker.BASE_ANCHOR = [Marker.BASE_SIZE[0] / 3, Marker.BASE_SIZE[0] / 3];
 
 Marker.MIN_SIZE = Marker.BASE_SIZE[0] / 2;
-Marker.MAX_SIZE = Marker.BASE_SIZE[0] * 4;
+
+Marker.SIZE_TABLE={
+  "15": undefined,
+  "16": Marker.BASE_SIZE[0]/2,
+  "17": Marker.BASE_SIZE[0],
+  "18": Marker.BASE_SIZE[0]*2,
+  "19": Marker.BASE_SIZE[0]*3,
+  "20": Marker.BASE_SIZE[0]*4,
+  "21": Marker.BASE_SIZE[0]*6,
+  "22": Marker.BASE_SIZE[0]*8
+};
 
 Marker.CANT_CREATED = 0;
+
+Marker.IDEAL_ZOOM=17;
+
+Marker.INFLECTION_ZOOM=15;

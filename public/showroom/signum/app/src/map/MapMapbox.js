@@ -1,7 +1,7 @@
 Map={};
 MapMapbox=L.mapbox.Map.extend({
   initialize: function(element, _) {
-    Map.DEFAULT_ZOOM = 19;
+    Map.DEFAULT_ZOOM = 16;
     Map.DEFAULT_CENTER = [-34.92137, -57.9545];
     Map.TILE_LAYER_OPACITY =1;
 
@@ -26,6 +26,7 @@ MapMapbox=L.mapbox.Map.extend({
     };
 
     var options= {
+      minZoom: 11,
       keyboard:false,
       infoControl: false,
       attributionControl: false,
@@ -42,7 +43,7 @@ MapMapbox=L.mapbox.Map.extend({
     L.mapbox.Map.prototype.initialize.call(this, element, undefined, options);
 
     this.setView(Map.DEFAULT_CENTER, Map.DEFAULT_ZOOM);
-
+    new L.Hash(this);
 
     this.controls = [new CursorControl(),
       new LineControl(),
@@ -65,7 +66,8 @@ MapMapbox=L.mapbox.Map.extend({
     this._currentBaseLayer=L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } );
     L.control.layers({
       'Grey Map': this._currentBaseLayer.addTo(this),
-      'Base Map': L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-zr0njcqy/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } )
+      'Base Map': L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-zr0njcqy/{z}/{x}/{y}.png', { minZoom: 11, maxZoom: 22 } ),
+      'Satelital': L.tileLayer( 'http://c.tiles.mapbox.com/v3/takedown.j7jo3ani/{z}/{x}/{y}.png', { minZoom: 11, maxZoom: 17 } )
     }, overlays).addTo(this);
     /*
      this._currentBaseLayer=L.mapbox.tileLayer('gastonambrogi.i1m3c21e').setFormat('jpg70');
@@ -80,7 +82,6 @@ MapMapbox=L.mapbox.Map.extend({
     this.addLayer(layer4_aux);
 
     L.control.scale( {metric: true} ).addTo( this );
-    new L.Hash(this);
 
     this.initializeLinesOnMap();
 
@@ -122,7 +123,7 @@ MapMapbox=L.mapbox.Map.extend({
   },
   _onBaseLayerChange:function ( e ) {
     e.target._currentBaseLayer = e.layer;
-    Map.getInstance().setZoom((Map.getInstance().getZoom()>19)?19:Map.getInstance().getZoom());
+    Map.getInstance().setZoom(Math.min(Map.getInstance().getZoom(), Map.DEFAULT_ZOOM));
   },
 
   _onLayerAdd:function ( e ) {
@@ -233,6 +234,11 @@ MapMapbox=L.mapbox.Map.extend({
     Map.getInstance().getPolylineLayer().eachLayer( function ( line ) {
       line.updateWeigth( Map.getInstance().getZoom() );
     } );
+
+
+    Map.getInstance().getAuxLayer().eachLayer( function ( item ) {
+      if(item["updateIconSize"]) item.updateIconSize( Map.getInstance().getZoom() );
+    } );
     return false;
   },
 
@@ -243,14 +249,16 @@ MapMapbox=L.mapbox.Map.extend({
   _onClick:function ( e ) {
     //TODO:: Div en el pie de la pagina la coordenada clickeada o en movimiento
     console.log( e.latlng );
-    this.unsetSelected();
 
+    this.unsetSelected();
     if ( e.target._currentTool ){
       e.target._currentTool.onMapClick( e );
     }else{
       this.controls[Map.CTRL_SIDEBAR].hide();
     }
 
+    $( Map.getInstance().controls[Map.CTRL_LINE].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
   },
   _onContextMenuShow:function(e){
     if(e.relatedTarget!==undefined) Map.getInstance().setSelected(e.relatedTarget);
@@ -301,9 +309,9 @@ MapMapbox=L.mapbox.Map.extend({
     this._tooltip.dispose();
   },
 
-  addClosingVertex:function () {
+  addClosingVertex:function (options) {
     this.showClosingVertex();
-    this.showGuideLine(new DashedLine());
+    this.showGuideLine(new DashedLine(options));
     this.showTooltip();
 
     this._closingVertexMarker.on( 'click', function () {
@@ -347,6 +355,9 @@ MapMapbox=L.mapbox.Map.extend({
     this._currentTool.getBelongingLayer().addLayer(this._currentTool);
   },
   cancelCurrentTool: function () {
+    $( Map.getInstance().controls[Map.CTRL_LINE].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
+
     this.unsetSelected();
     if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();
     if(Application.workingTarget!== undefined) Application.finishWork();

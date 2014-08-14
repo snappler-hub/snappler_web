@@ -28,6 +28,7 @@ Rectangle = L.Rectangle.extend( {
     ], options );
 
     this.on( 'click', this.onRectangleClick );
+    this.on( 'dblclick', this.onRectangleDblClick );
     this.on('selected',this.markSelected);
     this.on('unselected',this.unmarkSelected);
     return this;
@@ -77,6 +78,10 @@ Rectangle = L.Rectangle.extend( {
     }
   },
   onRectangleClick: function(e){
+//    Map.getInstance().setSelected(this);
+//    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+  },
+  onRectangleDblClick: function(e){
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },

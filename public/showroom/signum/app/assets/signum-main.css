@@ -239,6 +239,7 @@ body {
 
 .leaflet-actions a:hover {
   background-color: #A0A098;
+  color: black;
 }
 
 .leaflet-actions-top.leaflet-actions-bottom a {

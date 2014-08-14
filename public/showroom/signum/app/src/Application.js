@@ -8,6 +8,8 @@ Application.setup = function ( ) {
     $( $( 'thead th' )[i] ).css( 'width', $( td ).css( 'width' ) );
   } );
 
+  vex.defaultOptions.className = 'vex-theme-default';
+
 //CLICK THEAD TOGGLE TBODY VISIBILITY
   /*  $('#ver-minimalist thead tr' ).on('click', function(e){
    $('tbody').fadeToggle(0);
@@ -23,66 +25,66 @@ Application.setCrosshairCursor = function () {
 }
 
 Application.showKnobRotator = function () {
-    var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
-    Application.knobRotator = $( '<input/>' ).val( Application.workingTarget.property.angleRotated );
-    Application.knobRotator.knob( {
-      'cursor': 15,
-      'displayInput': false,
-      'min': 0,
-      'max': 360,
-      'step': 1,
-      'thickness': ".2",
-      'width': Application.workingTarget.property.currentSize.x+100,
-      'height': Application.workingTarget.property.currentSize.x+100,
-      'fgColor': '#000000',
-      'change': function ( angle ) {
-        Application.workingTarget.rotate( angle );
-      },
-      'release': function ( angle ) {
-        Application.workingTarget.rotate( angle );
-      }
+  var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
+  Application.knobRotator = $( '<input/>' ).val( Application.workingTarget.property.angleRotated );
+  Application.knobRotator.knob( {
+    'cursor': 15,
+    'displayInput': false,
+    'min': 0,
+    'max': 360,
+    'step': 1,
+    'thickness': ".2",
+    'width': Application.workingTarget.property.currentSize.x+100,
+    'height': Application.workingTarget.property.currentSize.x+100,
+    'fgColor': '#000000',
+    'change': function ( angle ) {
+      Application.workingTarget.rotate( angle );
+    },
+    'release': function ( angle ) {
+      Application.workingTarget.rotate( angle );
+    }
+  } )
+    .css( {'position': 'absolute',
+      'z-index': '2147483647',
+      "left": point.x - (Application.workingTarget.property.currentSize.x+100)/2,
+      "top": point.y- (Application.workingTarget.property.currentSize.x+100)/2
     } )
-      .css( {'position': 'absolute',
-        'z-index': '2147483647',
-        "left": point.x - (Application.workingTarget.property.currentSize.x+100)/2,
-        "top": point.y- (Application.workingTarget.property.currentSize.x+100)/2
-      } )
-      .insertBefore( '#map' );
+    .insertBefore( '#map' );
 };
 Application.hideKnobRotator = function () {
   Application.knobRotator.parent().remove();
 };
 
 Application.showResizeControl = function () {
-    var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
+  var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
 
-    Application.resizeControl = $( '<div/>' ).addClass( 'resizable' );
-    Application.resizeControl.resizable( {
-      handles: 'se',
-      aspectRatio: true,
+  Application.resizeControl = $( '<div/>' ).addClass( 'resizable' );
+  Application.resizeControl.resizable( {
+    handles: 'se',
+    aspectRatio: true,
 
-      minHeight: Marker.MIN_SIZE,
-      minWidth: Marker.MIN_SIZE,
-      grid: 6,
-      helper: "ui-resizable-helper",
+    minHeight: Marker.MIN_SIZE,
+    minWidth: Marker.MIN_SIZE,
+    grid: 6,
+    helper: "ui-resizable-helper",
 
-      stop: function ( event, ui ) {
-        Application.workingTarget._doResize( L.point( ui.size.width, ui.size.height ) );
+    stop: function ( event, ui ) {
+      Application.workingTarget._doResize( L.point( ui.size.width, ui.size.height ) );
 
-        var ll = Map.getInstance().containerPointToLatLng( L.point( ui.position.left + Application.workingTarget.property.currentSize.x / 2,
-                                                                    ui.position.top + Application.workingTarget.property.currentSize.y / 2 ) );
+      var ll = Map.getInstance().containerPointToLatLng( L.point( ui.position.left + Application.workingTarget.property.currentSize.x / 2,
+          ui.position.top + Application.workingTarget.property.currentSize.y / 2 ) );
 
-        Application.workingTarget.setLatLng( ll );
-      }
+      Application.workingTarget.setLatLng( ll );
+    }
+  } )
+    .css( {'position': 'absolute',
+      'z-index': '2147483647',
+      'width': Application.workingTarget.property.currentSize.x,
+      'height': Application.workingTarget.property.currentSize.y,
+      "left": point.x - Application.workingTarget.property.currentSize.x / 2,
+      "top": point.y - Application.workingTarget.property.currentSize.y / 2
     } )
-      .css( {'position': 'absolute',
-        'z-index': '2147483647',
-        'width': Application.workingTarget.property.currentSize.x,
-        'height': Application.workingTarget.property.currentSize.y,
-        "left": point.x - Application.workingTarget.property.currentSize.x / 2,
-        "top": point.y - Application.workingTarget.property.currentSize.y / 2
-      } )
-      .insertBefore( '#map' );
+    .insertBefore( '#map' );
 };
 
 Application.hideResizeControl = function () {
@@ -133,19 +135,18 @@ Application.finishWork = function () {
       break;
   }
 
-  Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
-  $( ".leaflet-control-topbar" ).css( "display", "block" );
-  $( ".leaflet-control-sidebar" ).css( "display", "block" );
+  if(Application.workingOn !== undefined){
+    Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
+    $( ".leaflet-control-topbar" ).css( "display", "block" );
+    $( ".leaflet-control-sidebar" ).css( "display", "block" );
 
-  Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
+    Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
 
-  Map.getInstance().enableContextMenu();
+    Map.getInstance().enableContextMenu();
 
-  Application.workingTarget.dragging.enable();
-
-  Application.workingOn = undefined;
-  Application.workingTarget = undefined;
-
+    Application.workingOn = undefined;
+    Application.workingTarget = undefined;
+  }
 };
 
 Application.relocateSvg = function ( s, marker ) {
@@ -161,4 +162,37 @@ Application.relocateSvg = function ( s, marker ) {
 
 Application.showFancyBox=function (image){
   $('.fancybox' ).attr("href", image ).click();
+};
+
+Application.prompt=function(message, returnedString){
+  return prompt(message);
+  /*vex.dialog.prompt({
+    message: message
+  })
+    .bind('vexClose', function(a, b) {
+      return b.value;
+    }
+  );*/
+};
+
+Application.downloadPDF=function(url){
+  vex.dialog.alert({
+    message:"Aguarde un momento..."
+  });
+
+  setTimeout(function(){
+    window.open(url);
+  }, 500);
+
+};
+
+Application.printMap=function(){
+  if(Application.pdfGenerator===undefined)
+    Application.pdfGenerator=new jsPDF('l');
+
+  Application.pdfGenerator.addHTML(document.getElementById('map'), function() {
+    var string = Application.pdfGenerator.output('datauristring');
+//    $('.preview-pane').attr('src', string);
+    window.open(string);
+  });
 };

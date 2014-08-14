@@ -22,6 +22,7 @@ Circle = L.Circle.extend( {
 
     L.Circle.prototype.initialize.call( this, [0, 0], 0, options );
     this.on( 'click', this._onCircleClick );
+    this.on( 'dblclick', this._onCircleDblClick );
 
     this.on('selected',this.markSelected);
     this.on('unselected',this.unmarkSelected);
@@ -45,6 +46,10 @@ Circle = L.Circle.extend( {
     ];
   },
   _onCircleClick: function(e){
+//    Map.getInstance().setSelected(this);
+//    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+  },
+  _onCircleDblClick: function(e){
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },

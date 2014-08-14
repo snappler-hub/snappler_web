@@ -15,7 +15,7 @@
    viewBox="0 0 32 32"
    id="svg2"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="vertex_indicator_filled.svg">
+   sodipodi:docname="vertex_indicator_filled1.svg">
   <metadata
      id="metadata136">
     <rdf:RDF>
@@ -43,13 +43,13 @@
      inkscape:window-height="718"
      id="namedview132"
      showgrid="false"
-     inkscape:zoom="41.7193"
-     inkscape:cx="18.890535"
-     inkscape:cy="15.596943"
+     inkscape:zoom="16.6875"
+     inkscape:cx="8.6891386"
+     inkscape:cy="16"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="layer4"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:snap-grids="true">
@@ -71,32 +71,58 @@
        id="guide2999" />
     <sodipodi:guide
        orientation="1,0"
-       position="16.011774,12.608073"
+       position="16,19.864407"
        id="guide3003" />
     <sodipodi:guide
        orientation="0,1"
        position="28.811605,16.059713"
        id="guide3005" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="1.5762712,15.152542"
+       id="guide2991" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="3,16.237288"
+       id="guide2994" />
   </sodipodi:namedview>
-  <path
-     sodipodi:type="arc"
-     style="fill:#000000;fill-opacity:1;stroke:none"
-     id="path3001"
-     sodipodi:cx="15.987804"
-     sodipodi:cy="15.964256"
-     sodipodi:rx="6.0163999"
-     sodipodi:ry="6.0163999"
-     d="m 22.004204,15.964256 a 6.0163999,6.0163999 0 1 1 -12.0327994,0 6.0163999,6.0163999 0 1 1 12.0327994,0 z"
-     transform="matrix(0.25162511,0,0,0.25162511,11.979164,11.932956)" />
   <g
      inkscape:groupmode="layer"
      id="layer1"
-     inkscape:label="Capa">
+     inkscape:label="Capa"
+     style="display:inline">
     <path
-       d="M 32.067795,16.000003 C 32.067795,7.1634411 24.904354,0 16.067802,0 7.2312369,0 0.06779861,7.1634411 0.06779861,16.000003 0.06779861,24.836558 7.2312369,32 16.067802,32 24.904354,32 32.067795,24.836558 32.067795,16.000003 z m -30.5018889,0 c 0,-7.1796915 7.3264435,-14.405592 14.5061329,-14.405592 7.17968,0 14.485246,7.2079232 14.485246,14.387614 0,7.179687 -7.292854,14.51987 -14.472534,14.51987 -7.1796895,0 -14.5188449,-7.322206 -14.5188449,-14.501892 z"
+       d="M 32.067795,16.000003 C 32.067795,7.1634411 24.904354,0 16.067802,0 7.2312369,0 0.06779861,7.1634411 0.06779861,16.000003 0.06779861,24.836558 7.2312369,32 16.067802,32 24.904354,32 32.067795,24.836558 32.067795,16.000003 z M 3,15.940287 C 3,8.7605955 8.8320846,2.9846548 16.011774,2.9846548 c 7.17968,0 12.999464,5.7759414 12.999464,12.9556322 0,7.179687 -5.819784,13.075485 -12.999464,13.075485 C 8.8320845,29.015772 3,23.119973 3,15.940287 z"
        id="path130"
        inkscape:connector-curvature="0"
        style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:none"
        sodipodi:nodetypes="ssssssssss" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Capa#2"
+     style="display:inline">
+    <path
+       d="m 18.506696,17.42515 -1.501072,-1.499643 1.501072,-1.499643 -1.000357,-1.000357 -1.499643,1.500357 -1.500357,-1.500357 -0.999643,1.000357 1.499643,1.499643 -1.499643,1.499643 0.999643,1.000357 1.500357,-1.500357 1.499643,1.500357 z"
+       id="path7"
+       inkscape:connector-curvature="0"
+       style="fill:#000000" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Capa1"
+     style="opacity:0.15107913;display:inline">
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="path2998"
+       sodipodi:cx="15.220339"
+       sodipodi:cy="15.084745"
+       sodipodi:rx="15.152542"
+       sodipodi:ry="15.152542"
+       d="m 30.372881,15.084745 a 15.152542,15.152542 0 1 1 -30.30508429,0 15.152542,15.152542 0 1 1 30.30508429,0 z"
+       transform="matrix(1.0581655,0,0,1.0581655,-0.139536,0.00394343)" />
   </g>
 </svg>

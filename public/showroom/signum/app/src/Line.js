@@ -36,7 +36,11 @@ Line = L.Polyline.extend( {
     this.on( 'click', this.onLineClick );
     this.on('selected',this.markSelected);
     this.on('unselected',this.unmarkSelected);
+    this.on('dblclick', this.onLineDblClick);
 
+
+
+    Map.getInstance().setZoom(Line.IDEAL_ZOOM);
     return this;
   },
 
@@ -89,6 +93,8 @@ Line = L.Polyline.extend( {
   },
 
   removeLine: function ( deleteLine ) {
+    this.removeBorder();
+    
     deleteLine = (deleteLine===undefined)? true: deleteLine;
     Map.getInstance().getAuxLayer().removeLayer( this.startVertex );
     Map.getInstance().getAuxLayer().removeLayer( this.lastVertex );
@@ -126,7 +132,7 @@ Line = L.Polyline.extend( {
   },
 
   onMapClick: function ( e ) {
-    if ( !Map.getInstance().hasGuide() ) Map.getInstance().addClosingVertex();
+    if ( !Map.getInstance().hasGuide() ) Map.getInstance().addClosingVertex(this.description);
 
     if ( Map.getInstance()._currentTool ) {
       Util.executeFunctionByName( this.property.insertMethod,this.getLatLngs(), e.latlng );
@@ -166,6 +172,9 @@ Line = L.Polyline.extend( {
     }
   },
   onLineClick: function ( e ) {
+//    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+  },
+  onLineDblClick: function ( e ) {
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },
@@ -255,6 +264,10 @@ Line = L.Polyline.extend( {
   },
   unmarkSelected:function(){
     this.removeBorder();
+  },
+
+  handleDel:function(){
+    this.removeLine(true);
   }
 } );
 
@@ -287,3 +300,4 @@ Line._getIndexesSegment = function ( line, point ) {
 };
 
 Line.MIN_VERTEX_SIZE = 2;
+Line.IDEAL_ZOOM=18;

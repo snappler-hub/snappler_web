@@ -12,6 +12,7 @@ GuidePhotoMarker=GuideMarker.extend({
       html: '<img src="app/assets/images/photo-marker-icon.png" style="width:30px; height:40px; margin: 2.35em 0 0 2em"/>'
     } ));
 
+    Map.getInstance().setZoom(Marker.IDEAL_ZOOM);
     return this;
   },
   onMapClick:function(e){

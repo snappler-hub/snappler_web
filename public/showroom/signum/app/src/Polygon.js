@@ -23,6 +23,7 @@ Polygon = L.Polygon.extend( {
     L.Polygon.prototype.initialize.call( this, [], polygonOptions );
 
     this.on( 'click', this.onPolygonClick );
+    this.on( 'dblclick', this.onPolygonDblClick );
     this.on('selected',this.markSelected);
     this.on('unselected',this.unmarkSelected);
     return this;
@@ -92,6 +93,10 @@ Polygon = L.Polygon.extend( {
   },
 
   onPolygonClick: function(e){
+//    Map.getInstance().setSelected(this);
+//    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+  },
+  onPolygonDblClick: function(e){
     Map.getInstance().setSelected(this);
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },

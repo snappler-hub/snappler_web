@@ -10,7 +10,7 @@ DashedLine = L.Polyline.extend( {
       opacity: 0.8,
       fill: false,
       clickable: false,
-      dashArray: [5, 5, 1, 5]
+      dashArray: (opt.dashed)? [5, 10] : []//[5, 5, 1, 5]
     };
     L.Polyline.prototype.initialize.call( this, [], polylineOptions );
     return this;

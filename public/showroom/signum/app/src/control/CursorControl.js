@@ -67,7 +67,7 @@ CursorControl = L.Control.extend( {
     Map.getInstance().enableZoom();
     Map.getInstance().enableDragging();
     Map.getInstance()._currentBaseLayer.setOpacity( 1 );
-    $( this.actions[1] ).fadeToggle( 'fast' );
+    $( this.actions[1] ).hide();
   },
   updateEdit: function () {
     Map.getInstance()._currentBaseLayer.setOpacity( 1 );

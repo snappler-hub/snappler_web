@@ -7,26 +7,26 @@ LineControl = L.Control.extend( {
 
     buttons: [
       {
-        title: 'Linea BT',
-        text: 'Linea BT',
+        title: 'Linea Alta Tension',
+        text: 'Linea Alta Tension',
         options: {
-          type: 'BT',
-          color: '#ff00ff',
+          type: 'AT',
+          color: '#FF0000',
           dashed: false
         }
       },
       {
-        title: 'Linea BT Punteada',
-        text: 'Linea BT Punteada',
+        title: 'Linea Alta Tension Subterranea',
+        text: 'Linea Alta Tension Subterranea',
         options: {
-          type: 'BT',
-          color: '#ff00ff',
+          type: 'AT',
+          color: '#FF0000',
           dashed: true
         }
       },
       {
-        title: 'Linea MT',
-        text: 'Linea MT',
+        title: 'Linea Media Tension',
+        text: 'Linea Media Tension',
         options: {
           type: 'MT',
           color: '#0000ff',
@@ -34,11 +34,29 @@ LineControl = L.Control.extend( {
         }
       },
       {
-        title: 'Linea MT Punteada',
-        text: 'Linea MT Punteada',
+        title: 'Linea Media Tension Subterranea',
+        text: 'Linea Media Tension Subterranea',
         options: {
           type: 'MT',
           color: '#0000ff',
+          dashed: true
+        }
+      },
+      {
+        title: 'Linea Baja Tension',
+        text: 'Linea Baja Tension',
+        options: {
+          type: 'BT',
+          color: '#ff00ff',
+          dashed: false
+        }
+      },
+      {
+        title: 'Linea Baja Tension Subterranea',
+        text: 'Linea Baja Tension Subterranea',
+        options: {
+          type: 'BT',
+          color: '#ff00ff',
           dashed: true
         }
       }
