@@ -365,3 +365,39 @@ body {
   height: 45px;
   margin-top:90px;
 }
+
+
+
+
+
+
+/* LALALA */
+
+  .leaflet-sidebar.right {
+    right: -500px;
+    transition: right 0.5s, width 0.5s;
+    padding-left: 0; }
+    
+  .leaflet-sidebar.right.visible {
+      right: 0; }
+      
+      
+  @media (max-width: 767px) {
+    .leaflet-sidebar.right.visible ~ .leaflet-right { right: 100%; }
+    .leaflet-sidebar.right { right: -100%; }
+    .leaflet-sidebar.right.visible { right: 0; }
+  }
+        
+  @media (min-width: 768px) and (max-width: 991px) {
+    .leaflet-sidebar { width: 380px; }
+    .leaflet-sidebar.right.visible ~ .leaflet-right { right: 380px; }
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .leaflet-sidebar { width: 380px; }
+    .leaflet-sidebar.right.visible ~ .leaflet-right { right: 380px; }
+  }
+  @media (min-width: 1200px) {
+    .leaflet-sidebar { width: 380px; }
+    .leaflet-sidebar.right.visible ~ .leaflet-right { right: 380px; }
+   }

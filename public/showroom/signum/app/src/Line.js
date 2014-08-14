@@ -59,6 +59,13 @@ Line = L.Polyline.extend( {
         callback: function(){
           self.edit();
         }
+      },
+      {
+        text: 'Eliminar linea',
+        icon:'app/assets/images/remove.svg',
+        callback: function(){
+          self.removeLine(true);
+        }
       }
     ];
   },
