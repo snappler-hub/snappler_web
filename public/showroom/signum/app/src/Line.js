@@ -15,7 +15,8 @@ Line = L.Polyline.extend( {
     this.property={
       options: polylineOptions,
       name: "Tendido " + this.description.type,
-      insertMethod: "push"
+      insertMethod: "push",
+      _labelMarkers:[]
     };
 
     if ( lineOptions.dashed ) {
@@ -38,9 +39,6 @@ Line = L.Polyline.extend( {
     this.on('unselected',this.unmarkSelected);
     this.on('dblclick', this.onLineDblClick);
 
-
-
-    Map.getInstance().setZoom(Line.IDEAL_ZOOM);
     return this;
   },
 
@@ -60,6 +58,35 @@ Line = L.Polyline.extend( {
           self.edit();
         }
       },
+      { separator: true },
+      {
+        text: 'Agregar etiqueta',
+        icon:'app/assets/images/plus.svg',
+        callback: function(){
+          self.addLabel();
+        }
+      },
+      {
+        text: 'Eliminar etiquetas',
+        icon:'app/assets/images/minus.svg',
+        callback: function(){
+          self.removeLabels();
+        }
+      },
+/*      {
+        text: 'Mostrar etiquetas asociadas',
+        icon:'app/assets/images/eye.svg',
+        callback: function(){
+          self.showLabels();
+        }
+      },
+      {
+        text: 'Ocultar etiquetas asociadas',
+        icon:'app/assets/images/eye-blocked.svg',
+        callback: function(){
+          self.hideLabels();
+        }
+      },*/
       {
         text: 'Eliminar linea',
         icon:'app/assets/images/remove.svg',
@@ -275,6 +302,31 @@ Line = L.Polyline.extend( {
 
   handleDel:function(){
     this.removeLine(true);
+  },
+  getCenter:function(){
+    return this.getBounds().getCenter();
+  },
+  addLabel:function(){
+    var lm = new TextMarker( this, {text: 'TRF-12JPV', title: '300kVA'}, Map.getInstance().getZoom() );
+    this.property._labelMarkers.push(lm);
+    lm.toggle();
+  },
+
+  removeLabels:function(){
+    this.hideLabels();
+    this.property._labelMarkers=[];
+  },
+
+  showLabels:function(){
+    this.property._labelMarkers.forEach(function(lm){
+      lm.getBelongingLayer().addLayer( lm );
+    });
+  },
+
+  hideLabels:function(){
+    this.property._labelMarkers.forEach(function(lm){
+      lm.getBelongingLayer().removeLayer( lm );
+    });
   }
 } );
 

@@ -7,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="64"
+   width="128"
    height="128"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="puesta_a_tierra_menu.svg">
+   sodipodi:docname="reconectador_menu.svg">
   <metadata
      id="metadata649">
     <rdf:RDF>
@@ -42,11 +42,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="63.263631"
-     inkscape:cy="55.623961"
+     inkscape:zoom="11.313708"
+     inkscape:cx="52.775666"
+     inkscape:cy="66.159413"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
      showguides="true"
@@ -59,13 +59,13 @@
        enabled="true"
        snapvisiblegridlinesonly="true" />
     <sodipodi:guide
-       orientation="0,1"
-       position="64,64"
-       id="guide3068" />
-    <sodipodi:guide
        orientation="1,0"
-       position="64,69.625001"
-       id="guide3070" />
+       position="64,63"
+       id="guide3069" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="64.65625,64"
+       id="guide3071" />
   </sodipodi:namedview>
   <desc
      id="desc4">/home/snappler/Escritorio/Simbolos-C DXF_2000.dxf - scale = 0.536199</desc>
@@ -449,61 +449,92 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
+     inkscape:label="Capa#1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff"
+       id="rect3398"
+       width="52"
+       height="38"
+       x="38"
+       y="45" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
      inkscape:label="Capa">
     <g
-       transform="matrix(3.0991835,0,0,-3.0991835,30.02781,68.5683)"
-       style="display:inline"
-       id="g3147">
+       id="g952"
+       transform="matrix(2.6588044,0,0,-2.6588044,37.440577,63.970065)">
       <path
-         d="m 0,0 0,-11.52 7.98,0"
-         style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none;display:inline"
-         id="path150"
          inkscape:connector-curvature="0"
-         transform="translate(0,11.52)" />
-      <path
-         d="M 0,0 6.24,0"
-         style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none;display:inline"
-         id="path154"
-         inkscape:connector-curvature="0"
-         transform="translate(0,-2.88)" />
-      <path
-         d="M 0,0 4.56,0"
-         style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none;display:inline"
-         id="path158"
-         inkscape:connector-curvature="0"
-         transform="translate(0,-5.7)" />
-      <path
-         d="M 0,0 2.82,0"
-         style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none;display:inline"
-         id="path162"
-         inkscape:connector-curvature="0"
-         transform="translate(0,-8.58)" />
-      <path
-         d="M 0,0 -7.98,0"
+         d="M 0,0 -13.08,0"
          style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-         id="path166"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path170"
-         style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-         d="m 0,-8.58 -2.76,0" />
+         id="path954" />
       <g
-         transform="translate(0,-5.7)"
-         id="g172">
+         id="g956"
+         transform="translate(33.06,0)">
         <path
            inkscape:connector-curvature="0"
-           id="path174"
+           d="M 0,0 -13.08,0"
            style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           d="M 0,0 -4.5,0" />
+           id="path958" />
         <g
-           transform="translate(0,2.82)"
-           id="g176">
+           id="g960"
+           transform="translate(-28.2,-4.02)">
           <path
              inkscape:connector-curvature="0"
-             id="path178"
+             d="m 0,0 0,8.46 2.64,0 0.9,-0.36 0.3,-0.42 0.3,-0.84 0,-0.78 L 3.84,5.22 3.54,4.86 2.64,4.44 0,4.44"
              style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-             d="M 0,0 -6.24,0" />
+             id="path962" />
+          <g
+             id="g964"
+             transform="translate(2.04,4.44)">
+            <path
+               inkscape:connector-curvature="0"
+               d="M 0,0 2.1,-4.44"
+               style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
+               id="path966" />
+            <g
+               id="g968"
+               transform="translate(8.28,2.04)">
+              <path
+                 inkscape:connector-curvature="0"
+                 d="m 0,0 -0.3,0.78 -0.6,0.84 -0.6,0.36 -1.14,0 -0.6,-0.36 -0.6,-0.84 -0.3,-0.78 -0.3,-1.26 0,-1.98 0.3,-1.26 0.3,-0.78 0.6,-0.84 0.6,-0.36 1.14,0 0.6,0.36 0.6,0.84 0.3,0.78"
+                 style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
+                 id="path970" />
+              <g
+                 id="g972"
+                 transform="translate(-15.18,-9.78)">
+                <path
+                   inkscape:connector-curvature="0"
+                   d="m 0,0 19.98,0 0,14.64 L 0,14.64 0,0 z"
+                   style="fill:none;stroke:#000000;stroke-width:0.72000003;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
+                   id="path974" />
+                <g
+                   id="g976"
+                   transform="translate(0,-49.38)">
+                  <g
+                     id="g980"
+                     transform="translate(33.06,0)">
+                    <g
+                       id="g984"
+                       transform="translate(-23.94,3.24)">
+                      <g
+                         id="g988"
+                         transform="translate(1.8,-7.26)">
+                        <g
+                           id="g992">
+                          <g
+                             id="g996"
+                             transform="translate(-10.92,-3.3)" />
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
         </g>
       </g>
     </g>

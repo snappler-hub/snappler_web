@@ -5,14 +5,19 @@ GuidePhotoMarker=GuideMarker.extend({
   initialize:function(){
     GuideMarker.prototype.initialize.call( this,"app/assets/images/photo-marker-icon.png");
 
-    this.setIcon(new L.DivIcon( {
+/*    this.setIcon(new L.DivIcon( {
       className: 'guide-marker',
       iconSize: Marker.BASE_SIZE,
       iconAnchor: Marker.BASE_ANCHOR,
       html: '<img src="app/assets/images/photo-marker-icon.png" style="width:30px; height:40px; margin: 2.35em 0 0 2em"/>'
-    } ));
+    } ));*/
 
-    Map.getInstance().setZoom(Marker.IDEAL_ZOOM);
+    this.setIcon(L.AwesomeMarkers.icon({
+      prefix:'fa',
+      icon: 'picture-o',
+      markerColor: 'green'
+    }));
+//    Map.getInstance().setZoom(Marker.IDEAL_ZOOM);
     return this;
   },
   onMapClick:function(e){

@@ -49,9 +49,10 @@ VertexIndicator=L.Marker.extend({
       });
     }
 
-    this.on( 'dragstart', function () {
+/*    this.on( 'dragstart', function () {
       Map.getInstance().unsetSelected();
-    });
+    });*/
+
     this.on( 'drag', function () {
       this.lineOwner.getLatLngs().splice( this._index, 1, this.getLatLng() );
       this.lineOwner.redraw();
@@ -62,6 +63,8 @@ VertexIndicator=L.Marker.extend({
      this.markerBinded.setLatLng(this.getLatLng());
      }
      });*/
+
+    this.updateIconSize(Map.getInstance().getZoom());
   },
   getBelongingLayer:function(){
     return Map.getInstance().getAuxLayer();

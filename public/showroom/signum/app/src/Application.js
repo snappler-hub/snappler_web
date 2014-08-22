@@ -19,10 +19,10 @@ Application.setup = function ( ) {
 
 Application.resetCursor = function () {
   $( '#map' ).css( "cursor", "default" );
-}
+};
 Application.setCrosshairCursor = function () {
   $( '#map' ).css( "cursor", "crosshair" );
-}
+};
 
 Application.showKnobRotator = function () {
   var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
@@ -97,7 +97,7 @@ Application.hideResizeControl = function () {
 Application.startWork = function ( work, target ) {
   Application.workingOn = work;
   Application.workingTarget = target;
-  Application.workingTarget.hideLabels();
+//  Application.workingTarget.hideLabels();
 
 //  Map.getInstance().getTextLayer().removeLayer( Application.workingTarget.property._labelMarker );
   Map.getInstance().controls[Map.CTRL_CURSOR].showEndRotation();
@@ -131,11 +131,13 @@ Application.finishWork = function () {
     case 'resize':
       Application.hideResizeControl();
       break;
-    default:
-      break;
+    default: break;
   }
 
   if(Application.workingOn !== undefined){
+
+    Application.workingTarget.fire(Application.workingOn);
+
     Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
     $( ".leaflet-control-topbar" ).css( "display", "block" );
     $( ".leaflet-control-sidebar" ).css( "display", "block" );

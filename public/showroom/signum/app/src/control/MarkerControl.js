@@ -7,6 +7,9 @@ $( '.marker' ).on( 'click', function () {
   var sourceForMap=$( this ).attr( 'src' ).replace('_menu', '');
   Map.getInstance().setCurrentTool(new GuideMarker( sourceForMap, Map.getInstance().getZoom(),$( this ).data('class')  ));
   Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].sidebarSelector="#sidebar .markers";
+
+
+  $( '#map' ).css( "cursor", "none" );
 } );
 
 $('.photo-marker').on('click', function(){

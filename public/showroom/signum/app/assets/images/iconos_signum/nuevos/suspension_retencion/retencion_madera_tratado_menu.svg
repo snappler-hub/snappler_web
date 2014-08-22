@@ -7,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="128"
+   width="90"
    height="128"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="retencion_madera_tratado.svg">
+   sodipodi:docname="retencion_madera_tratado_menu.svg">
   <metadata
      id="metadata649">
     <rdf:RDF>
@@ -21,7 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,11 +42,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="14.340126"
-     inkscape:cx="28.308114"
-     inkscape:cy="65.469803"
+     inkscape:zoom="2.5350001"
+     inkscape:cx="-6.2869835"
+     inkscape:cy="88.075308"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
      showguides="true"
@@ -76,7 +76,7 @@
        id="guide5130" />
     <sodipodi:guide
        orientation="1,0"
-       position="83,56"
+       position="83,59"
        id="guide5139" />
     <sodipodi:guide
        orientation="0,1"

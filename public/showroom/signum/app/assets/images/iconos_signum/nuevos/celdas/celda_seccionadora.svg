@@ -21,7 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,9 +42,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="5.6568543"
-     inkscape:cx="39.839416"
-     inkscape:cy="47.183416"
+     inkscape:zoom="8"
+     inkscape:cx="58.8603"
+     inkscape:cy="100.56493"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -62,10 +62,6 @@
        orientation="1,0"
        position="64,65"
        id="guide3258" />
-    <sodipodi:guide
-       orientation="0,1"
-       position="64,64"
-       id="guide3080" />
   </sodipodi:namedview>
   <desc
      id="desc4">/home/snappler/Escritorio/Simbolos-C DXF_2000.dxf - scale = 0.536199</desc>
@@ -451,12 +447,12 @@
      id="layer1"
      inkscape:label="Capa">
     <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.5503453"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff"
        id="rect3078"
-       width="50.376804"
-       height="68.588219"
-       x="30.330225"
-       y="57.960827" />
+       width="92"
+       height="124"
+       x="18"
+       y="2" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -465,7 +461,7 @@
      transform="translate(0.5,-924.86237)">
     <g
        id="g3260"
-       transform="matrix(0.55416725,0,0,0.55416725,19.083701,469.40054)">
+       transform="translate(-1.4696699,0)">
       <path
          inkscape:connector-curvature="0"
          id="path507"

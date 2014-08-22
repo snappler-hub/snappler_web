@@ -55,9 +55,10 @@
           <img class="marker" data-class="Box" src="app/assets/images/iconos_signum/nuevos/buzones_caja/caja_monoblock_menu.svg"/>
         </td>
         <td>
-          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico_menu.svg"/>
-          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico_rural_menu.svg"/>
-          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_trifasico_menu.svg"/>
+          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_camara_subterranea_o_nivel.svg"/>
+          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico.svg"/>
+          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_bifasico_rural.svg"/>
+          <img class="marker" data-class="Transformer" src="app/assets/images/iconos_signum/nuevos/transformadores/transformador_trifasico.svg"/>
         </td>
 
         <!--<td>
@@ -89,12 +90,12 @@
           <img class="marker" data-class="Sectionaliser" src="app/assets/images/iconos_signum/nuevos/seccionador/seccionalizador.svg"/>
         </td>
         <td>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_interruptor_menu.svg"/>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_medicion_menu.svg"/>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_remonte_menu.svg"/>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_rotadora_menu.svg"/>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_ruptofusible_menu.svg"/>
-          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_seccionadora_menu.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_interruptor.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_medicion.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_remonte.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_rotadora.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_ruptofusible.svg"/>
+          <img class="marker" data-class="Cell" src="app/assets/images/iconos_signum/nuevos/celdas/celda_seccionadora.svg"/>
         </td>
         <td>
           <img class="marker" data-class="Discharger"
@@ -239,6 +240,7 @@
 <script src="app/src/VertexIndicator.js" type="text/javascript"></script>
 <script src="app/src/Marker.js" type="text/javascript"></script>
 
+<script src="app/src/markers/Box.js" type="text/javascript"></script>
 <script src="app/src/markers/Cell.js" type="text/javascript"></script>
 <script src="app/src/markers/Discharger.js" type="text/javascript"></script>
 <script src="app/src/markers/Ground.js" type="text/javascript"></script>
@@ -296,11 +298,11 @@
     var map = new MapMapbox( 'map' );
     Application.setup();
 
-    $(document ).on("ready", function(){
+    /*$(document).on("ready", function(){
       setTimeout(function(){
         window.status="loaded";
       },1000);
-    });
+    });*/
   } );
   //L.Util.falseFn
 </script>

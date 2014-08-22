@@ -81,14 +81,16 @@ Marker = L.Marker.extend( {
           Application.startWork('resize', self);
 //          Application.showResizeControl( self );
         }
-      },{
+      },
+      /*{
         text: 'Restaurar tamaños',
         icon:'app/assets/images/reset_size.svg',
         callback: function ( ) {
           self.property.size_table=Util.clone(Marker.SIZE_TABLE);
           self.updateIconSize(Map.getInstance().getZoom());
+          self.fire('resize');
         }
-      },
+      },*/
       {separator: true},
       {
         text: 'Rotar icono',
@@ -123,24 +125,25 @@ Marker = L.Marker.extend( {
       },
       { separator: true },
       {
-        text: 'Agregar etiqueta',
-        icon:'app/assets/images/plus.svg',
+        text: 'Agregar/Eliminar etiqueta',
+        icon:'app/assets/images/plus-minus.svg',
         callback: function(){
           if(self.property._labelMarkers.length===0){
             self.addLabel();
           }else{
-            alert("Éste marcador ya tiene etiquetas asociadas.");
+//            alert("Éste marcador ya tiene etiquetas asociadas.");
+            self.removeLabels();
           }
         }
       },
-      {
-        text: 'Eliminar etiquetas',
+/*      {
+        text: 'Eliminar etiqueta',
         icon:'app/assets/images/minus.svg',
         callback: function(){
           self.removeLabels();
         }
-      },
-      {
+      },*/
+/*      {
         text: 'Mostrar etiquetas asociadas',
         icon:'app/assets/images/eye.svg',
         callback: function(){
@@ -153,8 +156,7 @@ Marker = L.Marker.extend( {
         callback: function(){
           self.hideLabels();
         }
-
-      },
+      },*/
       {separator: true},
       {
         text: 'Eliminar icono',
@@ -183,7 +185,7 @@ Marker = L.Marker.extend( {
           lm.calculateDistanceToOwner();
         });
 
-        this.hideLabels();
+//        this.hideLabels();
       }else{
         return false;
       }
@@ -195,6 +197,9 @@ Marker = L.Marker.extend( {
       this.property.linesConnecteds.forEach( function ( l ) {
         self.unbindLine( l );
       } );
+      this.property._labelMarkers.forEach(function(lm){
+        lm.relocateToOwner();
+      });
       /*
        if ( this.property.linesConnecteds == 0 ) {
        Map.getInstance().getPolylineLayer().eachLayer( function ( layer ) {
@@ -213,8 +218,9 @@ Marker = L.Marker.extend( {
 
     this.on( 'dragend', function ( e ) {
       this._calculateRotation();
+
       this.property._labelMarkers.forEach(function(lm){
-        lm.relocateToOwner();
+        lm.resetDistanceToOwner();
       });
 
       /*if ( this.property.linesConnecteds.length == 0 ) {
@@ -224,8 +230,8 @@ Marker = L.Marker.extend( {
       /*      Map.getInstance().getPolylineLayer().eachLayer( function ( layer ) {
        (layer.overIndicator) ? Map.getInstance().getAuxLayer().removeLayer( layer.overIndicator ) : $.noop;
        } );*/
-
     } );
+
   },
 
   _doResize: function ( newIconSize ) {
@@ -252,8 +258,8 @@ Marker = L.Marker.extend( {
     var newSize=this.scaleSize(currentZoom);
     this._doResize( new L.Point( newSize, newSize )  );
 
-/*    var scaleFactor=this.scaleFactor( currentZoom );
-    this._doResize( new L.Point( this.property.currentSize.x * scaleFactor, this.property.currentSize.x * scaleFactor )  );*/
+    /*    var scaleFactor=this.scaleFactor( currentZoom );
+     this._doResize( new L.Point( this.property.currentSize.x * scaleFactor, this.property.currentSize.x * scaleFactor )  );*/
   },
   scaleSize:function(currentZoom){
     return this.property.size_table[currentZoom];
@@ -274,6 +280,18 @@ Marker = L.Marker.extend( {
     this._calculateRotation();
   },
 
+  getCenter:function(){
+    return this.getLatLng();
+  },
+
+  getBounds:function(){
+    var delta = Map.getInstance().latLngToLayerPoint( this.getLatLng() );
+
+    var p1 = Map.getInstance().layerPointToLatLng( [delta.x - (this.property.currentSize.x / 2), delta.y - (this.property.currentSize.y / 2)] );
+    var p2 = Map.getInstance().layerPointToLatLng( [delta.x + (this.property.currentSize.x / 2), delta.y + (this.property.currentSize.y / 2)] );
+
+    return new L.LatLngBounds( [p1, p2] );
+  },
   removeMarker: function ( e ) {
     this.removeBorder();
     this.getBelongingLayer().removeLayer( this );
@@ -488,10 +506,10 @@ Marker.SIZE_TABLE={
   "16": Marker.BASE_SIZE[0]/2,
   "17": Marker.BASE_SIZE[0],
   "18": Marker.BASE_SIZE[0]*2,
-  "19": Marker.BASE_SIZE[0]*3,
-  "20": Marker.BASE_SIZE[0]*4,
-  "21": Marker.BASE_SIZE[0]*6,
-  "22": Marker.BASE_SIZE[0]*8
+  "19": Marker.BASE_SIZE[0]*4,
+  "20": Marker.BASE_SIZE[0]*8,
+  "21": Marker.BASE_SIZE[0]*16,
+  "22": Marker.BASE_SIZE[0]*32
 };
 
 Marker.CANT_CREATED = 0;

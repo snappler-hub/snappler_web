@@ -8,12 +8,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="128"
+   width="88"
    height="128"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="retencion_doble_hormigon.svg">
+   sodipodi:docname="retencion_doble_hormigon_menu.svg">
   <metadata
      id="metadata649">
     <rdf:RDF>
@@ -43,11 +43,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="7.1762367"
-     inkscape:cx="75.768231"
-     inkscape:cy="55.372102"
+     inkscape:zoom="81.18985"
+     inkscape:cx="86.026591"
+     inkscape:cy="62.757265"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer4"
      showguides="true"
@@ -292,7 +292,7 @@
     <g
        style="display:inline"
        id="g3030"
-       transform="matrix(1.0049421,0,0,1.0049421,-0.21874733,3.5927221)">
+       transform="matrix(1.0049421,0,0,1.0049421,-20.471308,3.6014314)">
       <path
          inkscape:connector-curvature="0"
          id="path5340-5"

@@ -18,8 +18,8 @@ body {
   z-index:1;
   left: 0;
   bottom: 0;
-  top:89px;
-  cursor: default;
+  top:81px;
+  /*cursor: default;*/
   background-color: grey;
 }
 #svg{
@@ -62,6 +62,7 @@ body {
   border: 1px solid grey;
   color: #669;
   text-align: center;
+  padding-top: 3px;
 }
 
 #ver-minimalist td span {
@@ -71,7 +72,7 @@ body {
 }
 
 #ver-minimalist td .marker {
-  width: 47px;
+  /*width: 47px;*/
   height: 47px;
 }
 
@@ -122,7 +123,6 @@ body {
   background-repeat: no-repeat;
   display: block;
   padding: 13px;
-  margin-left: 2px;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -142,8 +142,15 @@ body {
   background-image: url("images/cursor.png");
 }
 
-.leaflet-control-line-interior {
-  background-image: url("images/line.png");
+
+.leaflet-control-line-interior_AT {
+  background-image: url("images/line_AT.png");
+  /*display:none;*/
+}.leaflet-control-line-interior_MT {
+  background-image: url("images/line_MT.png");
+  /*display:none;*/
+}.leaflet-control-line-interior_BT {
+  background-image: url("images/line_BT.png");
   /*display:none;*/
 }
 
@@ -365,23 +372,29 @@ body {
   height: 45px;
   margin-top:90px;
 }
+/* ================================================================== */
+/* Override styles */
+/* ================================================================== */
 
+/*.leaflet-clickable{
+  cursor:none;
+}*/
+.marker-on-map:hover, .textMarker:hover, .awesome-marker:hover{
+  cursor:pointer;
+}
 
-
-
-
-
-/* LALALA */
+/* ================================================================== */
+/* Media Queries */
+/* ================================================================== */
 
   .leaflet-sidebar.right {
     right: -500px;
     transition: right 0.5s, width 0.5s;
-    padding-left: 0; }
+    padding-left: 0;
+  }
     
-  .leaflet-sidebar.right.visible {
-      right: 0; }
-      
-      
+  .leaflet-sidebar.right.visible { right: 0; }
+
   @media (max-width: 767px) {
     .leaflet-sidebar.right.visible ~ .leaflet-right { right: 100%; }
     .leaflet-sidebar.right { right: -100%; }

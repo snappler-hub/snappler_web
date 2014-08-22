@@ -5,12 +5,17 @@ MapMapbox=L.mapbox.Map.extend({
     Map.DEFAULT_CENTER = [-34.92137, -57.9545];
     Map.TILE_LAYER_OPACITY =1;
 
-    Map.CTRL_CURSOR=0;
-    Map.CTRL_LINE=1;
-    Map.CTRL_POLYGON=2;
-    Map.CTRL_TOOGLE_SIDEBAR=3;
-    Map.CTRL_TOOGLE_TOPBAR=4;
-    Map.CTRL_SIDEBAR=5;
+    Map.CTRL_LINE_AT=0;
+    Map.CTRL_LINE_MT=1;
+    Map.CTRL_LINE_BT=2;
+
+    Map.CTRL_CURSOR=3;
+    Map.CTRL_POLYGON=4;
+
+    Map.CTRL_TOOGLE_SIDEBAR=5;
+    Map.CTRL_TOOGLE_TOPBAR=6;
+
+    Map.CTRL_SIDEBAR=7;
 
     var layer1_lines = new L.LayerGroup(),
       layer2_icons = new L.LayerGroup(),
@@ -28,8 +33,10 @@ MapMapbox=L.mapbox.Map.extend({
     var options= {
       minZoom: 11,
       keyboard:false,
-      infoControl: false,
       attributionControl: false,
+      infoControl: false,
+      zoomControl: false,
+
       contextmenu: true,
       contextmenuWidth: 220,
       contextmenuItems:[{ text: '<b>Mapa</b>',
@@ -45,8 +52,11 @@ MapMapbox=L.mapbox.Map.extend({
     this.setView(Map.DEFAULT_CENTER, Map.DEFAULT_ZOOM);
     new L.Hash(this);
 
-    this.controls = [new CursorControl(),
-      new LineControl(),
+    this.controls = [
+      new LineControl("AT"),
+      new LineControl("MT"),
+      new LineControl("BT"),
+      new CursorControl(),
       new PolygonControl(),
       new SidebarControl(),
       new TopbarControl(),
@@ -55,8 +65,11 @@ MapMapbox=L.mapbox.Map.extend({
         position: 'right'
       })];
 
+    this.addControl( this.controls[Map.CTRL_LINE_AT] );
+    this.addControl( this.controls[Map.CTRL_LINE_MT] );
+    this.addControl( this.controls[Map.CTRL_LINE_BT] );
+    new L.Control.Zoom().addTo(this);
     this.addControl( this.controls[Map.CTRL_CURSOR] );
-    this.addControl( this.controls[Map.CTRL_LINE] );
     this.addControl( this.controls[Map.CTRL_POLYGON] );
     this.addControl( this.controls[Map.CTRL_TOOGLE_SIDEBAR] );
     this.addControl( this.controls[Map.CTRL_TOOGLE_TOPBAR] );
@@ -64,6 +77,9 @@ MapMapbox=L.mapbox.Map.extend({
 
 
     this._currentBaseLayer=L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } );
+
+    this._currentBaseLayer.on("load", function(){ window.status="loaded"; });
+
     L.control.layers({
       'Grey Map': this._currentBaseLayer.addTo(this),
       'Base Map': L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-zr0njcqy/{z}/{x}/{y}.png', { minZoom: 11, maxZoom: 22 } ),
@@ -123,7 +139,7 @@ MapMapbox=L.mapbox.Map.extend({
   },
   _onBaseLayerChange:function ( e ) {
     e.target._currentBaseLayer = e.layer;
-    Map.getInstance().setZoom(Math.min(Map.getInstance().getZoom(), Map.DEFAULT_ZOOM));
+//    Map.getInstance().setZoom(Math.min(Map.getInstance().getZoom(), Map.DEFAULT_ZOOM));
   },
 
   _onLayerAdd:function ( e ) {
@@ -256,8 +272,9 @@ MapMapbox=L.mapbox.Map.extend({
     }else{
       this.controls[Map.CTRL_SIDEBAR].hide();
     }
-
-    $( Map.getInstance().controls[Map.CTRL_LINE].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_AT].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_MT].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_BT].actions ).hide();
     $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
   },
   _onContextMenuShow:function(e){
@@ -355,7 +372,10 @@ MapMapbox=L.mapbox.Map.extend({
     this._currentTool.getBelongingLayer().addLayer(this._currentTool);
   },
   cancelCurrentTool: function () {
-    $( Map.getInstance().controls[Map.CTRL_LINE].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_AT].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_MT].actions ).hide();
+    $( Map.getInstance().controls[Map.CTRL_LINE_BT].actions ).hide();
+
     $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
 
     this.unsetSelected();

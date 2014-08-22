@@ -54,7 +54,9 @@ PolygonControl = L.Control.extend( {
       .addListener( controlDiv, 'click', function () {
         $( self.actions ).fadeToggle('fast');
 
-        $( Map.getInstance().controls[Map.CTRL_LINE].actions ).hide();
+        $( Map.getInstance().controls[Map.CTRL_LINE_AT].actions ).hide();
+        $( Map.getInstance().controls[Map.CTRL_LINE_MT].actions ).hide();
+        $( Map.getInstance().controls[Map.CTRL_LINE_BT].actions ).hide();
       } );
 
     var controlUI = L.DomUtil.create( 'div', 'leaflet-control-custom leaflet-control-polygon-interior', controlDiv );

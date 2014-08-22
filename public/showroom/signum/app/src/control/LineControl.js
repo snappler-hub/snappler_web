@@ -5,7 +5,7 @@ LineControl = L.Control.extend( {
   options: {
     position: 'topleft',
 
-    buttons: [
+    /*buttons: [
       {
         title: 'Linea Alta Tension',
         text: 'Linea Alta Tension',
@@ -24,6 +24,7 @@ LineControl = L.Control.extend( {
           dashed: true
         }
       },
+
       {
         title: 'Linea Media Tension',
         text: 'Linea Media Tension',
@@ -42,6 +43,7 @@ LineControl = L.Control.extend( {
           dashed: true
         }
       },
+
       {
         title: 'Linea Baja Tension',
         text: 'Linea Baja Tension',
@@ -60,7 +62,67 @@ LineControl = L.Control.extend( {
           dashed: true
         }
       }
-    ]
+    ]*/
+    buttons: {
+      "AT":[
+        {
+          title: 'AT Aérea',
+          text: 'AT Aérea',
+          options: {
+            type: 'AT',
+            color: '#FF0000',
+            dashed: false
+          }
+        },
+        {
+          title: 'AT Subterranea',
+          text: 'AT Subterranea',
+          options: {
+            type: 'AT',
+            color: '#FF0000',
+            dashed: true
+          }
+        }],
+      "MT":[{
+        title: 'MT Aérea',
+        text: 'MT Aérea',
+        options: {
+          type: 'MT',
+          color: '#0000ff',
+          dashed: false
+        }
+      },
+        {
+          title: 'MT Subterranea',
+          text: 'MT Subterranea',
+          options: {
+            type: 'MT',
+            color: '#0000ff',
+            dashed: true
+          }
+        }],
+      "BT":[{
+        title: 'BT Aérea',
+        text: 'BT Aérea',
+        options: {
+          type: 'BT',
+          color: '#ff00ff',
+          dashed: false
+        }
+      },
+        {
+          title: 'BT Subterranea',
+          text: 'BT Subterranea',
+          options: {
+            type: 'BT',
+            color: '#ff00ff',
+            dashed: true
+          }
+        }]
+    }
+  },
+  initialize:function(typeLine){
+    this._typeLine=typeLine;
   },
 
   onAdd: function ( map ) {
@@ -69,12 +131,12 @@ LineControl = L.Control.extend( {
 
     this.actions = L.DomUtil.create( 'ul', 'leaflet-actions', controlDiv );
 
-    for ( var i = 0; i < self.options.buttons.length; i++ ) {
+    for ( var i = 0; i < self.options.buttons[this._typeLine].length; i++ ) {
       Util._createButton( {
-        title: self.options.buttons[i].title,
-        text: self.options.buttons[i].text,
+        title: self.options.buttons[this._typeLine][i].title,
+        text: self.options.buttons[this._typeLine][i].text,
         container: L.DomUtil.create( 'li', '', this.actions ),
-        options: self.options.buttons[i].options,
+        options: self.options.buttons[this._typeLine][i].options,
         actions: this.actions,
         callback: this.createLine
       } );
@@ -84,14 +146,17 @@ LineControl = L.Control.extend( {
       .addListener( controlDiv, 'click', L.DomEvent.stopPropagation )
       .addListener( controlDiv, 'click', L.DomEvent.preventDefault )
       .addListener( controlDiv, 'click', function () {
-        $( self.actions ).fadeToggle( 'fast' );
+        $( Map.getInstance().controls[Map.CTRL_LINE_AT].actions ).hide();
+        $( Map.getInstance().controls[Map.CTRL_LINE_MT].actions ).hide();
+        $( Map.getInstance().controls[Map.CTRL_LINE_BT].actions ).hide();
 
-        //Hide Polygon controls
         $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
+
+        $( self.actions ).fadeToggle( 'fast' );
       } );
 
-    var controlUI = L.DomUtil.create( 'div', 'leaflet-control-custom leaflet-control-line-interior', controlDiv );
-    controlUI.title = 'Lineas';
+    var controlUI = L.DomUtil.create( 'div', 'leaflet-control-custom leaflet-control-line-interior_'+this._typeLine, controlDiv );
+    controlUI.title = 'Lineas '+this._typeLine;
     return controlDiv;
   },
 
@@ -109,9 +174,9 @@ LineControl = L.Control.extend( {
 $('.line').on('click', function(e){
   var classes=$(this).attr('class' ).replace('line ', '' ).split(' ');
 
-  Map.getInstance().controls[Map.CTRL_LINE].createLine({
+  /*Map.getInstance().controls[Map.CTRL_LINE].createLine({
     type: classes[0].toUpperCase(),
     color: (classes[0] == 'mt')? '#0000ff': '#ff00ff',
     dashed: classes.length==2
-  });
+  });*/
 });

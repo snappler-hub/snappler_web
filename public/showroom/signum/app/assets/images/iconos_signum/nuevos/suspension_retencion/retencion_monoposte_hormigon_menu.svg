@@ -8,12 +8,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="128"
+   width="64"
    height="128"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="retencion_monoposte_hormigon.svg">
+   sodipodi:docname="retencion_monoposte_hormigon_menu_1.svg">
   <metadata
      id="metadata649">
     <rdf:RDF>
@@ -43,11 +43,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="10.14"
-     inkscape:cx="41.818412"
-     inkscape:cy="57.765583"
+     inkscape:zoom="14.340126"
+     inkscape:cx="20.200515"
+     inkscape:cy="66.226874"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
      showguides="true"
@@ -67,6 +67,10 @@
        orientation="1,0"
        position="64,61.587771"
        id="guide3072" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="32,81"
+       id="guide3073" />
   </sodipodi:namedview>
   <desc
      id="desc4">/home/snappler/Escritorio/Simbolos-C DXF_2000.dxf - scale = 0.536199</desc>
@@ -470,7 +474,7 @@
     <g
        style="display:inline"
        id="g3074"
-       transform="matrix(1.1340066,0,0,1.1340066,-4.3687161,-7.0555793)">
+       transform="matrix(1.1340066,0,0,1.1340066,-36.368716,-7.0555793)">
       <g
          transform="matrix(1.0422077,0,0,1.0422077,-2.2380763,2.1901664)"
          id="g3120">
