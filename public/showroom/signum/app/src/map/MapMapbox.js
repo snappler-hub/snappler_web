@@ -16,12 +16,14 @@ MapMapbox=L.mapbox.Map.extend({
     Map.CTRL_TOOGLE_TOPBAR=6;
 
     Map.CTRL_SIDEBAR=7;
+    Map.CTRL_PRINT=8;
 
     var layer1_lines = new L.LayerGroup(),
-      layer2_icons = new L.LayerGroup(),
-      layer3_polygons = new L.LayerGroup(),
-      layer4_aux = new L.LayerGroup(),
-      layer5_text = new L.LayerGroup();
+        layer2_icons = new L.LayerGroup(),
+        layer3_polygons = new L.LayerGroup(),
+        layer4_aux = new L.LayerGroup(),
+        layer5_text = new L.LayerGroup(),
+        layer6_photo = new L.LayerGroup();
 
     var overlays = {
       'Marcadores': layer2_icons,
@@ -39,12 +41,18 @@ MapMapbox=L.mapbox.Map.extend({
 
       contextmenu: true,
       contextmenuWidth: 220,
-      contextmenuItems:[{ text: '<b>Mapa</b>',
-        icon:'app/assets/images/map.svg'},
+      contextmenuItems:[
+        {
+          text: '<b>Mapa</b>',
+          icon:'app/assets/images/map.svg'
+        },
 
-        { text: 'Editar todas las lineas',
+        {
+          text: 'Editar todas las lineas',
           callback:this.editAllLines,
-          icon:'app/assets/images/edit-lines.svg'}]
+          icon:'app/assets/images/edit-lines.svg'
+        }
+      ]
     };
 
     L.mapbox.Map.prototype.initialize.call(this, element, undefined, options);
@@ -63,7 +71,8 @@ MapMapbox=L.mapbox.Map.extend({
       L.control.sidebar('sidebar', {
         closeButton: true,
         position: 'right'
-      })];
+      }),
+      new PrintControl()];
 
     this.addControl( this.controls[Map.CTRL_LINE_AT] );
     this.addControl( this.controls[Map.CTRL_LINE_MT] );
@@ -74,7 +83,9 @@ MapMapbox=L.mapbox.Map.extend({
     this.addControl( this.controls[Map.CTRL_TOOGLE_SIDEBAR] );
     this.addControl( this.controls[Map.CTRL_TOOGLE_TOPBAR] );
     this.addControl( this.controls[Map.CTRL_SIDEBAR] );
+//    this.addControl( this.controls[Map.CTRL_PRINT] );
 
+    this.addLayer(layer6_photo);
 
     this._currentBaseLayer=L.tileLayer( 'http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', {minZoom: 11, maxZoom: 22 } );
 
@@ -93,7 +104,7 @@ MapMapbox=L.mapbox.Map.extend({
      }, overlays).addTo(this);
      */
 
-    this.layers = [layer1_lines, layer2_icons, layer3_polygons, layer4_aux, layer5_text];
+    this.layers = [layer1_lines, layer2_icons, layer3_polygons, layer4_aux, layer5_text, layer6_photo];
 
     this.addLayer(layer4_aux);
 
@@ -251,6 +262,9 @@ MapMapbox=L.mapbox.Map.extend({
       line.updateWeigth( Map.getInstance().getZoom() );
     } );
 
+    Map.getInstance().getTextLayer().eachLayer( function ( tmarker ) {
+      tmarker.updateIconSize( Map.getInstance().getZoom() );
+    } );
 
     Map.getInstance().getAuxLayer().eachLayer( function ( item ) {
       if(item["updateIconSize"]) item.updateIconSize( Map.getInstance().getZoom() );
@@ -295,6 +309,9 @@ MapMapbox=L.mapbox.Map.extend({
   },
   getTextLayer: function () {
     return this.layers[4];
+  },
+  getPhotoLayer: function () {
+    return this.layers[5];
   },
 
   showClosingVertex: function(){
@@ -377,6 +394,7 @@ MapMapbox=L.mapbox.Map.extend({
     $( Map.getInstance().controls[Map.CTRL_LINE_BT].actions ).hide();
 
     $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
+    Map.getInstance().controls[Map.CTRL_PRINT].showControls();
 
     this.unsetSelected();
     if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();

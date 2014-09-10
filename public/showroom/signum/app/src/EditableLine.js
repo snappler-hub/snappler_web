@@ -39,7 +39,12 @@ EditableLine = L.Polyline.extend( {
           text: 'Eliminar segmento',
           icon:'app/assets/images/remove.svg',
           callback: function(e) {
-              self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
+            vex.dialog.confirm({
+              message: "¿Esta seguro de eliminar este segmento?",
+              callback: function() {
+                self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
+              }
+            });
             }
         }
       ]

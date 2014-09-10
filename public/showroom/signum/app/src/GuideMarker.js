@@ -78,8 +78,10 @@ GuideMarker = L.Marker.extend( {
     this.setIcon( newIcon );
   },
   updateIconSize: function ( currentZoom ) {
-    var newSize=this.property.newMarker.scaleSize(currentZoom);
-    this._doResize( new L.Point( newSize, newSize )  );
+    if(this.property.newMarker){
+      var newSize=this.property.newMarker.scaleSize(currentZoom);
+      this._doResize( new L.Point( newSize, newSize )  );
+    }
   },
 
   close:function(){

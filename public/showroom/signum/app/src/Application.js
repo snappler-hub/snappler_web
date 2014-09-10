@@ -26,6 +26,7 @@ Application.setCrosshairCursor = function () {
 
 Application.showKnobRotator = function () {
   var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
+
   Application.knobRotator = $( '<input/>' ).val( Application.workingTarget.property.angleRotated );
   Application.knobRotator.knob( {
     'cursor': 15,
@@ -72,7 +73,7 @@ Application.showResizeControl = function () {
       Application.workingTarget._doResize( L.point( ui.size.width, ui.size.height ) );
 
       var ll = Map.getInstance().containerPointToLatLng( L.point( ui.position.left + Application.workingTarget.property.currentSize.x / 2,
-          ui.position.top + Application.workingTarget.property.currentSize.y / 2 ) );
+                                                                  ui.position.top + Application.workingTarget.property.currentSize.y / 2 ) );
 
       Application.workingTarget.setLatLng( ll );
     }
@@ -116,6 +117,8 @@ Application.startWork = function ( work, target ) {
       Map.getInstance().once( 'focused', Application.showKnobRotator );
       break;
     case 'resize':
+      Application._lastRotation= Application.workingTarget.property.angleRotated;
+      Application.workingTarget.rotate(0);
       Map.getInstance().once( 'focused', Application.showResizeControl );
       break;
     default:
@@ -130,6 +133,8 @@ Application.finishWork = function () {
       break;
     case 'resize':
       Application.hideResizeControl();
+      Application.workingTarget.rotate(Application._lastRotation);
+      Application._lastRotation=undefined;
       break;
     default: break;
   }

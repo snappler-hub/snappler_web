@@ -42,7 +42,7 @@ body {
   font-size: 12px;
   text-align: left;
   border-collapse: separate;
-  overflow: scroll;
+  overflow: hidden;
   margin-left: auto;
   margin-right: auto;
   min-width: 100%;
@@ -157,6 +157,9 @@ body {
 .leaflet-control-polygon-interior {
   background-image: url("images/polygon.svg");
   /*display:none;*/
+}
+.leaflet-control-print-interior {
+  background-image: url("images/print.svg");
 }
 
 .leaflet-control-topbar-hide-interior {
@@ -302,16 +305,19 @@ body {
 }
 
 .textMarker div{
+  text-align: center;
   background: transparent;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   border-radius: 7px;
+  /*border:1px solid black;*/
+
 /*  -moz-box-shadow: 0 3px 10px #888;
   -webkit-box-shadow: 0 3px 14px #999;
   box-shadow: 0 3px 10px #888;*/
   display: block;
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-  padding: 4px 6px;
+  padding: 2px 6px;
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -414,3 +420,13 @@ body {
     .leaflet-sidebar { width: 380px; }
     .leaflet-sidebar.right.visible ~ .leaflet-right { right: 380px; }
    }
+
+.print-overlay{
+  font: 0px/0px 'Helvetica Neue',Arial,Helvetica,sans-serif;
+  /*overflow:hidden;*/
+}
+
+.print-overlay img{
+  margin:0!important;
+  padding:0!important;
+}

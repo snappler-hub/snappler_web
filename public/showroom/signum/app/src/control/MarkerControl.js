@@ -12,6 +12,14 @@ $( '.marker' ).on( 'click', function () {
   $( '#map' ).css( "cursor", "none" );
 } );
 
+$('.image-marker').on('click', function(){
+  Map.getInstance().cancelCurrentTool();
+
+  Map.getInstance().setCurrentTool(new GuideImageMarker( Map.getInstance().getZoom() ));
+
+  Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].sidebarSelector="#sidebar .fotos";
+});
+
 $('.photo-marker').on('click', function(){
   Map.getInstance().cancelCurrentTool();
 

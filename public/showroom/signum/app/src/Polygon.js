@@ -6,9 +6,9 @@ Polygon = L.Polygon.extend( {
   initialize: function () {
     var polygonOptions = {
       stroke: true,
-      color: '#bada55',
+      color: '#c1c1c1',
       weight: 4,
-      opacity: 0.8,
+      opacity: 0.5,
       fill: true,
       clickable: true,
       contextmenu: true,

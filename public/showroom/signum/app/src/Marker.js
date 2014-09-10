@@ -163,7 +163,7 @@ Marker = L.Marker.extend( {
         icon:'app/assets/images/remove.svg',
         callback: function ( ) {
           vex.dialog.confirm({
-            message: "Esta seguro de eliminar este marcador",
+            message: "¿Esta seguro de eliminar este marcador?",
             callback: function() {
               self.removeMarker( );
             }
@@ -476,6 +476,7 @@ Marker = L.Marker.extend( {
     var lm = new TextMarker( this, {text: 'TRF-12JPV', title: '300kVA'}, Map.getInstance().getZoom() );
     this.property._labelMarkers.push(lm);
     lm.toggle();
+    lm.updateIconSize(Map.getInstance().getZoom());
   },
 
   removeLabels:function(){
@@ -500,6 +501,7 @@ Marker.BASE_SIZE = [48, 48];
 Marker.BASE_ANCHOR = [Marker.BASE_SIZE[0] / 3, Marker.BASE_SIZE[0] / 3];
 
 Marker.MIN_SIZE = Marker.BASE_SIZE[0] / 2;
+Marker.MAX_SIZE = Marker.BASE_SIZE[0] * 32;
 
 Marker.SIZE_TABLE={
   "15": undefined,

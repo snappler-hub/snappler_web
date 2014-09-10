@@ -3,10 +3,18 @@
  */
 VertexIndicator=L.Marker.extend({
   s:{
+    "11":16,
+    "12":16,
+    "13":16,
+    "14":16,
     "15":16,
     "16":16,
-    "17":16,
-    "18":32
+    "17":32,
+    "18":32,
+    "19":32,
+    "20":32,
+    "21":64,
+    "22":64
   },
 
   initialize:function(lineOwner, latlng, i, markerBinded, isLimit ){
@@ -31,7 +39,12 @@ VertexIndicator=L.Marker.extend({
           text: 'Eliminar vértice',
           icon:'app/assets/images/remove.svg',
           callback: function(){
-            self.remove();
+            vex.dialog.confirm({
+              message: "¿Esta seguro de eliminar este vertice?",
+              callback: function() {
+                self.remove( );
+              }
+            });
           }
         }]
     } );

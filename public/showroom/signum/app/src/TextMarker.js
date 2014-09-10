@@ -2,17 +2,22 @@ TextMarker = L.Marker.extend( {
   options: { },
 
   initialize: function ( owner, textObject, zoom ) {
-    var tit=(textObject.title)?'<span style="font-weight: bold;">'+textObject.title+'</span><br/>':'';
-    var text=(textObject.text)?'<span style="font-size:0.9em;">'+textObject.text+'</span>':'';
+    TextMarker.CANT_CREATED++;
 
-    icon = new L.DivIcon( {
-      className: 'textMarker',
-      iconSize: [],
-      iconAnchor: [],
+    var tit=(textObject.title)?'<span class="textmarker-title" style="font-weight: bold;">'+textObject.title+'</span><br/>':'';
+    var text=(textObject.text)?'<span class="textmarker-text">'+textObject.text+'</span>':'';
+
+    var icon = new L.DivIcon( {
+      className: 'textMarker textmarker_'+TextMarker.CANT_CREATED,
+      iconSize: [120, 20],
+      iconAnchor: [60 ,7],
       html: '<div>'+tit+text+'</div>'
     } );
 
-    this.property = {};
+    this.property = {
+      id: TextMarker.CANT_CREATED,
+      angleRotated: 0
+    };
     var self=this;
     var ll;
 
@@ -27,23 +32,34 @@ TextMarker = L.Marker.extend( {
       draggable: true,
       contextmenu: true,
       contextmenuItems: [
+        {separator: true},
+        {
+          text: 'Rotar icono',
+          icon:'app/assets/images/rotate.svg',
+          callback: function ( ) {
+            Application.startWork('rotation', self);
+          }
+        },
         { separator: true },
         {
           text: 'Eliminar etiqueta',
           icon:'app/assets/images/minus.svg',
           callback: function(){
-            self.remove();
+            vex.dialog.confirm({
+              message: "¿Esta seguro de eliminar esta etiqueta?",
+              callback: function() {
+                self.remove( );
+              }
+            });
           }
         }
       ]
     } );
     this._calculateRotation();
 
-    this.property.angleRotated = 0;
-
     if(owner !== undefined ){
       this.property._owner = owner;
-      this.property.distance=L.GeometryUtil.length([owner.getBounds().getNorthEast(), owner.getBounds().getSouthWest()])/2;
+      this.property.distance=L.GeometryUtil.length([owner.getBounds().getNorthEast(), owner.getBounds().getSouthWest()]);
 
       this.property.circle= L.circle( owner.getCenter(), this.property.distance, {
         stroke: true,
@@ -123,7 +139,14 @@ TextMarker = L.Marker.extend( {
     this.property.angleRotated = angle % 360;
     this._calculateRotation();
   },
-  updateIconSize: function ( ) { },
+  updateIconSize: function ( z ) {
+    $('.textmarker_'+this.property.id ).find('div').css('font-size', TextMarker.SIZE_TABLE[z]+"em");
+
+    var size=[eval($('.textmarker_'+this.property.id ).css('width').replace('px','')),
+              eval($('.textmarker_'+this.property.id ).css('height').replace('px',''))];
+
+    this.property.currentSize = new L.Point(size[0],size[1]);
+  },
 
   relocateToOwner:function(){
     var ll = L.latLng(this.property._owner.getCenter().lat - this._distanceToOwner.lat, this.property._owner.getCenter().lng - this._distanceToOwner.lng);
@@ -150,3 +173,16 @@ TextMarker = L.Marker.extend( {
     else this.getBelongingLayer().addLayer( this );
   }
 } );
+
+TextMarker.SIZE_TABLE={
+  "15": 0.5,
+  "16": 0.75,
+  "17": 1,
+  "18": 2,
+  "19": 3,
+  "20": 4,
+  "21": 5,
+  "22": 6
+};
+
+TextMarker.CANT_CREATED = 0;

@@ -1,14 +1,15 @@
 /**
- * Created by snappler on 16/07/14.
+ * Created by snappler on 03/09/14.
  */
 PhotoMarker=Marker.extend({
   initialize:function ( zoom ) {
     var options = {
-      icon: L.AwesomeMarkers.icon({
-        prefix:'fa',
-        icon: 'picture-o',
-        markerColor: 'green'
-      }),
+      icon: new L.DivIcon( {
+        className: 'photo-marker',
+        iconSize: PhotoMarker.BASE_SIZE,
+        iconAnchor: PhotoMarker.BASE_ANCHOR,
+        html: '<img src="app/assets/images/img.jpg" width="'+PhotoMarker.BASE_SIZE[0]+'" height="'+PhotoMarker.BASE_SIZE[1]+'"/>'
+      } ),
       draggable: true,
       contextmenu: true,
       contextmenuItems: [ ]
@@ -20,9 +21,10 @@ PhotoMarker=Marker.extend({
 
     this.property={
       angleRotated : 0,
+      size_table: Util.clone(PhotoMarker.SIZE_TABLE),
 
-      iconSize : Marker.BASE_SIZE.clone(),
-      currentSize: new L.Point( Marker.BASE_SIZE[0], Marker.BASE_SIZE[0] ) ,
+      iconSize : PhotoMarker.BASE_SIZE.clone(),
+      currentSize: new L.Point( PhotoMarker.BASE_SIZE[0], PhotoMarker.BASE_SIZE[1] ) ,
 
       border:undefined,
 
@@ -36,7 +38,7 @@ PhotoMarker=Marker.extend({
     return this;
   },
   getBelongingLayer:function(){
-    return Map.getInstance().getMarkerLayer();
+    return Map.getInstance().getPhotoLayer();
   },
   attachEvents:function(){
     Marker.prototype.attachEvents.call(this);
@@ -44,12 +46,33 @@ PhotoMarker=Marker.extend({
     this.off('dragstart');
     this.off('drag');
     this.off('dragend');
+
+
+    this.on( 'dragend', function ( e ) {
+      this._calculateRotation();
+    });
   },
   defineContextMenuItems:function(options){
     var self = this;
     options.contextmenuItems = [
       {separator: true},
-      { text: '<b>Imagen</b>' },
+      { text: '<b>Foto</b>' },
+      {
+        text: 'Ajustar tamaño',
+        icon:'app/assets/images/expand.svg',
+        callback: function ( ) {
+          Application.startWork('resize', self);
+        }
+      },
+      {separator: true},
+      {
+        text: 'Rotar icono',
+        icon:'app/assets/images/rotate.svg',
+        callback: function ( ) {
+          Application.startWork('rotation', self);
+        }
+      },
+      {separator: true},
       {
         text: 'Ver imagen',
         icon:'app/assets/images/image.svg',
@@ -61,7 +84,12 @@ PhotoMarker=Marker.extend({
         text: 'Eliminar imagen',
         icon:'app/assets/images/remove.svg',
         callback: function ( ) {
-          self.removeMarker( );
+          vex.dialog.confirm({
+            message: "¿Esta seguro de eliminar este marcador?",
+            callback: function() {
+              self.removeMarker( );
+            }
+          });
         }
       }
     ]
@@ -74,11 +102,33 @@ PhotoMarker=Marker.extend({
 
   onMarkerClick:function(e){
     Marker.prototype.onMarkerClick.call(this,e);
-    Application.showFancyBox(this.property.image);
+//    Application.showFancyBox(this.property.image);
   },
+  setBorder:function(){
+    this.property.border=undefined;
+  },
+  updateIconSize: function(z){},
 
+  _doResize: function ( newIconSize ) {
+    this.property.size_table[Map.getInstance().getZoom()]=newIconSize.x;
+    this.property.currentSize = newIconSize;
 
-  updateIconSize: L.Util.falseFn,
+    // adjust the icon anchor to the new size
+    var newIconAnchor = new L.Point( Math.round( this.property.currentSize.x / 2 ), Math.round( this.property.currentSize.y / 2 ) );
+
+    // finally, declare a new icon and update the marker
+    var oldIconOptions = this.options.icon.options;
+    oldIconOptions.iconSize = this.property.currentSize;
+    oldIconOptions.iconAnchor = newIconAnchor;
+
+    srcAttr = $( oldIconOptions.html ).filter( 'img' ).attr( 'src' );
+
+    oldIconOptions.html = '<img src="' + srcAttr + '" style="width:' + this.property.currentSize.x + 'px; height:' + this.property.currentSize.x + 'px;"/>'
+
+    var newIcon = new L.DivIcon( oldIconOptions );
+
+    this.setIcon( newIcon );
+  },
   handleCtrlLeft:L.Util.falseFn,
   handleCtrlRight:L.Util.falseFn,
   handleCtrlUp:L.Util.falseFn,
@@ -93,3 +143,18 @@ PhotoMarker=Marker.extend({
   showLabels:L.Util.falseFn,
   hideLabels:L.Util.falseFn
 });
+
+PhotoMarker.BASE_SIZE = [100, 100];
+PhotoMarker.BASE_ANCHOR = [PhotoMarker.BASE_SIZE[0] / 2, PhotoMarker.BASE_SIZE[0] / 2];
+
+
+PhotoMarker.SIZE_TABLE={
+  "15": undefined,
+  "16": PhotoMarker.BASE_SIZE[0]/2,
+  "17": PhotoMarker.BASE_SIZE[0],
+  "18": PhotoMarker.BASE_SIZE[0]*2,
+  "19": PhotoMarker.BASE_SIZE[0]*4,
+  "20": PhotoMarker.BASE_SIZE[0]*8,
+  "21": PhotoMarker.BASE_SIZE[0]*16,
+  "22": PhotoMarker.BASE_SIZE[0]*32
+};

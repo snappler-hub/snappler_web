@@ -49,6 +49,21 @@ KeyboardHandler= L.Class.extend({
     key('ctrl+down', this.handleCtrlDown );
     key('ctrl+left', this.handleCtrlLeft );
     key('ctrl+right', this.handleCtrlRight );
+
+    //DISABLE BROWSER FONT RESIZE
+    $(document).on('keydown', function(event){
+      if(event.ctrlKey) {
+        switch(event.key){
+          case "+":
+          case "-":
+          case "0":
+            event.preventDefault();
+            break;
+          default:
+            break;
+        }
+      }
+    });
   },
   handleEsc:function(){
     Map.getInstance().cancelCurrentTool();

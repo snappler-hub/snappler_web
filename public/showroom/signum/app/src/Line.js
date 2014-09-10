@@ -91,7 +91,12 @@ Line = L.Polyline.extend( {
         text: 'Eliminar linea',
         icon:'app/assets/images/remove.svg',
         callback: function(){
-          self.removeLine(true);
+          vex.dialog.confirm({
+            message: "¿Esta seguro de eliminar esta linea?",
+            callback: function() {
+              self.removeLine(true);
+            }
+          });
         }
       }
     ];
