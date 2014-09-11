@@ -4,7 +4,18 @@ Implements the Mapfish print protocol allowing a Leaflet map to be printed using
 
 This plugin is inspired by the printing features of the [GeoExt]( http://geoext.org/lib/GeoExt/data/PrintProvider.html) library. It also borrows from the visual style of the [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw) plugin.
 
-See the [demo](http://aratcliffe.github.io/Leaflet.print/examples/index.html).
+Currently the following layer types are supported:
+
+* Marker
+* TileLayer
+* TileLayer.WMS
+* Mapbox.TileLayer
+* ImageOverlay
+* Polyline
+* MultiPolyline
+* Polygon
+* MultiPolygon
+* Circle
 
 *Requires Leaflet 0.6.0 or newer and jQuery.*
 
@@ -49,6 +60,7 @@ Print Provider Options:
 | rotation | Number | `0` | The rotation of the page.
 | customParams | Object | `{}`| Key value pairs of additional parameters that will be sent to the print service.
 | listeners | Object | `undefined` | A set of type/listener pairs, the function context can be passed using the "context" property of the event map e.g. `{beforeprint: onBeforePrint, print: onPrint, context: window}.
+| legends | Bool | `false` | Should WMS legends be generated for all WMS layers? Note that layers with multiple symbols (eg. classified layers) may not work well with MapFish's legend by default. 
 
 Print Control Options:
 
@@ -160,7 +172,6 @@ Fired when the provider's `rotation` value is changed via `setRotation()`.
 
 * dashArray style cannot be easily mapped onto OpenLayers `strokeDashstyle` constants so is not supported.
 * `Marker` shadow is not drawn.
-* `Circle` and `CircleMarker` layers are rendered as points as that's the geometry that their `toGeoJSON()` method returns.
 * Rectangle layer does not provide a `toGeoJSON()` method so is not supported.
 
 ##License

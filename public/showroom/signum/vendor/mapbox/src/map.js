@@ -31,7 +31,9 @@ var LMap = L.Map.extend({
     _tilejson: {},
 
     initialize: function(element, _, options) {
-        L.Map.prototype.initialize.call(this, element, options);
+
+        L.Map.prototype.initialize.call(this, element,
+            L.extend({}, L.Map.prototype.options, options));
 
         // disable the default 'Leaflet' text
         if (this.attributionControl) this.attributionControl.setPrefix('');
@@ -123,7 +125,7 @@ var LMap = L.Map.extend({
         }
 
         if (!this._loaded && json.center) {
-            var zoom = json.center[2],
+            var zoom = this.getZoom() !== undefined ? this.getZoom() : json.center[2],
                 center = L.latLng(json.center[1], json.center[0]);
 
             this.setView(center, zoom);
