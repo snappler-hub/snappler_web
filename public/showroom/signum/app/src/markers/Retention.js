@@ -12,6 +12,6 @@ Retention=Marker.extend( {
 
   scaleSize: function ( currentZoom ) {
     var tmp_size=Marker.prototype.scaleSize.call( this, currentZoom );
-    return (tmp_size===undefined)? Marker.BASE_SIZE[0] : tmp_size;
+    return (tmp_size===undefined)? 0 : tmp_size;
   }
 } );
