@@ -153,6 +153,26 @@ Application.finishWork = function () {
 
     Application.workingOn = undefined;
     Application.workingTarget = undefined;
+  }else{
+    if(Application._polyTarget!==undefined){
+      Map.getInstance().off('mousemove', Application._onMapMouseMove);
+      Map.getInstance().off('click', Application._onMapClick);
+
+      Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
+      $( ".leaflet-control-topbar" ).css( "display", "block" );
+      $( ".leaflet-control-sidebar" ).css( "display", "block" );
+
+      Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
+
+      Map.getInstance().enableContextMenu();
+
+      if(Application._polyPhantom!==undefined)
+        Map.getInstance().getAuxLayer().removeLayer(Application._polyPhantom);
+
+      Application._polyTarget=undefined;
+      Application._polyPhantom=undefined;
+      Application._polyLastCenter=undefined;
+    }
   }
 };
 
@@ -202,4 +222,62 @@ Application.printMap=function(){
 //    $('.preview-pane').attr('src', string);
     window.open(string);
   });
+};
+
+Application._move=function(poly, phantom){
+
+  Map.getInstance().controls[Map.CTRL_CURSOR].showEndRotation();
+  Map.getInstance().disableContextMenu();
+
+  Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].hide();
+  $( ".leaflet-control-topbar" ).css( "display", "none" );
+
+  Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();
+  $( ".leaflet-control-sidebar" ).css( "display", "none" );
+
+  Application._polyTarget=poly;
+  Application._polyLastCenter=poly.getBounds().getCenter();
+
+  Application._polyPhantom = phantom;
+
+  Map.getInstance().getAuxLayer().addLayer(Application._polyPhantom);
+
+  Map.getInstance().on('mousemove', Application._onMapMouseMove);
+  Map.getInstance().on('click', Application._onMapClick);
+};
+Application.moveCircle=function(circle){
+  Application._move(circle, new L.Circle(circle.getLatLng(), circle.getRadius(),{
+    color:"#0000ff",
+    dashArray:[5, 10],
+    fill:false
+  }));
+};
+Application.movePolygon=function(poly){
+  Application._move(poly, new L.Polygon(poly.getLatLngs(), {
+    color:"#0000ff",
+    dashArray:[5, 10],
+    fill:false
+  }));
+};
+Application._onMapClick=function(e){
+  Map.getInstance().off('mousemove', Application._onMapMouseMove);
+  Map.getInstance().off('click', Application._onMapClick);
+
+
+  if(typeof Application._polyPhantom.setLatLngs === "function")
+    Application._polyTarget.setLatLngs(Application._polyPhantom.getLatLngs());
+  else
+    Application._polyTarget.setLatLng(Application._polyPhantom.getLatLng());
+
+  Map.getInstance().getAuxLayer().removeLayer(Application._polyPhantom);
+
+  Application.finishWork();
+};
+Application._onMapMouseMove=function(e){
+  if(typeof Application._polyPhantom.setLatLngs === "function")
+    Application._polyPhantom.setLatLngs(Util.relocateCoords(Application._polyLastCenter, e.latlng, Application._polyPhantom.getLatLngs()));
+  else
+    Application._polyPhantom.setLatLng(Util.relocateCoords(Application._polyLastCenter, e.latlng, Application._polyPhantom.getLatLng()));
+
+  Application._polyLastCenter=e.latlng;
 };

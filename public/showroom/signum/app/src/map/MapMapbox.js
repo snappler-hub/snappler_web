@@ -292,6 +292,7 @@ MapMapbox=L.mapbox.Map.extend({
     $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
   },
   _onContextMenuShow:function(e){
+    this.cancelCurrentTool();
     if(e.relatedTarget!==undefined) Map.getInstance().setSelected(e.relatedTarget);
   },
 
@@ -398,7 +399,7 @@ MapMapbox=L.mapbox.Map.extend({
 
     this.unsetSelected();
     if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();
-    if(Application.workingTarget!== undefined) Application.finishWork();
+    if((Application.workingTarget!== undefined) || (Application._polyTarget!==undefined)) Application.finishWork();
 
     Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();
 

@@ -8,7 +8,7 @@ Line = L.Polyline.extend( {
       fill: false,
       clickable: true,
       contextmenu: true,
-      contextmenuItems: [ ]
+      contextmenuItems: []
     };
     this.description = lineOptions;
 
@@ -39,6 +39,8 @@ Line = L.Polyline.extend( {
     this.on('unselected',this.unmarkSelected);
     this.on('dblclick', this.onLineDblClick);
 
+    this.on('mouseover', this.onMouseOver);
+    this.on('mouseout', this.onMouseOut);
     return this;
   },
 
@@ -47,7 +49,7 @@ Line = L.Polyline.extend( {
   },
   defineContextMenuItems: function ( options ) {
     var self = this;
-    options.contextmenuItems = [
+    options.contextmenuItems = Map.getInstance().options.contextmenuItems.concat( [
       {
         separator: true
       },
@@ -73,20 +75,20 @@ Line = L.Polyline.extend( {
           self.removeLabels();
         }
       },
-/*      {
-        text: 'Mostrar etiquetas asociadas',
-        icon:'app/assets/images/eye.svg',
-        callback: function(){
-          self.showLabels();
-        }
-      },
-      {
-        text: 'Ocultar etiquetas asociadas',
-        icon:'app/assets/images/eye-blocked.svg',
-        callback: function(){
-          self.hideLabels();
-        }
-      },*/
+      /*      {
+       text: 'Mostrar etiquetas asociadas',
+       icon:'app/assets/images/eye.svg',
+       callback: function(){
+       self.showLabels();
+       }
+       },
+       {
+       text: 'Ocultar etiquetas asociadas',
+       icon:'app/assets/images/eye-blocked.svg',
+       callback: function(){
+       self.hideLabels();
+       }
+       },*/
       {
         text: 'Eliminar linea',
         icon:'app/assets/images/remove.svg',
@@ -99,7 +101,7 @@ Line = L.Polyline.extend( {
           });
         }
       }
-    ];
+    ] );
   },
 
   _continueLineFrom: function(from){
@@ -133,7 +135,7 @@ Line = L.Polyline.extend( {
 
   removeLine: function ( deleteLine ) {
     this.removeBorder();
-    
+
     deleteLine = (deleteLine===undefined)? true: deleteLine;
     Map.getInstance().getAuxLayer().removeLayer( this.startVertex );
     Map.getInstance().getAuxLayer().removeLayer( this.lastVertex );
@@ -210,6 +212,14 @@ Line = L.Polyline.extend( {
       Map.getInstance().hideConnectorVertexOfLines();
     }
   },
+  onMouseOver:function(){
+    this.property.options.weight *=2;
+    this.setStyle( this.property.options );
+  },
+  onMouseOut:function(){
+    this.property.options.weight /=2;
+    this.setStyle( this.property.options );
+  },
   onLineClick: function ( e ) {
 //    Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
   },
@@ -229,7 +239,7 @@ Line = L.Polyline.extend( {
   },
   updateWeigth: function ( z ) {
     /*this.property.options.weight = Math.pow( 2, Math.floor( (z / 2) ) - 7 );
-    this.setStyle( this.property.options );*/
+     this.setStyle( this.property.options );*/
   },
 
   updateStartVertex: function () {
@@ -337,8 +347,8 @@ Line = L.Polyline.extend( {
 
 Line._getIndexesSegment = function ( line, point ) {
   var pts = line.getLatLngs(),
-      segments=[],
-      res=[];
+    segments=[],
+    res=[];
   for ( var i = 1; i <= pts.length - 1; i++ ){
     var lat_is_in=point.lat.between(pts[i - 1].lat, pts[i].lat);
     var lng_is_in=point.lng.between(pts[i - 1].lng, pts[i].lng);

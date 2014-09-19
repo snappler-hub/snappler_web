@@ -6,7 +6,7 @@ Rectangle = L.Rectangle.extend( {
   initialize: function () {
     var options= {
       stroke: true,
-        color: "#ff7800",
+        color: "#c1c1c1",
         weight: 4,
         opacity: 0.8,
         fill: true,
@@ -47,6 +47,15 @@ Rectangle = L.Rectangle.extend( {
       },
       {
         text: '<b>'+this.property.name+'</b>'
+      },
+      {
+        separator: true
+      },
+      {
+        text: 'Mover lote',
+        callback: function ( ) {
+          Application.movePolygon(self);
+        }
       },
       {
         text: 'Eliminar lote',

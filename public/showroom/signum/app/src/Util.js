@@ -147,3 +147,19 @@ Util.clipFloat=function(num,dec){
   num = parseFloat(t.substring(0,(t.indexOf(".")+dec+1)));
   return (num);
 };
+
+Util.relocateCoords=function(lastCenter, newCenter, latlngs){
+  if(latlngs instanceof Array){
+    var centerDiff = { lat: lastCenter.lat - newCenter.lat,
+      lng: lastCenter.lng - newCenter.lng};
+
+    var llsTranslated=[];
+    latlngs.forEach(function(ll){
+      llsTranslated.push(L.latLng(ll.lat - centerDiff.lat, ll.lng - centerDiff.lng));
+    });
+
+    return llsTranslated;
+  }else{
+    return newCenter;
+  }
+};

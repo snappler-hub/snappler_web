@@ -33,12 +33,24 @@ Polygon = L.Polygon.extend( {
   },
   defineContextMenuItems: function ( options ) {
   var self = this;
-  options.contextmenuItems = [
+  options.contextmenuItems = Map.getInstance().options.contextmenuItems.concat( [
     {
       separator: true
     },
     {
       text: '<b>'+this.property.name+'</b>'
+    },
+    {
+      separator: true
+    },
+    {
+      text: 'Mover lote',
+      callback: function ( ) {
+        Application.movePolygon(self);
+      }
+    },
+    {
+      separator: true
     },
     {
       text: 'Eliminar lote',
@@ -52,7 +64,7 @@ Polygon = L.Polygon.extend( {
         self.removeLastVertex( ev );
       }
     }
-  ];
+  ]);
 },
 
   containsPoint:function(p){

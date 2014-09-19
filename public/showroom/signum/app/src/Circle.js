@@ -10,7 +10,7 @@ Circle = L.Circle.extend( {
 
     var options= {
       stroke: true,
-        color: '#f06eaa',
+        color: '#c1c1c1',
         weight: 4,
         opacity: 0.5,
         fill: true,
@@ -30,7 +30,7 @@ Circle = L.Circle.extend( {
   },
   defineContextMenuItems: function ( options ) {
     var self = this;
-    options.contextmenuItems = [
+    options.contextmenuItems = Map.getInstance().options.contextmenuItems.concat( [
       {
         separator: true
       },
@@ -38,12 +38,21 @@ Circle = L.Circle.extend( {
         text: '<b>'+this.property.name+'</b>'
       },
       {
+        separator: true
+      },
+      {
+        text: 'Mover lote',
+        callback: function ( ) {
+          Application.moveCircle(self);
+        }
+      },
+      {
         text: 'Eliminar lote',
         callback: function ( e ) {
           self.removePolygon();
         }
       }
-    ];
+    ]);
   },
   _onCircleClick: function(e){
 //    Map.getInstance().setSelected(this);

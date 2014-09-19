@@ -59,7 +59,7 @@ TextMarker = L.Marker.extend( {
 
     if(owner !== undefined ){
       this.property._owner = owner;
-      this.property.distance=L.GeometryUtil.length([owner.getBounds().getNorthEast(), owner.getBounds().getSouthWest()]);
+      this.property.distance=2 * L.GeometryUtil.length([owner.getBounds().getNorthEast(), owner.getBounds().getSouthWest()]);
 
       this.property.circle= L.circle( owner.getCenter(), this.property.distance, {
         stroke: true,
@@ -107,7 +107,7 @@ TextMarker = L.Marker.extend( {
       } );
 
       this.on( 'dragend', function ( e ) {
-        this._calculateRotation();
+        //this._calculateRotation();
 
         if ( Math.round( L.GeometryUtil.length( this.property.line ) ) > this.property.distance ) {
           this.setLatLng( this.property._lastLatLng );
@@ -127,6 +127,12 @@ TextMarker = L.Marker.extend( {
       });
     }
 
+    this.on('rotation', function(){
+      self.dragging.enable();
+    });
+    this.on('dragend', function(){
+      self._calculateRotation();
+    });
     return this;
   },
   getBelongingLayer:function(){
