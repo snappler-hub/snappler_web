@@ -3,6 +3,9 @@ function NodeContainer(node, parent) {
     this.parent = parent;
     this.stack = null;
     this.bounds = null;
+    this.borders = null;
+    this.clip = [];
+    this.backgroundClip = [];
     this.offsetBounds = null;
     this.visible = null;
     this.computedStyles = null;
@@ -10,7 +13,25 @@ function NodeContainer(node, parent) {
     this.backgroundImages = null;
     this.transformData = null;
     this.transformMatrix = null;
+    this.isPseudoElement = false;
+    this.opacity = null;
 }
+
+NodeContainer.prototype.cloneTo = function(stack) {
+    stack.visible = this.visible;
+    stack.borders = this.borders;
+    stack.bounds = this.bounds;
+    stack.clip = this.clip;
+    stack.backgroundClip = this.backgroundClip;
+    stack.computedStyles = this.computedStyles;
+    stack.styles = this.styles;
+    stack.backgroundImages = this.backgroundImages;
+    stack.opacity = this.opacity;
+};
+
+NodeContainer.prototype.getOpacity = function() {
+    return this.opacity === null ? (this.opacity = this.cssFloat('opacity')) : this.opacity;
+};
 
 NodeContainer.prototype.assignStack = function(stack) {
     this.stack = stack;
@@ -28,7 +49,7 @@ NodeContainer.prototype.isElementVisible = function() {
 
 NodeContainer.prototype.css = function(attribute) {
     if (!this.computedStyles) {
-        this.computedStyles = this.computedStyle(null);
+        this.computedStyles = this.isPseudoElement ? this.parent.computedStyle(this.before ? ":before" : ":after") : this.computedStyle(null);
     }
 
     return this.styles[attribute] || (this.styles[attribute] = this.computedStyles[attribute]);
@@ -63,14 +84,27 @@ NodeContainer.prototype.cssFloat = function(attribute) {
 NodeContainer.prototype.fontWeight = function() {
     var weight = this.css("fontWeight");
     switch(parseInt(weight, 10)){
-        case 401:
-            weight = "bold";
-            break;
-        case 400:
-            weight = "normal";
-            break;
+    case 401:
+        weight = "bold";
+        break;
+    case 400:
+        weight = "normal";
+        break;
     }
     return weight;
+};
+
+NodeContainer.prototype.parseClip = function() {
+    var matches = this.css('clip').match(this.CLIP);
+    if (matches) {
+        return {
+            top: parseInt(matches[1], 10),
+            right: parseInt(matches[2], 10),
+            bottom: parseInt(matches[3], 10),
+            left: parseInt(matches[4], 10)
+        };
+    }
+    return null;
 };
 
 NodeContainer.prototype.parseBackgroundImages = function() {
@@ -156,8 +190,8 @@ NodeContainer.prototype.parseTextShadows = function() {
             var s = shadows[i].match(this.TEXT_SHADOW_VALUES);
             results.push({
                 color: s[0],
-                offsetX: s[1] ? s[1].replace('px', '') : 0,
-                offsetY: s[2] ? s[2].replace('px', '') : 0,
+                offsetX: s[1] ? parseFloat(s[1].replace('px', '')) : 0,
+                offsetY: s[2] ? parseFloat(s[2].replace('px', '')) : 0,
                 blur: s[3] ? s[3].replace('px', '') : 0
             });
         }
@@ -212,6 +246,7 @@ NodeContainer.prototype.getValue = function() {
 NodeContainer.prototype.MATRIX_PROPERTY = /(matrix)\((.+)\)/;
 NodeContainer.prototype.TEXT_SHADOW_PROPERTY = /((rgba|rgb)\([^\)]+\)(\s-?\d+px){0,})/g;
 NodeContainer.prototype.TEXT_SHADOW_VALUES = /(-?\d+px)|(#.+)|(rgb\(.+\))|(rgba\(.+\))/g;
+NodeContainer.prototype.CLIP = /^rect\((\d+)px,? (\d+)px,? (\d+)px,? (\d+)px\)$/;
 
 function selectionValue(node) {
     var option = node.options[node.selectedIndex || 0];
@@ -264,55 +299,54 @@ function parseBackgrounds(backgroundImage) {
             return;
         }
         switch(c) {
-            case '"':
-                if(!quote) {
-                    quote = c;
-                }
-                else if(quote === c) {
-                    quote = null;
-                }
+        case '"':
+            if(!quote) {
+                quote = c;
+            } else if(quote === c) {
+                quote = null;
+            }
+            break;
+        case '(':
+            if(quote) {
                 break;
-            case '(':
-                if(quote) {
-                    break;
-                } else if(mode === 0) {
-                    mode = 1;
+            } else if(mode === 0) {
+                mode = 1;
+                block += c;
+                return;
+            } else {
+                numParen++;
+            }
+            break;
+        case ')':
+            if (quote) {
+                break;
+            } else if(mode === 1) {
+                if(numParen === 0) {
+                    mode = 0;
                     block += c;
-                    return;
-                } else {
-                    numParen++;
-                }
-                break;
-            case ')':
-                if (quote) {
-                    break;
-                } else if(mode === 1) {
-                    if(numParen === 0) {
-                        mode = 0;
-                        block += c;
-                        appendResult();
-                        return;
-                    } else {
-                        numParen--;
-                    }
-                }
-                break;
-
-            case ',':
-                if (quote) {
-                    break;
-                } else if(mode === 0) {
                     appendResult();
                     return;
-                } else if (mode === 1) {
-                    if (numParen === 0 && !method.match(/^url$/i)) {
-                        args.push(definition);
-                        definition = '';
-                        block += c;
-                        return;
-                    }
+                } else {
+                    numParen--;
                 }
+            }
+            break;
+
+        case ',':
+            if (quote) {
                 break;
+            } else if(mode === 0) {
+                appendResult();
+                return;
+            } else if (mode === 1) {
+                if (numParen === 0 && !method.match(/^url$/i)) {
+                    args.push(definition);
+                    definition = '';
+                    block += c;
+                    return;
+                }
+            }
+            break;
         }
 
         block += c;
@@ -338,15 +372,14 @@ function asFloat(str) {
 function getBounds(node) {
     if (node.getBoundingClientRect) {
         var clientRect = node.getBoundingClientRect();
-        var isBody = node.nodeName === "BODY";
-        var width = isBody ? node.scrollWidth : (node.offsetWidth == null ? clientRect.width : node.offsetWidth);
+        var width = node.offsetWidth == null ? clientRect.width : node.offsetWidth;
         return {
             top: clientRect.top,
             bottom: clientRect.bottom || (clientRect.top + clientRect.height),
             right: clientRect.left + width,
             left: clientRect.left,
             width:  width,
-            height: isBody ? node.scrollHeight : (node.offsetHeight == null ? clientRect.height : node.offsetHeight)
+            height: node.offsetHeight == null ? clientRect.height : node.offsetHeight
         };
     }
     return {};

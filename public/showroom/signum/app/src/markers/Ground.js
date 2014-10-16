@@ -7,6 +7,7 @@ Ground=Marker.extend( {
       name:"Puesto a tierra"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Ground';
     return this;
   },
 

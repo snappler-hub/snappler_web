@@ -1,3 +1,12 @@
+## v2.1.2
+
+* Fix empty string marker-symbol value
+
+## v2.1.1
+
+* Fix integer 0 marker-symbol value (#879)
+* Fix share URLs (#877)
+
 ## v2.1.0
 
 * Introduces an `autocomplete` option that dynamically displays results from geocoding (#868)

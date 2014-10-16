@@ -41,8 +41,9 @@ VertexIndicator=L.Marker.extend({
           callback: function(){
             vex.dialog.confirm({
               message: "¿Esta seguro de eliminar este vertice?",
-              callback: function() {
-                self.remove( );
+              callback: function(answer) {
+                if(answer)
+                  self.remove( );
               }
             });
           }

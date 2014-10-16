@@ -1,13 +1,15 @@
 function CanvasRenderer(width, height) {
     Renderer.apply(this, arguments);
-    this.canvas = this.document.createElement("canvas");
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.canvas = this.options.canvas || this.document.createElement("canvas");
+    if (!this.options.canvas) {
+        this.canvas.width = width;
+        this.canvas.height = height;
+    }
     this.ctx = this.canvas.getContext("2d");
     this.taintCtx = this.document.createElement("canvas").getContext("2d");
     this.ctx.textBaseline = "bottom";
     this.variables = {};
-    log("Initialized CanvasRenderer");
+    log("Initialized CanvasRenderer with size", width, "x", height);
 }
 
 CanvasRenderer.prototype = Object.create(Renderer.prototype);
@@ -47,9 +49,11 @@ CanvasRenderer.prototype.drawImage = function(imageContainer, sx, sy, sw, sh, dx
     }
 };
 
-CanvasRenderer.prototype.clip = function(shape, callback, context) {
+CanvasRenderer.prototype.clip = function(shapes, callback, context) {
     this.ctx.save();
-    this.shape(shape).clip();
+    shapes.filter(hasEntries).forEach(function(shape) {
+        this.shape(shape).clip();
+    }, this);
     callback.call(context);
     this.ctx.restore();
 };
@@ -57,7 +61,11 @@ CanvasRenderer.prototype.clip = function(shape, callback, context) {
 CanvasRenderer.prototype.shape = function(shape) {
     this.ctx.beginPath();
     shape.forEach(function(point, index) {
-        this.ctx[(index === 0) ? "moveTo" : point[0] + "To" ].apply(this.ctx, point.slice(1));
+        if (point[0] === "rect") {
+            this.ctx.rect.apply(this.ctx, point.slice(1));
+        } else {
+            this.ctx[(index === 0) ? "moveTo" : point[0] + "To" ].apply(this.ctx, point.slice(1));
+        }
     }, this);
     this.ctx.closePath();
     return this.ctx;
@@ -107,7 +115,7 @@ CanvasRenderer.prototype.backgroundRepeatShape = function(imageContainer, backgr
         ["line", Math.round(left + width), Math.round(height + top)],
         ["line", Math.round(left), Math.round(height + top)]
     ];
-    this.clip(shape, function() {
+    this.clip([shape], function() {
         this.renderBackgroundRepeat(imageContainer, backgroundPosition, size, bounds, borderData[3], borderData[0]);
     }, this);
 };
@@ -147,3 +155,7 @@ CanvasRenderer.prototype.resizeImage = function(imageContainer, size) {
     ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, size.width, size.height );
     return canvas;
 };
+
+function hasEntries(array) {
+    return array.length > 0;
+}

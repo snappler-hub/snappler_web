@@ -16,7 +16,8 @@ Polygon = L.Polygon.extend( {
     };
 
     this.property = {
-      name: 'Lote'
+      name: 'Lote',
+      klass:'Polygon'
     };
     this.defineContextMenuItems( polygonOptions );
 
@@ -46,6 +47,7 @@ Polygon = L.Polygon.extend( {
     {
       text: 'Mover lote',
       callback: function ( ) {
+        Map.getInstance().cancelCurrentTool();
         Application.movePolygon(self);
       }
     },
@@ -54,16 +56,22 @@ Polygon = L.Polygon.extend( {
     },
     {
       text: 'Eliminar lote',
-      callback: function ( ) {
-        self.removePolygon();
+      callback: function(){
+        vex.dialog.confirm({
+          message: "¿Esta seguro de eliminar este poligono?",
+          callback: function(answer) {
+            if(answer)
+              self.removePolygon();
+          }
+        });
       }
-    },
+    }/*,
     {
       text: 'Eliminar ultimo punto',
       callback: function ( ev ) {
         self.removeLastVertex( ev );
       }
-    }
+    }*/
   ]);
 },
 

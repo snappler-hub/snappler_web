@@ -7,6 +7,7 @@ Retention=Marker.extend( {
       name:"Retencion"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Retention';
     return this;
   },
 

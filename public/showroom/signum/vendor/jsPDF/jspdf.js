@@ -177,13 +177,18 @@ var jsPDF = (function(global) {
 			k,                  // Scale factor
 			tmp,
 			page = 0,
+			currentPage,
 			pages = [],
+			pagedim = {},
 			content = [],
 			lineCapID = 0,
 			lineJoinID = 0,
 			content_length = 0,
 			pageWidth,
 			pageHeight,
+			pageMode,
+			zoomMode,
+			layoutMode,
 			documentProperties = {
 				'title'    : '',
 				'subject'  : '',
@@ -209,7 +214,7 @@ var jsPDF = (function(global) {
 		out = function(string) {
 			if (outToPages) {
 				/* set by beginPage */
-				pages[page].push(string);
+				pages[currentPage].push(string);
 			} else {
 				// +1 for '\n' that will be used to join 'content'
 				content_length += string.length + 1;
@@ -229,7 +234,7 @@ var jsPDF = (function(global) {
 			out('endstream');
 		},
 		putPages = function() {
-			var n,p,arr,i,deflater,adler32,wPt = pageWidth * k, hPt = pageHeight * k, adler32cs;
+			var n,p,arr,i,deflater,adler32,adler32cs,wPt,hPt;
 
 			adler32cs = global.adler32cs || jsPDF.adler32cs;
 			if (compress && typeof adler32cs === 'undefined') {
@@ -240,9 +245,12 @@ var jsPDF = (function(global) {
 
 			for (n = 1; n <= page; n++) {
 				newObject();
+				wPt = (pageWidth = pagedim[n].width) * k;
+				hPt = (pageHeight = pagedim[n].height) * k;
 				out('<</Type /Page');
 				out('/Parent 1 0 R');
 				out('/Resources 2 0 R');
+				out('/MediaBox [0 0 ' + f2(wPt) + ' ' + f2(hPt) + ']');
 				out('/Contents ' + (objectNumber + 1) + ' 0 R>>');
 				out('endobj');
 
@@ -280,7 +288,6 @@ var jsPDF = (function(global) {
 			}
 			out(kids + ']');
 			out('/Count ' + page);
-			out('/MediaBox [0 0 ' + f2(wPt) + ' ' + f2(hPt) + ']');
 			out('>>');
 			out('endobj');
 		},
@@ -604,9 +611,39 @@ var jsPDF = (function(global) {
 		putCatalog = function() {
 			out('/Type /Catalog');
 			out('/Pages 1 0 R');
-			// @TODO: Add zoom and layout modes
-			out('/OpenAction [3 0 R /FitH null]');
-			out('/PageLayout /OneColumn');
+			// PDF13ref Section 7.2.1
+			if (!zoomMode) zoomMode = 'fullwidth';
+			switch(zoomMode) {
+				case 'fullwidth'  : out('/OpenAction [3 0 R /FitH null]');       break;
+				case 'fullheight' : out('/OpenAction [3 0 R /FitV null]');       break;
+				case 'fullpage'   : out('/OpenAction [3 0 R /Fit]');             break;
+				case 'original'   : out('/OpenAction [3 0 R /XYZ null null 1]'); break;
+				default:
+					var pcn = '' + zoomMode;
+					if (pcn.substr(pcn.length-1) === '%')
+						zoomMode = parseInt(zoomMode) / 100;
+					if (typeof zoomMode === 'number') {
+						out('/OpenAction [3 0 R /XYZ null null '+f2(zoomMode)+']');
+					}
+			}
+			if (!layoutMode) layoutMode = 'continuous';
+			switch(layoutMode) {
+				case 'continuous' : out('/PageLayout /OneColumn');      break;
+				case 'single'     : out('/PageLayout /SinglePage');     break;
+				case 'two':
+				case 'twoleft'    : out('/PageLayout /TwoColumnLeft');  break;
+				case 'tworight'   : out('/PageLayout /TwoColumnRight'); break;
+			}
+			if (pageMode) {
+				/**
+				 * A name object specifying how the document should be displayed when opened:
+				 * UseNone      : Neither document outline nor thumbnail images visible -- DEFAULT
+				 * UseOutlines  : Document outline visible
+				 * UseThumbs    : Thumbnail images visible
+				 * FullScreen   : Full-screen mode, with no menu bar, window controls, or any other window visible
+				 */
+				out('/PageMode /' + pageMode);
+			}
 			events.publish('putCatalog');
 		},
 		putTrailer = function() {
@@ -614,14 +651,37 @@ var jsPDF = (function(global) {
 			out('/Root ' + objectNumber + ' 0 R');
 			out('/Info ' + (objectNumber - 1) + ' 0 R');
 		},
-		beginPage = function() {
-			page++;
-			// Do dimension stuff
+		beginPage = function(width,height) {
+			// Dimensions are stored as user units and converted to points on output
+			var orientation = typeof height === 'string' && height.toLowerCase();
+			if (typeof width === 'string') {
+				var format = width.toLowerCase();
+				if (pageFormats.hasOwnProperty(format)) {
+					width  = pageFormats[format][0] / k;
+					height = pageFormats[format][1] / k;
+				}
+			}
+			if (Array.isArray(width)) {
+				height = width[1];
+				width = width[0];
+			}
+			if (orientation) {
+				switch(orientation.substr(0,1)) {
+					case 'l': if (height > width ) orientation = 's'; break;
+					case 'p': if (width > height ) orientation = 's'; break;
+				}
+				if (orientation === 's') { tmp = width; width = height; height = tmp; }
+			}
 			outToPages = true;
-			pages[page] = [];
+			pages[++page] = [];
+			pagedim[page] = {
+				width  : Number(width)  || pageWidth,
+				height : Number(height) || pageHeight
+			};
+			_setPage(page);
 		},
 		_addPage = function() {
-			beginPage();
+			beginPage.apply(this, arguments);
 			// Set line width
 			out(f2(lineWidth * k) + ' w');
 			// Set draw color
@@ -634,6 +694,13 @@ var jsPDF = (function(global) {
 				out(lineJoinID + ' j');
 			}
 			events.publish('addPage', { pageNumber : page });
+		},
+		_setPage = function(n) {
+			if (n > 0 && n <= page) {
+				currentPage = n;
+				pageWidth = pagedim[n].width;
+				pageHeight = pagedim[n].height;
+			}
 		},
 		/**
 		 * Returns a document-specific font key - a label assigned to a
@@ -813,37 +880,6 @@ var jsPDF = (function(global) {
 				throw ('Invalid unit: ' + unit);
 		}
 
-		// Dimensions are stored as user units and converted to points on output
-		if (pageFormats.hasOwnProperty(format_as_string)) {
-			pageHeight = pageFormats[format_as_string][1] / k;
-			pageWidth = pageFormats[format_as_string][0] / k;
-		} else {
-			try {
-				pageHeight = format[1];
-				pageWidth = format[0];
-			} catch (err) {
-				throw new Error('Invalid format: ' + format);
-			}
-		}
-
-		if (orientation === 'p' || orientation === 'portrait') {
-			orientation = 'p';
-			if (pageWidth > pageHeight) {
-				tmp = pageWidth;
-				pageWidth = pageHeight;
-				pageHeight = tmp;
-			}
-		} else if (orientation === 'l' || orientation === 'landscape') {
-			orientation = 'l';
-			if (pageHeight > pageWidth) {
-				tmp = pageWidth;
-				pageWidth = pageHeight;
-				pageHeight = tmp;
-			}
-		} else {
-			throw('Invalid orientation: ' + orientation);
-		}
-
 		//---------------------------------------
 		// Public API
 
@@ -892,8 +928,12 @@ var jsPDF = (function(global) {
 			// through multiplication.
 			'scaleFactor' : k,
 			'pageSize' : {
-				'width' : pageWidth,
-				'height' : pageHeight
+				get width() {
+					return pageWidth
+				},
+				get height() {
+					return pageHeight
+				}
 			},
 			'output' : function(type, options) {
 				return output(type, options);
@@ -913,9 +953,19 @@ var jsPDF = (function(global) {
 		 * @name addPage
 		 */
 		API.addPage = function() {
-			_addPage();
+			_addPage.apply(this, arguments);
 			return this;
 		};
+		API.setPage = function() {
+			_setPage.apply(this, arguments);
+			return this;
+		};
+		API.setDisplayMode = function(zoom, layout, pmode) {
+			zoomMode   = zoom;
+			layoutMode = layout;
+			pageMode   = pmode;
+			return this;
+		},
 
 		/**
 		 * Adds text to page. Supports adding multiline text when 'text' argument is an Array of Strings.
@@ -970,7 +1020,7 @@ var jsPDF = (function(global) {
 				angle = flags;
 				flags = null;
 			}
-			var xtra = '',mode = 'Td';
+			var xtra = '',mode = 'Td', todo;
 			if (angle) {
 				angle *= (Math.PI / 180);
 				var c = Math.cos(angle),
@@ -994,6 +1044,10 @@ var jsPDF = (function(global) {
 				while (len--) {
 					da.push(ESC(sa.shift()));
 				}
+				var linesLeft = Math.ceil((pageHeight - y) * k / (activeFontSize * lineHeightProportion));
+				if (0 <= linesLeft && linesLeft < da.length + 1) {
+					todo = da.splice(linesLeft-1);
+				}
 				text = da.join(") Tj\nT* (");
 			} else {
 				throw new Error('Type of text must be string or Array. "' + text + '" is not recognized.');
@@ -1013,11 +1067,28 @@ var jsPDF = (function(global) {
 				'\n' + xtra + f2(x * k) + ' ' + f2((pageHeight - y) * k) + ' ' + mode + '\n(' +
 				text +
 				') Tj\nET');
+
+			if (todo) {
+				this.addPage();
+				this.text( todo, x, activeFontSize * 1.7 / k);
+			}
+
 			return this;
+		};
+
+		API.lstext = function(text, x, y, spacing) {
+			for (var i = 0, len = text.length ; i < len; i++, x += spacing) this.text(text[i], x, y);
 		};
 
 		API.line = function(x1, y1, x2, y2) {
 			return this.lines([[x2 - x1, y2 - y1]], x1, y1);
+		};
+
+		API.clip = function() {
+			// By patrick-roberts, github.com/MrRio/jsPDF/issues/328
+			// Call .clip() after calling .rect() with a style argument of null
+			out('W') // clip
+			out('S') // stroke path; necessary for clip to work
 		};
 
 		/**
@@ -1675,7 +1746,7 @@ var jsPDF = (function(global) {
 		// Add the first page automatically
 		addFonts();
 		activeFontKey = 'F1';
-		_addPage();
+		_addPage(format, orientation);
 
 		events.publish('initialized');
 		return API;

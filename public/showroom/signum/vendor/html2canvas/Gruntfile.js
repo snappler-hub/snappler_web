@@ -1,5 +1,6 @@
 /*global module:false*/
 var _ =  require('lodash'), path = require('path');
+var proxy = require('html2canvas-proxy');
 
 module.exports = function(grunt) {
 
@@ -8,8 +9,8 @@ module.exports = function(grunt) {
             '<%= pkg.homepage ? " <" + pkg.homepage + ">" : "" %>' + '\n' +
             '  Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>' +
             '\n\n  Released under <%= _.pluck(pkg.licenses, "type").join(", ") %> License\n*/\n',
-        pre: '\n(function(window, document, undefined){\n\n',
-        post: '\n})(window, document);'
+        pre: '\n(function(window, document, module, exports, global, define, undefined){\n\n',
+        post: '\n}).call({}, window, document);'
     };
 
     // Project configuration.
@@ -17,9 +18,6 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        qunit: {
-            files: ['tests/qunit/index.html']
-        },
         concat: {
             dist: {
                 src: [
@@ -54,8 +52,7 @@ module.exports = function(grunt) {
                 options: {
                     port: 8081,
                     base: './',
-                    keepalive: false,
-                    middleware: function(connect, options, middlwares) {
+                    middleware:  function(connect, options) {
                         return [
                             function(req, res, next) {
                                 if (req.url !== '/tests/assets/image2.jpg') {
@@ -64,8 +61,23 @@ module.exports = function(grunt) {
                                 }
                                 res.setHeader("Access-Control-Allow-Origin", "*");
                                 res.end(require("fs").readFileSync('tests/assets/image2.jpg'));
+                            }
+                        ];
+                    }
+                }
+            },
+            proxy: {
+                options: {
+                    port: 8082,
+                    middleware:  function(connect, options) {
+                        return [
+                            function(req, res, next) {
+                                res.jsonp = function(content) {
+                                    res.end(req.query.callback +  "(" + JSON.stringify(content) + ")");
+                                };
+                                next();
                             },
-                            connect.static(options.base[0])
+                            proxy()
                         ];
                     }
                 }
@@ -73,8 +85,7 @@ module.exports = function(grunt) {
             ci: {
                 options: {
                     port: 8080,
-                    base: './',
-                    keepalive: false
+                    base: './'
                 }
             }
         },
@@ -108,6 +119,9 @@ module.exports = function(grunt) {
         jshint: {
             all: ['src/*.js', 'src/renderers/*.js',  '!src/promise.js'],
             options: grunt.file.readJSON('./.jshintrc')
+        },
+        mocha_phantomjs: {
+            all: ['tests/mocha/**/*.html']
         },
         webdriver: {
             chrome: {
@@ -165,17 +179,17 @@ module.exports = function(grunt) {
         });
     });
 
+    grunt.loadNpmTasks('grunt-mocha-phantomjs');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-execute');
 
-    grunt.registerTask('server', ['connect:cors', 'connect']);
+    grunt.registerTask('server', ['connect:cors', 'connect:proxy', 'connect:server']);
     grunt.registerTask('build', ['execute', 'concat', 'uglify']);
-    grunt.registerTask('default', ['jshint', 'build', 'qunit']);
-    grunt.registerTask('travis', ['jshint', 'build','qunit', 'connect:ci', 'connect:cors', 'webdriver']);
+    grunt.registerTask('default', ['jshint', 'build', 'mocha_phantomjs']);
+    grunt.registerTask('travis', ['jshint', 'build','mocha_phantomjs', 'connect:ci', 'connect:proxy', 'connect:cors', 'webdriver']);
 
 };

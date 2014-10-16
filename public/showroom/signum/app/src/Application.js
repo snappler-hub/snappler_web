@@ -93,7 +93,6 @@ Application.hideResizeControl = function () {
 //  $('.'+Application.workingTarget.property.id ).resizable( "destroy" );
   Application.resizeControl.resizable( "destroy" );
   Application.resizeControl.remove();
-
 };
 Application.startWork = function ( work, target ) {
   Application.workingOn = work;
@@ -132,6 +131,12 @@ Application.finishWork = function () {
       Application.hideKnobRotator();
       break;
     case 'resize':
+      Application.hideResizeControl();
+      Application.workingTarget.rotate(Application._lastRotation);
+      Application._lastRotation=undefined;
+      break;
+    case 'resize-text-marker':
+      Application.workingTarget.dragging.enable();
       Application.hideResizeControl();
       Application.workingTarget.rotate(Application._lastRotation);
       Application._lastRotation=undefined;
@@ -192,14 +197,21 @@ Application.showFancyBox=function (image){
 };
 
 Application.prompt=function(message, returnedString){
-  return prompt(message);
-  /*vex.dialog.prompt({
-    message: message
-  })
-    .bind('vexClose', function(a, b) {
-      return b.value;
+//  return prompt(message);
+
+  var defer = $.Deferred();
+  vex.dialog.open({
+    message: message,
+    input: '<textarea id="promptTextArea" name="promptTextArea" ></textarea>',
+    callback:function(value){
+      if(value!==false)
+        defer.resolve(value.promptTextArea.replaceAll('\n','<br/>'));
+      else
+        defer.resolve(value);
     }
-  );*/
+  });
+
+  return defer.promise();
 };
 
 Application.downloadPDF=function(url){
@@ -213,9 +225,10 @@ Application.downloadPDF=function(url){
 
 };
 
-Application.printMap=function(){
+Application.printMap=function(DOMid){
   if(Application.pdfGenerator===undefined)
     Application.pdfGenerator=new jsPDF('l');
+
 
   Application.pdfGenerator.addHTML(document.getElementById('map'), function() {
     var string = Application.pdfGenerator.output('datauristring');
@@ -280,4 +293,118 @@ Application._onMapMouseMove=function(e){
     Application._polyPhantom.setLatLng(Util.relocateCoords(Application._polyLastCenter, e.latlng, Application._polyPhantom.getLatLng()));
 
   Application._polyLastCenter=e.latlng;
+};
+
+Application.showResizeControlForTextMarker = function (target) {
+  //TODO::REFACTOR!!!
+  Application.workingTarget = target;
+  Application.workingOn = 'resize-text-marker';
+
+  Map.getInstance().controls[Map.CTRL_CURSOR].showEndRotation();
+  Map.getInstance().disableContextMenu();
+
+  Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].hide();
+  $( ".leaflet-control-topbar" ).css( "display", "none" );
+
+  Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();
+  $( ".leaflet-control-sidebar" ).css( "display", "none" );
+
+  Application.workingTarget.dragging.disable();
+
+  /*switch ( Application.workingOn ) {
+    case 'rotation':
+      Map.getInstance().once( 'focused', Application.showKnobRotator );
+      break;
+    case 'resize':
+      Application._lastRotation= Application.workingTarget.property.angleRotated;
+      Application.workingTarget.rotate(0);
+      Map.getInstance().once( 'focused', Application.showResizeControl );
+      break;
+    default:
+      break;
+  }
+  */
+  Map.getInstance().setView( Application.workingTarget.getLatLng() ).fire( 'focused' );
+  /*------------------------------------------------------------------------------------------------------------------*/
+  var point = Map.getInstance().latLngToContainerPoint( Application.workingTarget.getLatLng() );
+
+  Application.resizeControl = $( '<div/>' ).addClass( 'resizable' );
+  Application.resizeControl.resizable( {
+    handles: 'se',
+    aspectRatio: true,
+
+    minWidth: Application.workingTarget.getBaseFontSize()*TextMarker.SIZE_TABLE[15]*Application.workingTarget.getMaxLengthRow(),
+//    minHeight: Application.workingTarget.getBaseFontSize()*TextMarker.SIZE_TABLE[15]*Application.workingTarget.getCantRows(),
+    maxWidth:($('#map').width()/2)-50,
+    maxHeight:($('#map').height()/2)-20,
+    grid: 1,
+    helper: "ui-resizable-helper",
+
+    stop: function ( event, ui ) {
+      var w = (ui.size.width / (Application.workingTarget.getBaseFontSize() * Application.workingTarget.getMaxLengthRow())).toFixed(2);
+
+//      var w = (ui.size.width / Util.getElementFontSize()).toFixed(2);
+      Application.workingTarget._doResize( L.point( w, w ) );
+
+/*      console.log('-----------------------------------------------------------------------');
+      console.log('minWidth:'+ Application.workingTarget.getBaseFontSize()*TextMarker.SIZE_TABLE[15]*Application.workingTarget.getMaxLengthRow());
+      console.log('minHeight:'+ Application.workingTarget.getBaseFontSize()*TextMarker.SIZE_TABLE[15]*Application.workingTarget.getCantRows());
+      console.log('-----------------------------------------------------------------------');
+      console.log('getLength:'+Application.workingTarget.getLength(), 'getMaxLengthRow:'+Application.workingTarget.getMaxLengthRow(), 'getCantRows:'+Application.workingTarget.getCantRows());
+      console.log('getBoxWidth:'+Application.workingTarget.getBoxWidth(), 'getWidth:'+Application.workingTarget.getWidth());
+      console.log('getBoxHeight:'+Application.workingTarget.getBoxHeight(), 'getHeight:'+Application.workingTarget.getHeight());
+      console.log('getCurrentFontSize:'+Application.workingTarget.getCurrentFontSize(), 'getBaseFontSize:'+Application.workingTarget.getBaseFontSize(), 'getClassNameFontSize:'+Application.workingTarget.getClassNameFontSize());
+      console.log(ui.size.width, w);*/
+
+/*      var ll = Map.getInstance().containerPointToLatLng( L.point( ui.position.left - Application.workingTarget.getWidth() / 2,
+                                                                  ui.position.top - Application.workingTarget.getHeight() / 2 ) );
+      Application.workingTarget.setLatLng( ll );*/
+    }
+  } )
+    .css( {'position': 'absolute',
+      'z-index': '2147483647',
+      'width': Application.workingTarget.getBoxWidth(),
+      'height': Application.workingTarget.getBoxHeight(),
+      "left": point.x,
+      "top": point.y
+    } )
+    .insertBefore( '#map' );
+};
+
+Application.initTestTextMarker=function(){
+  var tx = new TextMarker( undefined, {text: '1q2w3e<br/>4r5t6y'} );
+  tx.setLatLng(Map.getInstance().getCenter());
+  tx.getBelongingLayer().addLayer( tx );
+  tx.updateIconSize(Map.getInstance().getZoom());
+//  Application.showResizeControlForTextMarker(tx);
+  return tx;
+};
+
+Application.initSelectionBox=function(){
+  L.DomUtil.disableTextSelection();
+  L.DomUtil.disableImageDrag();
+  Map.getInstance().cancelCurrentTool();
+  Map.getInstance().controls[Map.CTRL_CURSOR].showEndRotation();
+  Map.getInstance().disableContextMenu();
+
+  Map.selectionBoxHandler=new SelectionBoxHandler();
+};
+
+Application.finishSelectionBox=function(){
+  L.DomUtil.enableTextSelection();
+  L.DomUtil.enableImageDrag();
+  Map.getInstance().controls[Map.CTRL_TOOGLE_TOPBAR].show();
+  $( ".leaflet-control-topbar" ).css( "display", "block" );
+  $( ".leaflet-control-sidebar" ).css( "display", "block" );
+
+  Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
+
+  Map.getInstance().enableContextMenu();
+
+  Map.getInstance().controls[Map.CTRL_CURSOR].endMarkerAction();
+
+  Map.selectionBoxHandler.removeBoxSelection();
+  Map.selectionBoxHandler.__removeHandlers();
+  Map.selectionBoxHandler=undefined;
+
 };

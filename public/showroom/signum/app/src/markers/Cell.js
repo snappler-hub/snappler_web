@@ -7,6 +7,7 @@ Cell=Marker.extend( {
       name:"Celda"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Cell';
     return this;
   },
 

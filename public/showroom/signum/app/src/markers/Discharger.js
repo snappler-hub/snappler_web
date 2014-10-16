@@ -7,6 +7,7 @@ Discharger=Marker.extend( {
       name:"Descargadores"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Discharger';
     return this;
   },
 

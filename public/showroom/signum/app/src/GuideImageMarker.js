@@ -14,7 +14,7 @@ GuideImageMarker=GuideMarker.extend({
 
     this.setIcon(L.AwesomeMarkers.icon({
       prefix:'fa',
-      icon: 'picture-o',
+      icon: 'camera',
       markerColor: 'green'
     }));
 //    Map.getInstance().setZoom(Marker.IDEAL_ZOOM);

@@ -4,20 +4,38 @@ TextMarker = L.Marker.extend( {
   initialize: function ( owner, textObject, zoom ) {
     TextMarker.CANT_CREATED++;
 
+    var maxLen=0;
+    textObject.text.split('<br/>').forEach(function(row){
+      maxLen=Math.max(row.length,maxLen);
+    });
+
+    var iconSize={
+      w:maxLen * this.getClassNameFontSize() * TextMarker.SIZE_TABLE[zoom],
+      h:textObject.text.split('<br/>' ).length * this.getClassNameFontSize() * TextMarker.SIZE_TABLE[zoom]
+    };
+
+    this.property = {
+      id: TextMarker.CANT_CREATED,
+      angleRotated: 0,
+      size_table: Util.clone(TextMarker.SIZE_TABLE),
+      textObject:textObject,
+      iconSize:{
+        w:iconSize.w+(Math.floor(iconSize.w/2)),
+        h:iconSize.h+(Math.floor(iconSize.h/3))
+      },
+      klass:'TextMarker'
+    };
+
     var tit=(textObject.title)?'<span class="textmarker-title" style="font-weight: bold;">'+textObject.title+'</span><br/>':'';
     var text=(textObject.text)?'<span class="textmarker-text">'+textObject.text+'</span>':'';
 
     var icon = new L.DivIcon( {
       className: 'textMarker textmarker_'+TextMarker.CANT_CREATED,
-      iconSize: [120, 20],
-      iconAnchor: [60 ,7],
+      iconSize: [this.property.iconSize.w, this.property.iconSize.h],
+      iconAnchor: [Math.floor(this.property.iconSize.w/2), Math.floor(this.property.iconSize.h/3)],
       html: '<div>'+tit+text+'</div>'
     } );
 
-    this.property = {
-      id: TextMarker.CANT_CREATED,
-      angleRotated: 0
-    };
     var self=this;
     var ll;
 
@@ -34,6 +52,14 @@ TextMarker = L.Marker.extend( {
       contextmenuItems: [
         {separator: true},
         {
+          text: 'Ajustar tamaño',
+          icon:'app/assets/images/expand.svg',
+          callback: function ( ) {
+            Application.showResizeControlForTextMarker(self);
+//          Application.showResizeControl( self );
+          }
+        },
+        {
           text: 'Rotar icono',
           icon:'app/assets/images/rotate.svg',
           callback: function ( ) {
@@ -47,8 +73,9 @@ TextMarker = L.Marker.extend( {
           callback: function(){
             vex.dialog.confirm({
               message: "¿Esta seguro de eliminar esta etiqueta?",
-              callback: function() {
-                self.remove( );
+              callback: function(answer) {
+                if(answer)
+                  self.remove( );
               }
             });
           }
@@ -146,12 +173,17 @@ TextMarker = L.Marker.extend( {
     this._calculateRotation();
   },
   updateIconSize: function ( z ) {
-    $('.textmarker_'+this.property.id ).find('div').css('font-size', TextMarker.SIZE_TABLE[z]+"em");
+    this._doResize(new L.Point(this.property.size_table[z], this.property.size_table[z]));
+  },
+  _doResize:function(unitEM){
+    this.property.size_table[Map.getInstance().getZoom()]=unitEM.x;
 
-    var size=[eval($('.textmarker_'+this.property.id ).css('width').replace('px','')),
-              eval($('.textmarker_'+this.property.id ).css('height').replace('px',''))];
+    $('.textmarker_'+this.property.id).find('div').css('font-size', unitEM.x+"em");
 
-    this.property.currentSize = new L.Point(size[0],size[1]);
+//    var size=[eval($('.textmarker_'+this.property.id ).css('width').replace('px','')),eval($('.textmarker_'+this.property.id ).css('height').replace('px',''))];
+//    this.property.currentSize = new L.Point(size[0],size[1]);
+    var size = this.getWidth();
+    this.property.currentSize = new L.Point(size,size);
   },
 
   relocateToOwner:function(){
@@ -177,6 +209,72 @@ TextMarker = L.Marker.extend( {
   toggle: function(){
     if ( this.getBelongingLayer().hasLayer( this ) ) this.getBelongingLayer().removeLayer( this );
     else this.getBelongingLayer().addLayer( this );
+  },
+  getLength:function(){
+    var $this=$('.textmarker_'+this.property.id );
+    return $this.find(' span' ).text().length;
+  },
+  getMaxLengthRow:function(){
+    /* Fila de mayor cantidad de caracteres. */
+    var maxLen=0;
+    this.property.textObject.text.split('<br/>').forEach(function(row){
+      maxLen=Math.max(row.length,maxLen);
+    });
+
+    return maxLen;
+  },
+  getCantRows:function(){
+    /* Cantidad de filas que tiene el TextMarker */
+    return this.property.textObject.text.split('<br/>' ).length;
+  },
+
+  getBoxWidth:function(){
+    /* Ancho real del TexMarker instanciado */
+    var $this=$('.textmarker_'+this.property.id );
+    return $this.width();
+  },
+  getBoxHeight:function(){
+    /* Alto real del TexMarker instanciado */
+    var $this=$('.textmarker_'+this.property.id );
+    return $this.height();
+  },
+  getWidth:function(){
+    /* Ancho maximo del TexMarker instanciado */
+    var maxLen=0;
+    this.property.textObject.text.split('<br/>').forEach(function(row){
+        maxLen=Math.max(row.length,maxLen);
+    });
+
+    var iconSize={
+      w:maxLen * this.getCurrentFontSize()// * this.property.size_table[Map.getInstance().getZoom()],
+    };
+
+    return iconSize.w+(Math.floor(iconSize.w/2));
+//    return this.getLength() * this.getBaseFontSize();
+//    return $this.find(' span' ).width();
+  },
+  getHeight:function(){
+    /* Alto maximo del TexMarker instanciado */
+    var iconSize={
+      h:this.property.textObject.text.split('<br/>' ).length * this.getCurrentFontSize()// * this.property.size_table[Map.getInstance().getZoom()]
+    };
+
+    return iconSize.h+(Math.floor(iconSize.h/3));
+  },
+
+  getCurrentFontSize:function(){
+    /* Font Size del span del TextMarker instanciado en el mapa. Es el FontSize que va cambiando con cada cambio de tamaño (por zoom o resize) */
+    var $this=$('.textmarker_'+this.property.id );
+    return Util.getElementFontSize($this.find(' span' ).get()[0]);
+  },
+  getBaseFontSize:function(){
+    /* Font Size del div que contiene al TextMarker instanciado en el mapa. Es el FontSize que se toma del CSS */
+    var $this=$('.textmarker_'+this.property.id );
+    return Util.getElementFontSize($this.get()[0]);
+  },
+  getClassNameFontSize:function(){
+    /* Font Size de la clase general textMarker, para cuando se inicializa el 1er TextMarker en el mapa. */
+    return Util.getElementFontSize(document.getElementsByClassName('textMarker')[0]);
   }
 } );
 

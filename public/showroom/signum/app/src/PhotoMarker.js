@@ -31,10 +31,12 @@ PhotoMarker=Marker.extend({
       _labelMarkers : [],
       linesConnecteds : [],
       indexOnLinesConnecteds : [],
-      image:"app/assets/images/img.jpg"
+      image:"app/assets/images/img.jpg",
+      klass:'PhotoMarker'
     };
 
     this.attachEvents();
+    this.updateIconSize( Map.getInstance().getZoom() );
     return this;
   },
   getBelongingLayer:function(){
@@ -50,6 +52,10 @@ PhotoMarker=Marker.extend({
 
     this.on( 'dragend', function ( e ) {
       this._calculateRotation();
+    });
+
+    this.on('dblclick',function(){
+      this.dragging.enable();
     });
   },
   defineContextMenuItems:function(options){
@@ -86,8 +92,9 @@ PhotoMarker=Marker.extend({
         callback: function ( ) {
           vex.dialog.confirm({
             message: "¿Esta seguro de eliminar este marcador?",
-            callback: function() {
-              self.removeMarker( );
+            callback: function(answer) {
+              if(answer)
+                self.removeMarker( );
             }
           });
         }
@@ -107,7 +114,16 @@ PhotoMarker=Marker.extend({
   setBorder:function(){
     this.property.border=undefined;
   },
-  updateIconSize: function(z){},
+  updateIconSize: function ( currentZoom ) {
+    var newSize=this.scaleSize(currentZoom);
+    this._doResize( new L.Point( newSize, newSize )  );
+
+    /*    var scaleFactor=this.scaleFactor( currentZoom );
+     this._doResize( new L.Point( this.property.currentSize.x * scaleFactor, this.property.currentSize.x * scaleFactor )  );*/
+  },
+  scaleSize:function(currentZoom){
+    return this.property.size_table[currentZoom];
+  },
 
   _doResize: function ( newIconSize ) {
     this.property.size_table[Map.getInstance().getZoom()]=newIconSize.x;
@@ -149,7 +165,11 @@ PhotoMarker.BASE_ANCHOR = [PhotoMarker.BASE_SIZE[0] / 2, PhotoMarker.BASE_SIZE[0
 
 
 PhotoMarker.SIZE_TABLE={
-  "15": undefined,
+  "11": PhotoMarker.BASE_SIZE[0]/64,
+  "12": PhotoMarker.BASE_SIZE[0]/32,
+  "13": PhotoMarker.BASE_SIZE[0]/16,
+  "14": PhotoMarker.BASE_SIZE[0]/8,
+  "15": PhotoMarker.BASE_SIZE[0]/4,
   "16": PhotoMarker.BASE_SIZE[0]/2,
   "17": PhotoMarker.BASE_SIZE[0],
   "18": PhotoMarker.BASE_SIZE[0]*2,

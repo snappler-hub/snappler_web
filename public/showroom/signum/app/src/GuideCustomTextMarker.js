@@ -24,14 +24,16 @@ GuideCustomTextMarker=GuideMarker.extend({
     return this;
   },
   onMapClick:function(e){
-    var text=Application.prompt("Inserte texto para el nuevo marcador");
-    if(text!==null){
-      var ctm = new TextMarker( undefined, {text: text} );
-      ctm.setLatLng( e.latlng );
-      ctm.getBelongingLayer().addLayer( ctm );
+    Application.prompt( "Inserte texto para el nuevo marcador" ).then(function(text){
+      if(text!==false){
+        var ctm = new TextMarker( undefined, {text: text} );
+        ctm.setLatLng( e.latlng );
+        ctm.getBelongingLayer().addLayer( ctm );
 
-      ctm.updateIconSize(Map.getInstance().getZoom());
-    }
-    //Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+        ctm.updateIconSize(Map.getInstance().getZoom());
+      }
+      //Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].show();
+    });
+
   }
 });

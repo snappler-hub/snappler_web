@@ -7,6 +7,7 @@ Sectionaliser=Marker.extend( {
       name:"Seccionalizador"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Sectionaliser';
     return this;
   },
 

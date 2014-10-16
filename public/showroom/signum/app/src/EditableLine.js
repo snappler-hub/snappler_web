@@ -41,8 +41,9 @@ EditableLine = L.Polyline.extend( {
           callback: function(e) {
             vex.dialog.confirm({
               message: "¿Esta seguro de eliminar este segmento?",
-              callback: function() {
-                self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
+              callback: function(answer) {
+                if(answer)
+                  self.removeSegment( Line._getIndexesSegment( self, e.latlng ) );
               }
             });
             }

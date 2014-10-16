@@ -164,8 +164,9 @@ Marker = L.Marker.extend( {
         callback: function ( ) {
           vex.dialog.confirm({
             message: "¿Esta seguro de eliminar este marcador?",
-            callback: function() {
-              self.removeMarker( );
+            callback: function(answer) {
+              if(answer)
+                self.removeMarker( );
             }
           });
         }

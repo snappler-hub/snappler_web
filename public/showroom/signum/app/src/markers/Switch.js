@@ -7,6 +7,7 @@ Switch=Marker.extend( {
       name:"Seccionador"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Switch';
     return this;
   },
 

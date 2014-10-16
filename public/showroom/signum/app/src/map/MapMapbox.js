@@ -51,6 +51,11 @@ MapMapbox=L.mapbox.Map.extend({
           text: 'Editar todas las lineas',
           callback:this.editAllLines,
           icon:'app/assets/images/edit-lines.svg'
+        },
+        {
+          text: 'Seleccionar elementos',
+          callback: Application.initSelectionBox,
+          icon:'app/assets/images/selection.svg'
         }
       ]
     };
@@ -269,6 +274,10 @@ MapMapbox=L.mapbox.Map.extend({
     Map.getInstance().getAuxLayer().eachLayer( function ( item ) {
       if(item["updateIconSize"]) item.updateIconSize( Map.getInstance().getZoom() );
     } );
+
+    Map.getInstance().getPhotoLayer().eachLayer( function ( item ) {
+      if(item["updateIconSize"]) item.updateIconSize( Map.getInstance().getZoom() );
+    } );
     return false;
   },
 
@@ -292,7 +301,6 @@ MapMapbox=L.mapbox.Map.extend({
     $( Map.getInstance().controls[Map.CTRL_POLYGON].actions ).hide();
   },
   _onContextMenuShow:function(e){
-    this.cancelCurrentTool();
     if(e.relatedTarget!==undefined) Map.getInstance().setSelected(e.relatedTarget);
   },
 
@@ -400,6 +408,7 @@ MapMapbox=L.mapbox.Map.extend({
     this.unsetSelected();
     if(Map.getInstance()._editableLines) Map.getInstance().controls[Map.CTRL_CURSOR].updateEdit();
     if((Application.workingTarget!== undefined) || (Application._polyTarget!==undefined)) Application.finishWork();
+    if(Map.selectionBoxHandler!==undefined) Application.finishSelectionBox();
 
     Map.getInstance().controls[Map.CTRL_TOOGLE_SIDEBAR].hide();
 

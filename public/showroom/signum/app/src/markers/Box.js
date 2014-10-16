@@ -8,6 +8,7 @@ Box=Marker.extend( {
     };
 
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Box';
     return this;
   },
 

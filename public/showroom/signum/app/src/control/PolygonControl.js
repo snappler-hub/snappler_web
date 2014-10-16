@@ -69,7 +69,8 @@ PolygonControl = L.Control.extend( {
     }
 
     Map.getInstance().cancelCurrentTool();
-    Map.getInstance().setCurrentTool(new options.constructor());
+    var p=new options.constructor();
+    Map.getInstance().setCurrentTool(p);
 
     Application.setCrosshairCursor();
   }

@@ -8,6 +8,7 @@ InspectionChamber=Marker.extend( {
     };
 
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='InspectionChamber';
     return this;
   },
 

@@ -17,7 +17,8 @@ Rectangle = L.Rectangle.extend( {
 
     this.property = {
       name: 'Lote Rectangular',
-      bounds: []
+      bounds: [],
+      klass:'Rectangle'
     };
 
     this.defineContextMenuItems( options );
@@ -59,8 +60,14 @@ Rectangle = L.Rectangle.extend( {
       },
       {
         text: 'Eliminar lote',
-        callback: function ( e ) {
-          self.removePolygon();
+        callback: function(){
+          vex.dialog.confirm({
+            message: "¿Esta seguro de eliminar este poligono?",
+            callback: function(answer) {
+              if(answer)
+                self.removePolygon();
+            }
+          });
         }
       }
     ];

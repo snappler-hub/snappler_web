@@ -7,6 +7,7 @@ Suspension=Marker.extend( {
       name:"Suspension"
     };
     Marker.prototype.initialize.call( this, source, zoom, icon );
+    this.property.klass='Suspension';
     return this;
   },
 

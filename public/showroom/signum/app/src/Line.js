@@ -16,7 +16,8 @@ Line = L.Polyline.extend( {
       options: polylineOptions,
       name: "Tendido " + this.description.type,
       insertMethod: "push",
-      _labelMarkers:[]
+      _labelMarkers:[],
+      klass:'Line'
     };
 
     if ( lineOptions.dashed ) {
@@ -95,8 +96,9 @@ Line = L.Polyline.extend( {
         callback: function(){
           vex.dialog.confirm({
             message: "¿Esta seguro de eliminar esta linea?",
-            callback: function() {
-              self.removeLine(true);
+            callback: function(answer) {
+              if(answer)
+                self.removeLine(true);
             }
           });
         }

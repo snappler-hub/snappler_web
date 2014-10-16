@@ -6,7 +6,7 @@ ImageMarker=Marker.extend({
     var options = {
       icon: L.AwesomeMarkers.icon({
         prefix:'fa',
-        icon: 'picture-o',
+        icon: 'camera',
         markerColor: 'green'
       }),
       draggable: true,
@@ -29,7 +29,8 @@ ImageMarker=Marker.extend({
       _labelMarkers : [],
       linesConnecteds : [],
       indexOnLinesConnecteds : [],
-      image:"app/assets/images/img.jpg"
+      image:"app/assets/images/img.jpg",
+      klass:'ImageMarker'
     };
 
     this.attachEvents();
@@ -63,8 +64,9 @@ ImageMarker=Marker.extend({
         callback: function ( ) {
           vex.dialog.confirm({
             message: "¿Esta seguro de eliminar este marcador?",
-            callback: function() {
-              self.removeMarker( );
+            callback: function(answer) {
+              if(answer)
+                self.removeMarker( );
             }
           });
         }

@@ -37,6 +37,10 @@ KeyboardHandler= L.Class.extend({
   initialize:function(){
     key('esc',this.handleEsc );
     key('ctrl+e', this.handleCtrle );
+    key('ctrl+x', this.handleCtrlx );
+    key('ctrl+c', this.handleCtrlc );
+    key('ctrl+v', this.handleCtrlv );
+    key('ctrl+del', this.handleCtrlDel );
 
     key('del', this.handleDel );
 
@@ -70,6 +74,55 @@ KeyboardHandler= L.Class.extend({
   },
   handleCtrle:function(){
     Map.getInstance().editAllLines();
+    return false;
+  },
+  handleCtrlx:function(){
+    if(Map.selectionBoxHandler!==undefined){
+      Map.selectionBoxHandler._nextCenter=Map.selectionBoxHandler._lastCenter;
+      if(!Map.selectionBoxHandler._toPaste){
+        Map.getInstance().once('click', Map.selectionBoxHandler.indicatorToMove, Map.selectionBoxHandler);
+        Map.selectionBoxHandler._toPaste=true;
+        Map.selectionBoxHandler._action='cut';
+      }
+    }
+    return false;
+  },
+
+  handleCtrlc:function(){
+    if(Map.selectionBoxHandler!==undefined){
+      Map.selectionBoxHandler._nextCenter=Map.selectionBoxHandler._lastCenter;
+      if(!Map.selectionBoxHandler._toPaste){
+        Map.getInstance().once('click', Map.selectionBoxHandler.indicatorToMove, Map.selectionBoxHandler);
+        Map.selectionBoxHandler._toPaste=true;
+        Map.selectionBoxHandler._action='copy';
+      }
+    }
+    return false;
+  },
+  handleCtrlv:function(){
+    if(Map.selectionBoxHandler!==undefined){
+      if(Map.selectionBoxHandler._nextCenterIndicator!==undefined){
+        Map.getInstance().getAuxLayer().removeLayer(Map.selectionBoxHandler._nextCenterIndicator);
+        if(Map.selectionBoxHandler._action==='copy'){
+          Map.selectionBoxHandler.cloneGroupedLayer();
+        }
+        Map.selectionBoxHandler.moveSelection(Map.selectionBoxHandler._nextCenter);
+        Map.selectionBoxHandler._nextCenterIndicator=undefined;
+        Map.selectionBoxHandler._toPaste=false;
+//        Map.selectionBoxHandler._nextCenter=Map.selectionBoxHandler._lastCenter;
+        Map.selectionBoxHandler.removeBoxSelection();
+      }
+    }
+    return false;
+  },
+  handleCtrlDel:function(){
+    if(Map.selectionBoxHandler!==undefined){
+      Map.selectionBoxHandler._groupedLayer.eachLayer(function(l){
+        Map.selectionBoxHandler._groupedLayer.removeLayer( l );
+      });
+
+      Map.selectionBoxHandler.removeBoxSelection();
+    }
     return false;
   },
   handleDel:function(){

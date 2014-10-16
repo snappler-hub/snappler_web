@@ -107,15 +107,15 @@ Array.range= function(a, b, step){
     A[A.length]= a+= step;
   }
 //  }
-/*  else{
-    var s= 'abcdefghijklmnopqrstuvwxyz';
-    if(a=== a.toUpperCase()){
-      b=b.toUpperCase();
-      s= s.toUpperCase();
-    }
-    s= s.substring(s.indexOf(a), s.indexOf(b)+ 1);
-    A= s.split('');
-  }*/
+  /*  else{
+   var s= 'abcdefghijklmnopqrstuvwxyz';
+   if(a=== a.toUpperCase()){
+   b=b.toUpperCase();
+   s= s.toUpperCase();
+   }
+   s= s.substring(s.indexOf(a), s.indexOf(b)+ 1);
+   A= s.split('');
+   }*/
   return A;
 };
 
@@ -149,17 +149,48 @@ Util.clipFloat=function(num,dec){
 };
 
 Util.relocateCoords=function(lastCenter, newCenter, latlngs){
-  if(latlngs instanceof Array){
-    var centerDiff = { lat: lastCenter.lat - newCenter.lat,
-      lng: lastCenter.lng - newCenter.lng};
+  var centerDiff = { lat: lastCenter.lat - newCenter.lat, lng: lastCenter.lng - newCenter.lng};
 
+  if(latlngs instanceof Array){
     var llsTranslated=[];
+
     latlngs.forEach(function(ll){
       llsTranslated.push(L.latLng(ll.lat - centerDiff.lat, ll.lng - centerDiff.lng));
     });
 
     return llsTranslated;
   }else{
-    return newCenter;
+    return L.latLng(latlngs.lat - centerDiff.lat, latlngs.lng - centerDiff.lng);
+//    return newCenter;
+  }
+};
+
+String.prototype.replaceAll = function(search, replace)
+{
+  //if replace is null, return original string otherwise it will
+  //replace search string with 'undefined'.
+  if(!replace)
+    return this;
+
+  return this.replace(new RegExp('[' + search + ']', 'g'), replace);
+};
+Util.getElementFontSize=function( context ) {
+  return parseFloat(getComputedStyle( context || document.documentElement ).fontSize);
+};
+
+Util.px2em= function(elem) {
+  var W = window,
+    D = document;
+  if (!elem || elem.parentNode.tagName.toLowerCase() == 'body') {
+    return false;
+  }
+  else {
+    var parentFontSize = parseInt(W.getComputedStyle(elem.parentNode, null).fontSize, 10),
+      elemFontSize = parseInt(W.getComputedStyle(elem, null).fontSize, 10);
+
+    var pxInEms = Math.floor((elemFontSize / parentFontSize) * 100) / 100;
+    elem.style.fontSize = pxInEms + 'em';
+
+    return pxInEms;
   }
 };
