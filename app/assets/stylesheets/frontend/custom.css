@@ -1,0 +1,549 @@
+
+
+/*----------------------------------------------MISC*/
+
+hr.custom-hr {
+    margin: 0 auto 0;
+    padding: 0;
+    max-width: 65px;
+    border: 0;
+    border-top: solid 5px;
+    text-align: center;
+}
+
+hr.custom-hr {
+    border-color: #1A242F;
+}
+
+
+
+[class*=decor-]{position:absolute;width:100%;height:60px;left:0}
+[class*=decor-] svg{height:101%}
+
+.decor-modal {
+    position: absolute;
+    height:160px;
+}
+
+.decor-bottom{
+    bottom:100%;
+    position:relative;
+    margin-top: -1px;
+}
+.decor-top{
+    /*bottom: 0;
+    position: absolute;
+    margin-bottom: -1px;*/
+    bottom: 60px;
+    margin-bottom: -60px;
+    position: relative
+
+}
+
+.decor{
+    display:block;
+    position:relative;
+    margin:0 auto;
+}
+
+.decor-red{
+    fill: #ee7354;
+    stroke: #0F0;
+}
+
+.decor-white{
+    fill: #FFF;
+    stroke: #0F0;
+}
+
+.decor-violet{
+    fill: #504999;
+    stroke: #0F0;
+}
+
+
+.decor-gray{
+    fill: #3D4045;
+    stroke: #0F0;
+}
+
+.decor-green{
+    fill: #7dbf75;
+    stroke: #0F0;
+}
+
+.portfolio-modal .modal-content{
+    padding-bottom: 0; 
+    padding-top: 0;
+}
+
+/*----------------------------------------------MISC*/
+
+
+
+/*----------------------------------------------MENU*/
+
+.navbar-default .nav li a:focus{ color: #fff; }
+
+.navbar-default .nav li.nav-what a:hover { color: #ee7354; }
+.navbar-default .navbar-nav>li.nav-what.active>a { color: #ee7354; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-what.active>a:hover, .navbar-default .navbar-nav>li.nav-what.active>a:focus { color: #ee7354;  }
+
+.navbar-default .nav li.nav-how a:hover { color: #5F57B6; }
+.navbar-default .navbar-nav>li.nav-how.active>a { color: #5F57B6; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-how.active>a:hover, .navbar-default .navbar-nav>li.nav-how.active>a:focus { color: #5F57B6;  }
+
+.navbar-default .nav li.nav-products a:hover { color: #7DBF75; }
+.navbar-default .navbar-nav>li.nav-products.active>a { color: #7DBF75; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-products.active>a:hover, .navbar-default .navbar-nav>li.nav-products.active>a:focus { color: #7DBF75;  }
+
+.navbar-default .nav li.nav-team a:hover { color: #5F57B6; }
+.navbar-default .navbar-nav>li.nav-team.active>a { color: #5F57B6; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-team.active>a:hover, .navbar-default .navbar-nav>li.nav-team.active>a:focus { color: #5F57B6;  }
+
+.navbar-default .nav li.nav-works a:hover { color: #ee7354; }
+.navbar-default .navbar-nav>li.nav-works.active>a { color: #ee7354; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-works.active>a:hover, .navbar-default .navbar-nav>li.nav-works.active>a:focus { color: #ee7354;  }
+
+.navbar-default .nav li.nav-contact a:hover { color: #EE7354; }
+.navbar-default .navbar-nav>li.nav-contact.active>a { color: #EE7354; background-color: transparent; }
+.navbar-default .navbar-nav>li.nav-contact.active>a:hover, .navbar-default .navbar-nav>li.nav-contact.active>a:focus { color: #EE7354;  }
+
+/*----------------------------------------------MENU*/
+
+
+
+
+
+
+/*----------------------------------------------SLIDER*/
+
+.carousel .carousel-caption {
+	top: 35%;
+}
+
+.carousel .carousel-caption p {
+	display: inline;
+	padding: 3px 5px;
+	line-height: 35px;
+	font-size: 1.4em;
+}
+
+.carousel .caption-1 .mas{
+	background-color: #EC7356;
+}
+
+.carousel .caption-2 .mas{
+	background-color: #4B4793;
+}
+
+.carousel .caption-3 .mas{
+	background-color: #7DBF75;
+}
+
+.carousel .caption-1 p{
+	background-color: #EC7356;
+}
+
+.carousel .caption-2 p{
+	background-color: #4B4793;
+}
+
+.carousel .caption-3 p{
+	background-color: #7DBF75;
+}
+
+/*----------------------------------------------SLIDER*/
+
+
+
+
+
+/*----------------------------------------------WHAT*/
+
+#what .what-item{
+    margin-bottom: 30px;
+}
+
+#what .what-item h4.service-heading{
+    color:#ee7354;
+    margin-top: 5px;
+    font-weight: lighter;
+    text-align: left
+}
+
+@media (max-width: 991px) {
+    #what .what-item{
+        margin-bottom: 50px;
+    }
+
+    #what .what-item h4.service-heading{
+        text-align: center
+    }
+}
+
+/*----------------------------------------------WHAT*/
+
+
+
+
+/*----------------------------------------------IRAM*/
+
+#iram{
+	background-color: #0E4D9D;
+}
+
+#iram h4.section-heading{
+	color: #FFF;
+	padding: 25px 0;
+}
+
+#iram img.logo{
+  height: 110px;
+  margin-top: -12px;
+  position: absolute;
+}
+
+#iram h5{
+    color: #fff;
+    font-weight: lighter;
+    margin-left: 130px;
+    padding: 20px 0;
+}
+
+/*----------------------------------------------IRAM*/
+
+
+
+
+/*----------------------------------------------HOW*/
+
+#how h3.section-heading{
+    color:#504999;
+}
+
+#how hr.custom-hr {
+    border-color: #504999;
+}
+
+
+
+#how p{
+    color: #FFF;
+}
+
+#how p.type2{
+    color:#9AD5E5;
+}
+
+
+/*----------------------------------------------HOW*/
+
+
+
+
+/*----------------------------------------------PRODUCTS*/
+
+#products h3.section-heading{
+    color:#7DBF75;
+}
+
+#products hr.custom-hr {
+    border-color: #7DBF75;
+}
+
+
+
+
+#products .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#products .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#products .portfolio-item .portfolio-link img{
+    width: 100%;
+}
+
+#products .portfolio-item .portfolio-link .portfolio-hover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: rgba(0,0,0,.9);
+    -webkit-transition: all ease .5s;
+    -moz-transition: all ease .5s;
+    transition: all ease .5s;
+}
+
+#products .portfolio-item .portfolio-link .portfolio-hover:hover {
+    opacity: 1;
+}
+
+#products .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#products .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
+    margin-top: -12px;
+}
+
+#products .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
+#products .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
+    margin: 0;
+}
+
+#products .portfolio-item .portfolio-caption {
+    margin: 0 auto;
+    padding: 25px;
+    max-width: 400px;
+    text-align: center;
+    background-color: #fff;
+}
+
+#products .portfolio-item .portfolio-caption h4 {
+    margin: 0;
+    text-transform: none;
+    color:#63C2C6;
+}
+
+#products .portfolio-item .portfolio-caption p {
+    margin: 0;
+    font-size: 16px;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#000;
+}
+
+#products * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #products .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+
+
+
+/*----------------------------------------------PRODUCTS*/
+
+
+
+/*----------------------------------------------WORKS*/
+
+#works h3.section-heading{
+    color:#EE7354;
+}
+
+#works hr.custom-hr {
+    border-color: #EE7354;
+}
+
+
+
+
+#works .portfolio-item {
+    right: 0;
+    margin: 0 0 15px;
+}
+
+#works .portfolio-item .portfolio-link {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+#works .portfolio-item .portfolio-link img{
+    width: 100%;
+}
+
+#works .portfolio-item .portfolio-link .portfolio-hover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: rgba(0,0,0,.9);
+    -webkit-transition: all ease .5s;
+    -moz-transition: all ease .5s;
+    transition: all ease .5s;
+}
+
+#works .portfolio-item .portfolio-link .portfolio-hover:hover {
+    opacity: 1;
+}
+
+#works .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 20px;
+    margin-top: -12px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+#works .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
+    margin-top: -12px;
+}
+
+#works .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
+#works .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
+    margin: 0;
+}
+
+#works .portfolio-item .portfolio-caption {
+    margin: 0 auto;
+    padding: 25px;
+    max-width: 400px;
+    text-align: center;
+    background-color: #fff;
+}
+
+#works .portfolio-item .portfolio-caption h4 {
+    margin: 0;
+    text-transform: none;
+    color:#4C4797;
+}
+
+#works .portfolio-item .portfolio-caption p {
+    margin: 0;
+    font-size: 16px;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#000;
+}
+
+#works * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    #works .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+
+
+
+/*----------------------------------------------WORKS*/
+
+
+
+
+/*----------------------------------------------TEAM*/
+
+#team h3.section-heading{
+    color:#FFF;
+}
+
+#team hr.custom-hr {
+    border-color: #FFF;
+}
+
+#team p{
+    color: #514A9A;
+}
+
+#team .team-member h4 {
+    color: #514A9A;
+    font-weight: lighter;
+}
+
+#team .team-member p {
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #000;    
+}
+
+.team-member img {
+    border: 3px solid #514A9A;
+    width: 120px; height: 120px;
+}
+
+/*----------------------------------------------TEAM*/
+
+
+
+
+
+/*----------------------------------------------CONTACT*/
+
+
+#contact{
+}
+
+
+#contact .head{
+    padding-bottom: 15px;
+}
+
+#contact h3.section-heading{
+    color:#EE7354;
+}
+
+#contact hr.custom-hr {
+    border-color: #EE7354;
+}
+
+
+#contact .contact-container{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media(min-width:767px) {
+    #contact .contact-container{
+        margin-left: 0;
+        margin-right: 0;
+        background-image: url('/assets/frontend/contact.jpg');
+        background-repeat: no-repeat;
+        background-position: right top;
+        background-size: contain;
+
+    }
+}
+
+
+
+#contact i{
+    color:#EE7354;
+    margin-right: 10px;
+}
+
+#contact .info-box{
+    padding: 15px 0;
+    display: inline-block;
+}
+
+
+#contact .form-group{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#contact .btn-primary{
+    background-color: #EE7354;
+    border: none;
+}
+
+
+
+
+/*----------------------------------------------CONTACT*/
+
+
+
