@@ -1,6 +1,6 @@
 <div class="col-xs-6 col-sm-4">
   <div class="team-member">
-    <img src="/assets/frontend/team/<%= profile[:img] %>" class="img-responsive img-circle" alt="">
+  <%= image_tag "frontend/team/#{profile[:img]}", class: 'img-responsive img-circle' %>
     <span class="tooltip-content">
       <h4><%= profile[:name] %></h4>
       <p class="text-muted"><%= profile[:work] %></p>

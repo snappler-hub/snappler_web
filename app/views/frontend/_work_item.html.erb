@@ -6,7 +6,8 @@
         <i class="fa fa-plus fa-3x"></i>
       </div>
     </div>
-    <img src="/assets/frontend/works/<%= work[:img] %>"  alt="">
+          <%= image_tag "frontend/works/#{work[:img]}" %>
+
   </a>
   <div class="portfolio-caption">
     <h4><%= work[:kind] %></h4>

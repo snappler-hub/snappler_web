@@ -5,7 +5,7 @@
               <i class="fa fa-plus fa-3x"></i>
             </div>
           </div>
-          <img src="/assets/frontend/products/<%= product[:img] %>"  alt="">
+          <%= image_tag "frontend/products/#{product[:img]}" %>
         </a>
         <div class="portfolio-caption">
           <h4><%= product[:kind] %></h4>

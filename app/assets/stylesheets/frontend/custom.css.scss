@@ -509,7 +509,7 @@ hr.custom-hr {
     #contact .contact-container{
         margin-left: 0;
         margin-right: 0;
-        background-image: url('/assets/frontend/contact.jpg');
+        background-image: url(asset-path('frontend/contact.jpg'));
         background-repeat: no-repeat;
         background-position: right top;
         background-size: contain;
