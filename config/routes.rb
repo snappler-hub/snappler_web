@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, :skip => [:registrations] 
+  devise_for :users, :controllers => { :registrations => :registrations} #, :sessions => :sessions
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
-  authenticated :user do
-    root to: 'backend#index', as: :auth_root
-  end
-  
+
+  post "send_consult", to: "frontend#send_consult" , as: :send_consult
   get 'backend' => 'backend#index', as: :backend
   root 'frontend#index'
 

@@ -1,0 +1,16 @@
+<% if(@status) %>
+$('#express_contact')[0].reset();
+
+	$('#alert-warning').hide();
+	$('#alert-success').fadeIn('slow', function () {
+   // $(this).delay(3000).fadeOut('slow');
+  });
+<% else %>
+
+	$('#alert-success').hide();
+	$('#alert-warning').fadeIn('slow', function () {
+   // $(this).delay(3000).fadeOut('slow');
+  });
+<% end %>
+
+

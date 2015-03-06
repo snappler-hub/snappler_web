@@ -10,17 +10,22 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require frontend/jquery
+//= require jquery
 //= require jquery_ujs
 //= require frontend/bootstrap
 //= require frontend/jqueryEasing
 //= require frontend/classie
 //= require frontend/cbpAnimatedHeader
-//= require frontend/jqBootstrapValidation
-//= require frontend/contact_me
+// require frontend/jqBootstrapValidation
+// require frontend/contact_me
 //= require frontend/agency
 
 
+$(document).on('click','#alert-warning, #alert-success',
+  function () {
+    $(this).fadeOut("normal", function() {
+    });
+  });
 
 
 $(document).ready(function(){

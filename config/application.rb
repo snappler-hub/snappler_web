@@ -27,6 +27,7 @@ module Snappler
 
     config.to_prepare do
       Devise::SessionsController.layout 'backend'
+      Devise::RegistrationsController.layout 'backend'
     end
 
   end

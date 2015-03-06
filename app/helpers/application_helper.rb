@@ -24,4 +24,12 @@ module ApplicationHelper
     content_tag(:i, nil, html_options)
   end
 
+  def icon_left(name, string)
+    (content_tag(:i, nil, class: "fa fa-#{name} margin-right-5") + string)
+  end
+
+  def icon_right(name, string)
+   (string + content_tag(:i, nil, class: "fa fa-#{name} margin-left-5")).html_safe
+ end
+
 end

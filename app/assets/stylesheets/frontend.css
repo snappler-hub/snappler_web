@@ -14,5 +14,6 @@
  *= require frontend/agency
  *= require frontend/custom
  *= require font-awesome 
+ *= require custom-style  
  *= require_self 
  */

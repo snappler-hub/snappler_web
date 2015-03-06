@@ -13,11 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require backend/bootstrap
 //= require bootstrap-material-design
 
 ready = function(){
-  $.material.checkbox();
+  $.material.init();
 };
 
 $(document).ready(ready);

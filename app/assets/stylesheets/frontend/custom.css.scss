@@ -77,6 +77,34 @@ hr.custom-hr {
     padding-top: 0;
 }
 
+.alert{
+    bottom: 5px;
+    position: fixed;
+    z-index: 5;
+    margin-bottom: 0 !important;
+    right: 5px;
+    border-width: 3px !important;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+@media(max-width:767px) {
+    .alert{
+        right: 5px;
+        left: 5px;
+        padding-bottom: 30px;
+        padding-top: 30px;        
+    }
+}
+
+.alert > i.fa{
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+
+
+
 /*----------------------------------------------MISC*/
 
 

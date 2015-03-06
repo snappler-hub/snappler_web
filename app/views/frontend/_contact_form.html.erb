@@ -1,30 +1,30 @@
 
-<%= form_tag '#', method: :post, class: "form-horizontal" do %>
+<%= form_tag send_consult_path, method: :post, :authenticity_token => true, :remote => true, class: "form-horizontal", :id => 'express_contact' do %>
 
 <div class="form-group">
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon1"><%= icon(:user) %></span>
-		<input type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1">
+		<input type="text" class="form-control" name="name_surname" id="name_surname" placeholder="Nombre" aria-describedby="basic-addon1">
 	</div>
 </div>
 <div class="form-group">
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon2"><i class="fa fa-envelope" style="height: 14px; width: 11px;"></i></span>
-		<input type="text" class="form-control" placeholder="E-Mail" aria-describedby="basic-addon2">
+		<input type="text" class="form-control" name="email" id="email" placeholder="E-Mail" aria-describedby="basic-addon2">
 	</div>
 </div>
 <div class="form-group">
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon3"><%= icon(:phone) %></span>
-		<input type="text" class="form-control" placeholder="Teléfono" aria-describedby="basic-addon3">
+		<input type="text" class="form-control" name="telephone" id="telephone" placeholder="Teléfono" aria-describedby="basic-addon3">
 	</div>
 </div>
 
 <div class="form-group">
-	<textarea type="text" class="form-control" placeholder="Escriba su mensaje..."></textarea>
+	<textarea type="text" class="form-control" name="comments" id="comments" placeholder="Escriba su mensaje..."></textarea>
 </div>
 
 <div class="form-group">
-	<button type="submit" class="btn btn-primary btn-sm pull-right">Enviar</button>
+	<button type="submit" data-disable-with="Enviando..." class="btn btn-primary btn-sm pull-right">Enviar</button>
 </div>
 <% end %>

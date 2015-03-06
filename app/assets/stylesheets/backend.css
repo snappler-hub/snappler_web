@@ -14,5 +14,6 @@
  *= require bootstrap-material-design
  *= require font-awesome
  *= require backend/icons
+ *= require custom-style   
  *= require_self 
  */
