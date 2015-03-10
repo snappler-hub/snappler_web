@@ -2,7 +2,9 @@
 class FrontendController < ApplicationController
 
 
-
+  def index
+    @joke = params[:joke]
+  end
 
 
 	#-----------------------------------------------------------------------------------

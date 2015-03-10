@@ -21,11 +21,6 @@
 //= require frontend/agency
 
 
-$(document).on('click','#alert-warning, #alert-success',
-  function () {
-    $(this).fadeOut("normal", function() {
-    });
-  });
 
 
 $(document).ready(function(){
@@ -44,6 +39,11 @@ $(document).ready(function(){
 		$(this).addClass('active');
 	});
 
+	$(document).on('click','#alert-warning, #alert-success',
+		function () {
+			$(this).fadeOut("normal", function() {
+			});
+		});
 
 
 

@@ -1,17 +1,35 @@
 
 
-  <%= render 'navigation' %>
-  <%= render 'sliders' %>
+<%= render 'navigation' %>
+<%= render 'sliders' %>
 
-  <%= render 'section_what' %>
-  <%= render 'section_iram' %>
-  <%= render 'section_how' %>
-  <%= render 'section_products' %>
-  <%= render 'section_works' %>
-  <%= render 'section_team' %>
-  <%= render 'section_contact' %>
+<%= render 'section_what' %>
+<%= render 'section_iram' %>
+<%= render 'section_how' %>
+<%= render 'section_products' %>
+<%= render 'section_works' %>
+<%= render 'section_team' %>
+<%= render 'section_contact' %>
 
-  <%= render 'section_alerts' %>
-  <%= render 'section_modals' %>
+<%= render 'section_alerts' %>
+<%= render 'section_modals' %>
 
 
+
+<% unless(@joke.nil?) %>
+
+<%= audio_tag("chewbacca.mp3", id: 'chewbacca') %>
+
+<script>
+  $(document).ready(function(){
+
+    $(document).on('click','.team-member .img-circle',function(){
+      $('#chewbacca')[0].play();
+    });
+
+    $('.team-member .img-circle').addClass('fa fa-spin');
+
+  });
+</script>
+
+<% end %>
