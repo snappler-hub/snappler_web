@@ -47,6 +47,16 @@ $(document).ready(function(){
 
 
 
+	$(document).on('click', '.product-link', function(){
+		$.getScript('/get_product/'+$(this).data('id'));
+	});
+
+	$(document).on('click', '.work-link', function(){
+		$.getScript('/get_work/'+$(this).data('id'));
+	});
+
+
+
 });
 
 

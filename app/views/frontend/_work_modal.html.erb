@@ -1,0 +1,18 @@
+
+<h2 style="margin-top: 50px;"><%= @work[:name] %></h2>
+<p class="item-intro text-muted"><%= @work[:kind] %></p>
+
+<div class="row">
+
+	<div class="col-xs-3">
+		<%= image_tag "frontend/works/#{@work[:img]}", class: 'img-responsive' %>
+	</div>
+
+	<div class="col-xs-9 text-left">
+		<%= @work[:text].html_safe %> 
+	</div>
+
+</div>
+
+
+<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Volver</button>

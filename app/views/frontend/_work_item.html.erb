@@ -1,17 +1,17 @@
-
 <div class="col-sm-6 col-md-4 portfolio-item">
-  <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+  <a href="#workModal" class="portfolio-link work-link" data-id="<%= work[:id] %>" data-toggle="modal">
     <div class="portfolio-hover">
       <div class="portfolio-hover-content">
         <i class="fa fa-plus fa-3x"></i>
       </div>
     </div>
-          <%= image_tag "frontend/works/#{work[:img]}" %>
-
+    <%= image_tag "frontend/works/#{work[:img]}" %>
   </a>
   <div class="portfolio-caption">
     <h4><%= work[:kind] %></h4>
     <p class="text-muted"><%= work[:legend] %></p>
   </div>
 </div>
+
+
 

@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get 'backend' => 'backend#index', as: :backend
   root 'frontend#index'
 
+  get 'get_product/:id' => 'frontend#get_product', as: :get_product
+  get 'get_work/:id' => 'frontend#get_work', as: :get_work
+
+
 
 
 

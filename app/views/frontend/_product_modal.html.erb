@@ -1,0 +1,9 @@
+
+<h2><%= @work[:name] %></h2>
+<p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+<%= image_tag "frontend/products/roundicons-free.png", class: 'img-responsive' %>
+
+<%= @work[:text].html_safe %> 
+
+
+<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>

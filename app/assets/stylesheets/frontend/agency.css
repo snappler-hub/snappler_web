@@ -6,7 +6,7 @@
 
 body {
     overflow-x: hidden;
-    font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Raleway';
 }
 
 .text-muted {
@@ -82,7 +82,7 @@ h6 {
 }
 
 .bg-light-gray {
-    background-color: #D1D1D1;
+    background-color: #C0C0C0;
 }
 
 
@@ -260,9 +260,9 @@ fieldset[disabled] .btn-xl.active {
 
 @media(min-width:768px) {
     .navbar-default {
-        padding: 25px 0;
+        padding: 10px 0;
         border: 0;
-        background-color: transparent;
+        background-color: rgba(0,0,0,0.4);
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;

@@ -15,7 +15,13 @@ hr.custom-hr {
     border-color: #1A242F;
 }
 
+.portfolio-modal{
+    padding: 0 !important;
+}
 
+body.modal-open{
+    padding: 0 !important;
+}
 
 [class*=decor-]{position:absolute;width:100%;height:60px;left:0}
 [class*=decor-] svg{height:101%}
@@ -114,7 +120,7 @@ hr.custom-hr {
 .navbar-default .nav li a:focus{ color: #fff; }
 
 .navbar-default .nav li.nav-what a:hover { color: #ee7354; }
-.navbar-default .navbar-nav>li.nav-what.active>a { color: #ee7354; background-color: transparent }
+.navbar-default .navbar-nav>li.nav-what.active>a { color: #ee7354; background-color: transparent; }
 .navbar-default .navbar-nav>li.nav-what.active>a:hover, .navbar-default .navbar-nav>li.nav-what.active>a:focus { color: #ee7354;  }
 
 .navbar-default .nav li.nav-how a:hover { color: #5F57B6; }
@@ -351,7 +357,7 @@ hr.custom-hr {
 #products .portfolio-item .portfolio-caption p {
     margin: 0;
     font-size: 16px;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Raleway';
     color:#000;
 }
 
@@ -452,7 +458,7 @@ hr.custom-hr {
 #works .portfolio-item .portfolio-caption p {
     margin: 0;
     font-size: 16px;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Raleway';
     color:#000;
 }
 
@@ -493,7 +499,7 @@ hr.custom-hr {
 }
 
 #team .team-member p {
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Raleway';
     color: #000;    
 }
 
@@ -533,11 +539,11 @@ hr.custom-hr {
     margin-right: 0;
 }
 
-@media(min-width:767px) {
+@media(min-width:992px) {
     #contact .contact-container{
         margin-left: 0;
         margin-right: 0;
-        background-image: url(asset-path('frontend/contact.jpg'));
+        background-image: url(asset-path('frontend/contact.png'));
         background-repeat: no-repeat;
         background-position: right top;
         background-size: contain;
