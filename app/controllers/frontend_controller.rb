@@ -80,6 +80,22 @@ class FrontendController < ApplicationController
       @work[:kind] = 'Web + Sistema'
       @work[:text] = '<p>Proyecciones Digitales es una de las empresas de mayor trayectoria brindando soluciones audiovisuales del país.</p>
        <p>Implementamos su nuevo sitio web institucional con el correspondiente backend que cubre todos las necesidades para la auto-gestión del mismo.</p>'
+    when 6
+      @work[:name] = 'Farmacia Zorich'
+      @work[:img] = 'zorich.png'
+      @work[:kind] = 'Sistema'
+      @work[:text] = '<p>Farmacia Zorich es una empresa líder en el mercado de la salud de la ciudad de La Plata.</p>
+      <p style="margin-bottom: 5px;">Los trabajos realizados para la farmacia fueron:</p>
+      <ul>
+        <li>Integración de ERP interno con sistema de puntos y promociones (Woowap)</li>
+      </ul>
+      <p style="margin-bottom: 5px;">Actualmente nos encontramos trabajando en:</p>
+      <ul>
+        <li>Integración de ERP interno con sistema de gestión y reportes contables.</li>
+        <li>Integración de ERP interno con sistema de gestión financiero y gestión de ventas.</li>
+        <li>Sistema de control y arqueo de stock integrable a ERP interno.</li>
+      </ul>'
+
     end
   end
 
