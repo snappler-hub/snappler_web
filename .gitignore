@@ -6,7 +6,6 @@
 
 # Ignore bundler config.
 /.bundle
-config/environments/production.rb
 
 # Ignore public assets and attachments
 /public/assets/
