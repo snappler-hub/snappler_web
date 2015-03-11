@@ -55,7 +55,7 @@ class FrontendController < ApplicationController
       @work[:img] = 'aero.png'
       @work[:kind] = 'Sistema'
       @work[:text] = '<p>Aero es uno de los principales operadores de turismo de Argentina.</p>
-       <p>Desarrollamos una aplicación para la gestión de reservas de aéreos y paquetes turísticos. La misma resuelve toda la operatorio de la organización a la vez que se encarga de la integración con sistemas preexistentes.</p>'
+       <p>Desarrollamos una aplicación para la gestión de reservas de aéreos y paquetes turísticos. La misma resuelve toda la operatoria de la organización a la vez que se encarga de la integración con sistemas preexistentes.</p>'
     when 2
       @work[:name] = 'Ministerio de Economia PBA'
       @work[:img] = 'min.png'
