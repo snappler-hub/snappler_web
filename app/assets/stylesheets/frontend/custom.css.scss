@@ -117,6 +117,32 @@ body.modal-open{
 
 /*----------------------------------------------MENU*/
 
+    .navbar-default .nav li {
+        font-size:1vw;
+    }
+    .navbar-default .nav li a {
+        padding-left:8px;
+        padding-right:8px;
+    }
+
+@media(max-width:767px) {
+    .navbar-default .nav li {
+        font-size:1.4vw;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-default .nav li {
+        font-size:1.2vw;
+    }
+
+    .navbar-default .nav li a {
+        padding-left:5px;
+        padding-right:5px;
+    }
+}
+
 .navbar-default .nav li a:focus{ color: #fff; }
 
 .navbar-default .nav li.nav-what a:hover { color: #ee7354; }
@@ -268,6 +294,10 @@ body.modal-open{
 
 #how p.type2{
     color:#9AD5E5;
+}
+
+#how img.graf{
+    
 }
 
 
