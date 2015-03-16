@@ -19,6 +19,25 @@ hr.custom-hr {
     padding: 0 !important;
 }
 
+.portfolio-modal .close-modal{
+    z-index: 8;
+}
+
+.portfolio-modal .modal-content h2{
+    margin-top: 50px;
+}
+
+@media(max-width:767px) {
+    .portfolio-modal .close-modal{
+        display:none;
+    }
+    .portfolio-modal .modal-content h2{
+        font-size: 2em !important;
+        margin-top: 0;
+    }
+}
+
+
 body.modal-open{
     padding: 0 !important;
 }
@@ -127,7 +146,7 @@ body.modal-open{
 
 @media(max-width:767px) {
     .navbar-default .nav li {
-        font-size:1.4vw;
+        font-size: inherit;
     }
 }
 
@@ -257,6 +276,18 @@ body.modal-open{
 	color: #FFF;
 	padding: 25px 0;
 }
+
+@media(max-width:767px) {
+    #iram h4.section-heading{
+        font-size: 0.9em;
+    }
+
+    #iram h5{
+        display:none;
+    }    
+}
+
+
 
 #iram img.logo{
   height: 110px;
