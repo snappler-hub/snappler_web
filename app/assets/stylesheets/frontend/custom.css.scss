@@ -208,6 +208,22 @@ body.modal-open{
 	font-size: 1.4em;
 }
 
+@media(max-width:767px) {
+    .carousel .carousel-caption p {
+        font-size: 1.3em !important;
+    }
+
+    .carousel .carousel-caption h2 {
+        font-size: 1.4em !important;
+    }
+
+    .carousel .carousel-caption {
+        top: 15% !important;
+    }
+
+}
+
+
 .carousel .caption-1 .mas{
 	background-color: #EC7356;
 }
