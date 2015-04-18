@@ -1,27 +1,22 @@
-
 <!-- what Section -->
 <section id="works" class="bg-pink">
 
-	<div class="bg-white head">
+  <div class="bg-white head">
 
 
+    <h3 class="section-heading">Portfolio</h3>
+    <hr class="custom-hr">
 
 
-
-		<h3 class="section-heading">Portfolio</h3>
-		<hr class="custom-hr">
-
-
-	</div>
+  </div>
 
   <div class="decor-bottom decor-white">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" height="100%" class="decor"><path stroke-width="0" d="M0 0 L100 100 L100 0 "/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" height="100%" class="decor">
+      <path stroke-width="0" d="M0 0 L100 100 L100 0 "/>
+    </svg>
   </div>
 
   <div class="container" style="padding-bottom: 50px; padding-top: 25px;">
-
-
-
 
 
     <div class="row">
@@ -30,14 +25,14 @@
 
         <div class="row">
 
-         <%= render 'work_item', work: {id: 1, img: 'aero.png', kind: 'Sistema', legend: 'Aero'} %>
-         <%= render 'work_item', work: {id: 2, img: 'min.png', kind: 'Web Mobile', legend: 'Ministerio de Economia'} %>
-         <%= render 'work_item', work: {id: 3, img: 'infoauto.png', kind: 'Web + Sistema', legend: 'Infoauto'} %>
+          <%= render 'work_item', work: {id: 1, img: 'aero.png', kind: 'Sistema', legend: 'Aero'} %>
+          <%= render 'work_item', work: {id: 2, img: 'min.png', kind: 'Web Mobile', legend: 'Ministerio de Economia'} %>
+          <%= render 'work_item', work: {id: 3, img: 'infoauto.png', kind: 'Web + Sistema', legend: 'Infoauto'} %>
 
 
-           <%= render 'work_item', work: {id: 4, img: 'lapiedad.png', kind: 'Sistema', legend: 'La Piedad'} %>
-           <%= render 'work_item', work: {id: 5, img: 'proyecciones.png', kind: 'Web + Sistema', legend: 'Proyecciones Digitales'} %>
-           <%= render 'work_item', work: {id: 6, img: 'zorich.png', kind: 'Sistema', legend: 'Farmacia Zorich'} %>
+          <%= render 'work_item', work: {id: 4, img: 'lapiedad.png', kind: 'Sistema', legend: 'La Piedad'} %>
+          <%= render 'work_item', work: {id: 5, img: 'proyecciones.png', kind: 'Web + Sistema', legend: 'Proyecciones Digitales'} %>
+          <%= render 'work_item', work: {id: 6, img: 'zorich.png', kind: 'Sistema', legend: 'Farmacia Zorich'} %>
 
 
         </div>
@@ -48,19 +43,10 @@
     </div>
 
 
-
-
-
-
-
-
-
   </div>
 
 
-     <%= image_tag "frontend/banda2.jpg", style: 'width:100%;' %>
-
-
+  <%= image_tag "frontend/banda2.jpg", style: 'width:100%;' %>
 
 
 </section>

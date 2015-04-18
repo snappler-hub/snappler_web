@@ -1,5 +1,3 @@
-
-
 <%= render 'navigation' %>
 <%= render 'sliders' %>
 
@@ -16,20 +14,17 @@
 
 
 
-<% unless(@joke.nil?) %>
+<% unless (@joke.nil?) %>
 
-<%= audio_tag("chewbacca.mp3", id: 'chewbacca') %>
+    <%= audio_tag("chewbacca.mp3", id: 'chewbacca') %>
 
-<script>
-  $(document).ready(function(){
-
-    $(document).on('click','.team-member .img-circle',function(){
-      $('#chewbacca')[0].play();
-    });
-
-    $('.team-member .img-circle').addClass('fa fa-spin');
-
-  });
-</script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.team-member .img-circle', function () {
+                $('#chewbacca')[0].play();
+            });
+            $('.team-member .img-circle').addClass('fa fa-spin');
+        });
+    </script>
 
 <% end %>
