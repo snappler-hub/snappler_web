@@ -1,16 +1,15 @@
-
 <h2><%= @work[:name] %></h2>
 <p class="item-intro text-muted"><%= @work[:kind] %></p>
 
 <div class="row">
 
-	<div class="col-sm-3 text-center">
-		<%= image_tag "frontend/works/#{@work[:img]}", class: '' %>
-	</div>
+  <div class="col-sm-3 text-center">
+    <%= image_tag "frontend/works/#{@work[:img]}", class: '' %>
+  </div>
 
-	<div class="col-sm-9 text-left">
-		<%= @work[:text].html_safe %> 
-	</div>
+  <div class="col-sm-9 text-left">
+    <%= @work[:text].html_safe %>
+  </div>
 
 </div>
 
