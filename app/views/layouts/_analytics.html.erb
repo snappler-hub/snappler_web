@@ -3,7 +3,7 @@
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
             (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
+        },i[r].l = 1 * new Date();
         a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0];
         a.async = 1;
@@ -14,8 +14,10 @@
     ga('create', 'UA-61993995-1', 'auto');
     ga('send', 'pageview');
 
-    $('#nav-iteml-list').on('click', '.ga_event_tracking', function () {
-        ga('send', 'event', 'menu', 'click', this.id);
+    $('#nav-iteml-list').on('click', '.ga_event_tracking', function (event) {
+        if (event.defaultPrevented) return;
+
+        ga('send', 'event', 'menu', 'click', this.href);
     });
 
 </script>
