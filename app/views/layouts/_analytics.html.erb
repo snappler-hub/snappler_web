@@ -14,4 +14,8 @@
     ga('create', 'UA-61993995-1', 'auto');
     ga('send', 'pageview');
 
+    $('#nav-iteml-list').on('click', '.ga_event_tracking', function () {
+        ga('send', 'event', 'menu', 'click', this.id);
+    });
+
 </script>

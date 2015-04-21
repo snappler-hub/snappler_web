@@ -14,9 +14,9 @@
 
 
 
-<% unless (@joke.nil?) %>
+<% unless @joke.nil? %>
 
-    <%= audio_tag("chewbacca.mp3", id: 'chewbacca') %>
+    <%= audio_tag('chewbacca.mp3', id: 'chewbacca') %>
 
     <script>
         $(document).ready(function () {
