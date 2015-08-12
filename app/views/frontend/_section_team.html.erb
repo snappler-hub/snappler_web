@@ -29,17 +29,22 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="row" style="margin-bottom:30px;">
-            <%= render 'team_profile', profile: {name: 'Francisco Peña', img: 'fran.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Juan P. La Battaglia', img: 'juan.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Juan I. Hutter', img: 'juani.jpg'} %>
+            <%= render 'team_profile', profile: {name: 'Francisco Peña', img: "fran#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Juan P. La Battaglia', img: "juan#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Verónica Marchi', img: "vero#{rand(2)}.jpg"} %>
 
-            <%= render 'team_profile', profile: {name: 'Damian Grimberg', img: 'dami.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Gaston Ambrogi', img: 'gasti.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Mauro La Battaglia', img: 'mauro.jpg'} %>
+            <%= render 'team_profile', profile: {name: 'Damian Grimberg', img: "dami#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Gaston Ambrogi', img: "gasti#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Mauro La Battaglia', img: "mauro#{rand(2)}.jpg"} %>
 
-            <%= render 'team_profile', profile: {name: 'Nicanor Perera', img: 'nica.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Nicolás Galdámez', img: 'nico.jpg'} %>
-            <%= render 'team_profile', profile: {name: 'Esteban Suarez', img: 'este.jpg'} %>
+            <%= render 'team_profile', profile: {name: 'Nicanor Perera', img: "nica#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Nicolás Galdámez', img: "nico#{rand(2)}.jpg"} %>
+            <%= render 'team_profile', profile: {name: 'Esteban Suarez', img: "este#{rand(2)}.jpg"} %>
+
+            <%= render 'team_profile', profile: {name: 'Matias E. Szeinfeld', img: "mati#{rand(2)}.jpg"} %>
+
+            
+
           </div>
         </div>
       </div>
